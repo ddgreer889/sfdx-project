@@ -1,0 +1,42 @@
+public FellsWargo{
+    public static void createTransaction(){
+        //create a transaction for the bank account
+        //Add the transaction to a list
+        List<Transaction__c> trans = new List<Transaction__c>();
+        
+        Transaction__c t = new Transaction__c(TransactionAmount__c = 501, BankAccount__c = 'BA-0000001', Description__c = 'Went grocery shoping.');
+        //Add the transaction to the list
+        trans.add(t);
+        //insert our new records into the system and print the results
+        insert trans;
+        system.debug(trans);
+    }
+    public static void updateBalance(){
+        //update the balance to show its current state 
+        List<BankAccount__c> banks = new List<BankAccount__c>();
+        //Loop through the records in the Account
+        for(BankAccount__c b: [SELECT BankAccount__c.Name, BankAccount__c.AccountBalance__c, (SELECT Transaction__c.Name, SUM(Transaction__c.TransactionAmount) FROM BankAccount__c.Transaction__c) FROM BankAccount__c]){
+            //add up our transactions and add them to the account balance
+            b.AccountBalance__c = SUM(Transaction__c.TransactionAmount);
+            banks.add(b);
+        }
+        //Bulk update the system
+        update banks;
+        system.debug(banks);
+
+    }
+    public static void checkBalance(){
+        //check if the balance is overdrawn and change the account status accordingly
+        //create a list of bank account records
+        List<BankAccount__c> bank = new List<BankAccount__c>();
+        //Loop through the changes being made
+        for(BankAccount__c b: [SELECT id, AccountBalance__c, AccountStatus__c FROM BankAccount__c WHERE AccountBalance__c < 0]){
+            //Create the changes to the account balance
+            b.AccountStatus__c = 'Overdrawn';
+            bank.add(b);
+        }
+        //bulk update the bank records and print the changes
+        update bank;
+        system.debug(bank);
+    }
+}
