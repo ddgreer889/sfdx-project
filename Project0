@@ -1,0 +1,147 @@
+public class ApexP0Exercises {
+    public static integer nFibonacci(integer n){
+        //initialize our variables
+        integer a = 0;
+        integer b = 0;
+        integer c = 0;
+        //loop through our equations necessarry to return the sequence
+        for(integer x = 0; x <= n; x++){
+            //set up conditinal statements for the variable handling
+            if(c == 0 && b == 0){
+                c = b + a;
+                a = b;
+                b = c;
+                b++;
+            }
+            //Now that value are apporopriately assigned
+            //the equation will run properly
+            else{
+                c = b + a;
+                a = b;
+                b = c;
+            }
+        }
+        //print out our values
+        system.debug(c);
+        return n;
+    }
+public static Integer[] sortArray( Integer[] intList ) {
+    integer x = 1;
+    List<Integer> integerList = new List<Integer>();
+    List<Integer> containerList = new List<Integer>();
+    while(x >= 1){
+        x = 0;
+        for(Integer i = 0 ; i < integerList.size() ; i ++) {
+            if(integerList[i]>integerList[i+1]){
+                containerList[i] = integerList[i];
+                integerList[i] = integerList[i+1];
+                integerList[i+1]=containerList[i];
+                x = 1;
+            }
+        }
+        if(x <= 1){
+            break;
+        }
+    }
+    system.debug(integerList);
+    return integerList;
+}
+public static Integer nFactorial( Integer n) {
+    //initialize variable utilized in our method
+    integer x = 0;
+    integer y = 1;
+    //loop through our conditions to satisfy the equation
+    while (x <= n) {
+    //use the if statement setup to ensure we don't reset our
+    //y variable
+      if(x == 0){
+          //iterate the variable x
+          x++;
+      }
+      //executes when x is greater than 0 to start the equation
+      else
+          //set up our factorial equation
+          y = y * x;
+          //iterate the value of x
+          x++;
+      }
+    }
+    //capture the final value of y
+    system.debug(y);
+    return n;
+}
+public static Integer[] rotateLeftNTimes( Integer[] array, Integer n) {
+    //create list of integers used to store our integers
+    List<Integer> arrayRotate = new List<Integer>();
+    List<Integer> tempArray = new List<Integer>();
+    //loop through our array elements and rotate them around
+    for(integer i = 0; i<n; i++){
+        tempArray[i] = arrayRotate[i];
+        arrayRotate.remove[i];
+        arrayRotate.add[tempArray[i]];
+    }
+    //print out the results
+    system.debug(arrayRotate);
+    return n;
+}
+public static Boolean bracketsAreBalanced( String s ) {
+    
+}
+ public static void updateAccountSize(){
+     //Create a list related to the accounts
+        List<Account> updateAccount = new List<Account>();
+        //Create a select statement that will grab the size, id, name, and number of employees
+        //from Account
+        for(Account a: [SELECT id, name, Size__c, NumberOfEmployees FROM Account]){
+            //check to see how many employees are their and change their
+            if(a.NumberOfEmployees < 1001){
+                a.Size__c = 'Small';
+            }
+            else if(a.NumberOfEmployees >= 1001 && a.NumberOfEmployees < 10001){
+                a.Size__c = 'Medium';
+            }
+            else{
+                a.Size__c = 'Large';
+            }
+            //update the list
+            updateAccount.add(a);
+            system.debug(updateAccount);
+        }
+        //update the data base
+        update updateAccount;
+    }
+public static void updateCALeads(){
+    //Create a list relating to Leads
+        List<Lead> updateLeads = new List<Lead>();
+        //Create a select statement that captures the id, company, state, and status
+        //from Lead where the state is california
+        for(Lead l: [SELECT id, company, state, status FROM Lead WHERE Lead.State == 'CA']){
+            //change the values of status and the description
+            l.status = 'Closed - Not Converted';
+            l.description = 'We are no longer doing business in California';
+            //update the list
+            updateLeads.add(l);
+            system.debug(updateLeads);
+        }
+        //update the Lead object
+        update updateLeads;
+    }
+public static void closePastDueOpportunities() {
+    //Create a list related to Opportunities
+	List<Opportunity> closeOpportunities = new List<Opportunity>();
+    //Create a select statement to capture the id, name, and close date
+    //from Opportunity where close date has been passed and not won
+        for(Opportunity o: [SELECT id, Name, CloseDate, StageName, IsClosed 
+                            FROM Opportunity 
+                            WHERE CloseDate < :System.today() AND StageName != 'Closed Won']){
+                                //Change the status of the stage name
+                                o.StageName = 'Closed Lost';
+                                //update the opportunity list
+                                closeOpportunities.add(o);
+                                system.debug(closeOpportunities);
+                            }
+        //update the Opportunity object
+        update closeOpportunities;
+        //Done coding
+}
+}
