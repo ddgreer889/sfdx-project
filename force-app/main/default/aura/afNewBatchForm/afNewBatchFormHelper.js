@@ -17,13 +17,14 @@
             }
             // convert to legible date format
             let year = endDate.getUTCFullYear(); 
-            let month = endDate.getUTCMonth(); 
+            let month = endDate.getUTCMonth();
             let date = endDate.getUTCDate();
-            if(endDate.getUTCDay() === 4) 
-            {
-                date+=1; 
-            } 
-             
+
+            //Handles date always being on a Thursday when a batch overlaps with daylight savings.
+            if(endDate.getUTCDay() === 4){
+                date += 1;
+            }
+            
             component.set("v.endDate", (year + "-" + (month+1) + "-" + date));
             
             // pass new start/end dates to application event
