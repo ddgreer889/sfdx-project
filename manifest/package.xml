@@ -27,7 +27,7 @@
     <types>
         <members>*</members>
         <name>StaticResource</name>
-    </types>
+    
     <types>
         <members>*</members>
         <name>ApprovalProcess</name>
@@ -38,19 +38,20 @@
     </types>
     <types>
         <members>*</members>
-        <name>Profile</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>Role</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>FlexiPage</name>
+        <name>CustomTab</name>
     </types>
     <types>
         <members>*</members>
         <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Profile</name>
+       
+    </types>
+    <types>
+        <members>*</members>
+        <name>Role</name>
     </types>
     <version>45.0</version>
 </Package>
