@@ -390,7 +390,6 @@ public class ApexTestUtilityClass {
                 NewTrainings.add(t);
             }
         }
-
         afTimelineController.currentTrainings = NewTrainings;
         String dataTemp = afTimelineController.wrapTrainingToJSON();
         return dataTemp;
@@ -435,7 +434,6 @@ public class ApexTestUtilityClass {
             
             skills.add(skill);
         }
-
         system.runAs(users){
             insert skills;
         }

@@ -1,7 +1,6 @@
 @isTest
 public class AssignForceTestClass{
     
-
     @testSetup
     public static void AssignForceDataSetup(){
         ApexTestUtilityClass.createTrainingsData(7);
