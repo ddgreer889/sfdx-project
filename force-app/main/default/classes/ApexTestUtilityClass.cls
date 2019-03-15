@@ -77,6 +77,8 @@ public class ApexTestUtilityClass {
         List<Training__c> dummyData = new List<Training__c>();
         for(integer i = 0; i < numberToCreate; i++){
             Training__c newM = new Training__c();
+            //removed tloc.id, placed string
+            //hardcoded location id as temporary fix to run tests
             newM.TrainingLocation__c = tLoc.id;
             newM.Trainer__r = users;
             newM.StartDate__c = Date.newInstance(2019, 04, 02);
