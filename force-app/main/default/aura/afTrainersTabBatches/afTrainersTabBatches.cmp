@@ -42,6 +42,7 @@
                                      aura:id="empDataTables"
                                      hideCheckboxColumn="true"
                                      description="data table to reflect batches associated with a specific trainer"
+                                     minColumnWidth="100"
                                      />
             </lightning:card>
         </div>
