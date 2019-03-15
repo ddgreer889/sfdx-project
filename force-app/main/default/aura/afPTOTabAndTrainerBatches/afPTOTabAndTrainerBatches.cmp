@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <aura:component implements="flexipage:availableForAllPageTypes" access="global" >
     <ltng:require styles="{!$Resource.RevatureStyles}"/>
     <div class="slds-card__body slds-card__body_inner">
@@ -14,4 +15,22 @@
             </div>
         </div>
     </div>     	
+=======
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.RevatureStyles}"/>
+    <div class="slds-card__body slds-card__body_inner">
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_8-of-12">
+                <span>
+                    <c:afTrainerProfileBatchesComponent/>
+                </span>
+            </div>
+            <div class="slds-col slds-size_4-of-12">
+                <span>
+                    <c:afPTOTabs/>
+                </span>
+            </div>
+        </div>
+    </div>     	
+>>>>>>> 3fb98fe170202194ecee298609c3303f56548c4b
 </aura:component>

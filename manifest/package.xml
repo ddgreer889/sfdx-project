@@ -26,6 +26,10 @@
     </types>
     <types>
         <members>*</members>
+        <name>StaticResource</name>
+    
+    <types>
+        <members>*</members>
         <name>ApprovalProcess</name>
     </types>
     <types>
@@ -43,10 +47,11 @@
     <types>
         <members>*</members>
         <name>Profile</name>
+       
     </types>
     <types>
         <members>*</members>
-        <name>FlexiPage</name>
+        <name>Role</name>
     </types>
     <version>45.0</version>
 </Package>
