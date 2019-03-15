@@ -1,4 +1,3 @@
-// add comments
 public with sharing class afBatchesListViewTableExtension {
 
     public afBatchesListViewTableExtension(ApexPages.StandardSetController sc){
