@@ -19,7 +19,11 @@
             let year = endDate.getUTCFullYear(); 
             let month = endDate.getUTCMonth(); 
             let date = endDate.getUTCDate();
-            
+            if(endDate.getUTCDay() === 4) 
+            {
+                date+=1; 
+            } 
+             
             component.set("v.endDate", (year + "-" + (month+1) + "-" + date));
             
             // pass new start/end dates to application event
