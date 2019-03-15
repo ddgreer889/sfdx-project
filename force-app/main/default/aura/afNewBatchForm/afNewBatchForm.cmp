@@ -24,7 +24,10 @@
     <aura:attribute name="status"              type="String"         default="Planned" />
     <aura:attribute name="uncleared"           type="Boolean"        default="true" />
     
+<<<<<<< HEAD
+=======
     <!--Creates a new batch-->
+>>>>>>> 3fb98fe170202194ecee298609c3303f56548c4b
     <aura:attribute name="newBatch"         type="Map"           default="{     CoTrainer__c : '',
                                                                          EndDate__c : '',
                                                                          Trainer__c : '',

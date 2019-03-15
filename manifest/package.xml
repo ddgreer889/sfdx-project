@@ -24,6 +24,9 @@
         <members>*</members>
         <name>AuraDefinitionBundle</name>
     </types>
+    <types>
+        <members>*</members>
+        <name>StaticResource</name>
     
     <types>
         <members>*</members>
