@@ -9,7 +9,8 @@ public class ApexTestUtilityClass {
         get {
             if(uID == null) {
                 createTrainerRole();
-                uID = [SELECT UserRoleId FROM User WHERE UserRole.name ='Trainer' LIMIT 1].UserRoleId;
+                //uID = [SELECT UserRoleId FROM User WHERE UserRole.name ='Trainer' LIMIT 1].UserRoleId;
+                uID = [SELECT id,name FROM UserRole WHERE name = 'Trainer' LIMIT 1].id;
             }
 
             System.debug('UId: ' + uId);
@@ -389,7 +390,6 @@ public class ApexTestUtilityClass {
                 NewTrainings.add(t);
             }
         }
-
         afTimelineController.currentTrainings = NewTrainings;
         String dataTemp = afTimelineController.wrapTrainingToJSON();
         return dataTemp;
@@ -434,7 +434,6 @@ public class ApexTestUtilityClass {
             
             skills.add(skill);
         }
-
         system.runAs(users){
             insert skills;
         }
@@ -494,13 +493,19 @@ public class ApexTestUtilityClass {
     }
     
     
-    //Test Utility afCreateNewTrainingTrackTrigger
+    /*
+     *   CreateNewTrainingTrack Utility Method
+     *   -Creates a new training track
+     *   -Inserts to database
+     *   -Causes the CreateNewTrainingTrack Trigger to fire for testing
+     */
     public static void createNewTrainingTrack(){
         Training_Track__c newTrack = new Training_Track__c(ShortName__c = 'TrackShortName');
         system.runAs(users){
             insert newTrack;
         }
     }
+    // END CreateNewTrainingTrack() Utility Method
 
 
     public static Training_Track__c track() {

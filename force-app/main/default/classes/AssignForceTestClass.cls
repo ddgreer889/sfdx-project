@@ -1,17 +1,16 @@
 @isTest
 public class AssignForceTestClass{
     
-
     @testSetup
     public static void AssignForceDataSetup(){
         ApexTestUtilityClass.createTrainingsData(7);
         ApexTestUtilityClass.createTrainingRoomData(5);
         ApexTestUtilityClass.createNewTrainingTrack();
         ApexTestUtilityClass.createSkills(5);
-       List<User> usersToCreate = new List<User>();
-       usersToCreate.add(ApexTestUtilityClass.getUserData());
-       usersToCreate.add(ApexTestUtilityClass.getUserData());
-       insert usersToCreate;
+        List<User> usersToCreate = new List<User>();
+        usersToCreate.add(ApexTestUtilityClass.getUserData());
+        usersToCreate.add(ApexTestUtilityClass.getUserData());
+        insert usersToCreate;
         //ApexTestUtilityClass.createManagers();
         //ApexTestUtilityClass.createPTOs(50);        
     }
@@ -199,14 +198,6 @@ public class AssignForceTestClass{
 
     
     @isTest
-    public static void afCreateNewTrainingTrackTrigger(){
-        ApexTestUtilityClass.createNewTrainingTrack();
-    }
-
-
-
-    
-    @isTest
     public static void afNewBatchFormApexControllerTest(){
         List<Training_Room__c> rooms = [SELECT Id, Name, TrainingLocation__c
                                         FROM Training_Room__c];
@@ -262,22 +253,60 @@ public class AssignForceTestClass{
     
    @isTest
    public static void triggerTest(){
-       
+       Id r;
+       List<UserRole> roleList = [SELECT Id FROM UserRole WHERE Name = 'Trainer'];
+       if (roleList.size() == 1){
+           r = roleList[0].Id;
+       }
+
+       // Generate Users
+       User usrTrainer = new User(
+            ProfileId = [SELECT Id FROM Profile WHERE Name = 'Trainer'].Id,
+            LastName = 'testTrainer',
+            Email = 'testuser000@faketestdomain.com',
+            Username = 'testuser000@faketestdomain.com',
+            CompanyName = 'testCompany',
+            Title = 'testTrainer',
+            Alias = 'testT',
+            TimeZoneSidKey = 'America/Los_Angeles',
+            EmailEncodingKey = 'UTF-8',
+            LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US',
+            UserRoleId = r
+       );
+       User usrCotrainer = new User(
+            ProfileId = [SELECT Id FROM Profile WHERE Name = 'Trainer'].Id,
+            LastName = 'testCotrainer',
+            Email = 'testuser000@faketestdomain.com',
+            Username = 'testuser000@faketestdomain.com',
+            CompanyName = 'testCompany',
+            Title = 'testCotrainer',
+            Alias = 'testCoT',
+            TimeZoneSidKey = 'America/Los_Angeles',
+            EmailEncodingKey = 'UTF-8',
+            LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US',
+            UserRoleId = r
+       );
+
        List<User> Trainers = [SELECT Id, Name FROM User WHERE UserRole.name ='Trainer'];
        Id TrainerId = Trainers[0].Id;
        Id CotrainerId = Trainers[1].Id;
        Training__c training1;
        Training__c training2;
-       Training__c trainingToInsert =new Training__c(Trainer__c=TrainerId, Cotrainer__c=CotrainerId, TargetCapacity__c = 99);
-       insert trainingToInsert;
-       System.runAs(Trainers[0]){
+       Training__c trainingToInsert = new Training__c(Trainer__c=usrTrainer.Id, Cotrainer__c=usrCotrainer.Id, TargetCapacity__c = 99);
+       //System.debug('training: '+String.valueOf(trainingToInsert)+'\ntrainer: '+String.valueOf(trainingToInsert.Trainer__c)+'\ncotrainer: '+String.valueOf(trainingToInsert.Cotrainer__c)+'\ntargetCapacity: '+String.valueOf(trainingToInsert.TargetCapacity__c));
+       //insert trainingToInsert;
+       Database.insert(trainingToInsert);
+       //System.debug('trainings: '+String.valueOf([SELECT Id FROM Training__c]));
+       //System.runAs(usrTrainer){
         training1 = [SELECT Trainer__c FROM Training__c WHERE TargetCapacity__c = 99 LIMIT 1];
-       }
-       System.runAs(Trainers[1]){
+       //}
+       //System.runAs(usrCotrainer){
         training2 = [SELECT CoTrainer__c FROM Training__c WHERE TargetCapacity__c = 99 LIMIT 1];
-       }
-       System.assertEquals(training1.Trainer__c, TrainerId);
-       System.assertEquals(training2.CoTrainer__c, CotrainerId);
+       //}
+       System.assertEquals(training1.Trainer__c, usrTrainer.Id);
+       System.assertEquals(training2.CoTrainer__c, usrCotrainer.Id);
    }
 
    
