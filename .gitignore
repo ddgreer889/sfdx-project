@@ -1,2 +1,2 @@
-.sfdx/tools/testresults/apex/*
-.sfdx/tools/tempApex.input
+.sfdx/
+*.json
