@@ -4,9 +4,12 @@
     <availableInTouch>true</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
     <label>afBatchesListViewTable</label>
+<<<<<<< HEAD
     <packageVersions>
         <majorNumber>1</majorNumber>
         <minorNumber>11</minorNumber>
         <namespace>th_con_app</namespace>
     </packageVersions>
+=======
+>>>>>>> 78932f2a7aad5dc6045e1202a58dc3ba388c49a6
 </ApexPage>

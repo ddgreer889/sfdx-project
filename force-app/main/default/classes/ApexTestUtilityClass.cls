@@ -446,7 +446,6 @@ public class ApexTestUtilityClass {
         return [SELECT Training_Track__c, Trainer__c From Skill__c];
     }
     
-    
     public static List<Training_Room__c> getRooms(List<Training_Room__c> allRooms) {
         List<Training_Room__c> yesFirst = new List<Training_Room__c>();
         List<Training_Room__c> Requests = new List<Training_Room__c>();
