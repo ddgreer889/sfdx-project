@@ -26,19 +26,27 @@
     </types>
     <types>
         <members>*</members>
-        <name>StaticResource</name>
-    </types>
-    <types>
-        <members>*</members>
         <name>ApprovalProcess</name>
     </types>
     <types>
         <members>*</members>
-        <name>Layout</name>
+        <name>Workflow</name>
     </types>
     <types>
         <members>*</members>
-        <name>Workflow</name>
+        <name>Profile</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Role</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>PermissionSet</name>
     </types>
     <version>45.0</version>
 </Package>
