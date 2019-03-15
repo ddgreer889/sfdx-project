@@ -44,8 +44,8 @@
     <aura:handler name="change"         value="{!v.trainer}"        action="{!c.trainerChanged}"/>
     <aura:handler name="change"         value="{!v.cotrainer}"      action="{!c.trainerChanged}"/>
     <aura:handler name="change"         value="{!v.track}"          action="{!c.trackChanged}"/>
-    <aura:handler                        event="c:TrainerSelected" action="{!c.setTrainerField}"/>
-    <aura:handler                        event="c:roomSelected"        action="{!c.setRoomField}"/>
+    <aura:handler                       event="c:TrainerSelected"   action="{!c.setTrainerField}"/>
+    <aura:handler                       event="c:roomSelected"      action="{!c.setRoomField}"/>
     
     <div class="slds-card">
         <lightning:recordEditForm aura:id="newBatchForm" objectApiName="Training__c" onsuccess="{!c.onSuccess}">
@@ -67,11 +67,13 @@
             </div>
             <div class="slds-card__body slds-card__body_inner">
                 <aura:if isTrue="{!v.uncleared}">
+                    <!--Grid First Row -->
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col slds-size_1-of-2">
                             <lightning:inputField fieldName="TrainingTrack__c" aura:id="trainingTrack" value="{!v.track}"/>
                         </div>
                     </div>
+                    <!--Grid Second Row -->
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col slds-size_1-of-4">
                             <lightning:inputField fieldName="StartDate__c" aura:id="startDate" value="{!v.startDate}" onchange="{!c.dateChanged}"/>
@@ -83,6 +85,7 @@
                             <lightning:inputField fieldName="EndDate__c" aura:id="endDate" value="{!v.endDate}" disabled="true"/> 
                         </div>
                     </div>
+                    <!--Grid Third Row -->
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col slds-size_1-of-4">
                             <aura:if isTrue="{!v.trainerUncleared}">
@@ -97,6 +100,7 @@
                             <span> </span>
                         </div>
                     </div>
+                    <!--Location Box-->
                     <div class="slds-text-heading_medium boxLabel">Location:</div>
                     <aura:if isTrue="{!v.locUncleared}">
                         <div class="slds-box">
