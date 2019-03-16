@@ -9,7 +9,7 @@ ehthumbs.db
 Thumbs.db
 #######
 *.json
-.vscode
+.vscode/
 .vim-force.com
 .sfdx/
 .forceignore
