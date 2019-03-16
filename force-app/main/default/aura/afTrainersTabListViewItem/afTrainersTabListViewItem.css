@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .THIS .btnSelect,
 .THIS .btnSelect:active{
    background-color:#F26925;
@@ -16,23 +15,4 @@
    background-color:#F26925;
    color:black;
    font-family: 'Futura-Std-Bold';
-=======
-.THIS .btnSelect,
-.THIS .btnSelect:active{
-   background-color:#F26925;
-   color:white;
-   font-family: 'Futura-Std-Book';
-}
-
-.THIS .btnSelect:hover{
-   background-color:#474C55;
-   color:#F26925;
-   font-family: 'Futura-Std-Medium';
-}
-
-.THIS .btnSelect:focus{
-   background-color:#F26925;
-   color:black;
-   font-family: 'Futura-Std-Bold';
->>>>>>> 3fb98fe170202194ecee298609c3303f56548c4b
 }

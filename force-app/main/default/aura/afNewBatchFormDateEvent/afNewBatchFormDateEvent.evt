@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 <aura:event type="APPLICATION">
     <aura:attribute name="startDate" 	type="Date"/>
     <aura:attribute name="endDate"		type="Date"/>
-=======
-<aura:event type="APPLICATION">
-    <aura:attribute name="startDate" 	type="Date"/>
-    <aura:attribute name="endDate"		type="Date"/>
->>>>>>> 3fb98fe170202194ecee298609c3303f56548c4b
 </aura:event>
