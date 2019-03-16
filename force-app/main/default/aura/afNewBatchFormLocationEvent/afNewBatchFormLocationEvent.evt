@@ -1,8 +1,3 @@
-<<<<<<< HEAD
 <aura:event type="APPLICATION">
    	<aura:attribute name="location" 		type="Id"/>
-=======
-<aura:event type="APPLICATION">
-   	<aura:attribute name="location" 		type="Id"/>
->>>>>>> 3fb98fe170202194ecee298609c3303f56548c4b
 </aura:event>
