@@ -1,10 +1,7 @@
 public class afTrainersTabListViewApexController {
 
-<<<<<<< HEAD
-=======
    //Return a list of Usrs that are Trainers or Co-Trainers.
    //Fields returned are Id, Name, Availability, Skills, and Current Location.
->>>>>>> 3fb98fe170202194ecee298609c3303f56548c4b
    @AuraEnabled
    public static List<User> allTrainers() {
        return [SELECT Id, Name, Available__c, Training_Skills__c, CurrentLocation__c

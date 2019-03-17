@@ -1,8 +1,3 @@
-<<<<<<< HEAD
 <aura:event type="APPLICATION" description="When fired, associates this event with the ID of a specific Room.">
     <aura:attribute name="room" type="Training_Room__c"/>
-=======
-<aura:event type="APPLICATION" description="When fired, associates this event with the ID of a specific Room.">
-    <aura:attribute name="room" type="Training_Room__c"/>
->>>>>>> 3fb98fe170202194ecee298609c3303f56548c4b
 </aura:event>

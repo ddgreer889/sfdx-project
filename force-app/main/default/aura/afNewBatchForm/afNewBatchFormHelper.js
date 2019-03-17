@@ -17,10 +17,6 @@
             }
             // convert to legible date format
             let year = endDate.getUTCFullYear(); 
-<<<<<<< HEAD
-            let month = endDate.getUTCMonth(); 
-            let date = endDate.getUTCDate();
-=======
             let month = endDate.getUTCMonth();
             let date = endDate.getUTCDate();
 
@@ -28,7 +24,6 @@
             if(endDate.getUTCDay() === 4){
                 date += 1;
             }
->>>>>>> 3fb98fe170202194ecee298609c3303f56548c4b
             
             component.set("v.endDate", (year + "-" + (month+1) + "-" + date));
             
