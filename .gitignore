@@ -9,11 +9,9 @@ ehthumbs.db
 Thumbs.db
 #######
 *.json
-<<<<<<< HEAD
 .vscode/
-=======
-.vscode
->>>>>>> 56ce1784d7766b2f5da1bae809875fe4c21e0ea3
+.settings/
+test.txt
 .vim-force.com
 .sfdx/
 .forceignore
