@@ -1,3 +1,6 @@
+//test afTrainingBatchesApexControllerTest
+//sergey sambros
+
 @isTest
 public class afTrainingBatchesApexControllerTest {
     
