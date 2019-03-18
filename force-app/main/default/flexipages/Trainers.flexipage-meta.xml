@@ -9,7 +9,10 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>afTrainersTabMerged</componentName>
+            <componentName>afTrainersTabPTO</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentName>afTrainersTabBatches</componentName>
         </componentInstances>
         <name>column2</name>
         <type>Region</type>

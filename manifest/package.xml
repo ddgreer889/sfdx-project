@@ -54,7 +54,7 @@
     </types>
     <types>
         <members>*</members>
-        <name>StaticResource</name>
+        <name>Queue</name>
     </types>
     <version>45.0</version>
 </Package>
