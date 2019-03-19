@@ -1,30 +1,31 @@
 //test afTrainingBatchesApexControllerTest
 //sergey sambros
+// 27/27 lines covered 
+//  TODO: Add comments and assertions. 
 
 @isTest
 public class afTrainingBatchesApexControllerTest {
-    
-     @isTest
-    public static void doTest(){
-        //Create the Trainer user that will be used in the test.
-        User u = new User(
-            ProfileId = [SELECT Id FROM Profile WHERE Name = 'Trainer' LIMIT 1].id,
-            LastName = 'last ' + Math.round(Math.random()),
-            Email = 'puser' + Math.round(Math.random()) + '@amamama.com',
-            Username = 'puser' + Math.round(Math.random()) + '@amamama.com' + System.currentTimeMillis(),
-            CompanyName = 'TEST',
-            Title = 'title',
-            Alias = 'alias',
-            TimeZoneSidKey = 'America/Los_Angeles',
-            EmailEncodingKey = 'UTF-8',
-            LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US',
-            Available__c = 'Available',
-            UserRoleId = [SELECT Id FROM UserRole WHERE Name = 'Trainer' LIMIT 1].id);
+	
+    @testSetup public static void testDataSetup(){
+        //Setup test data: Locations, Training Tracks, Trainings, User
+        List<Training_Location__c> testL = UtilityMethods.createLocationData(6);
         
-        //Insert the user record
-        insert u;
+        List<User> testU = UtilityMethods.createUserData(3);       
+        List<Training_Track__c> testT = UtilityMethods.createTrainingTrackData(3);
+        List<Training__c> testTr = UtilityMethods.createTrainingsData(9, testL, testU,                                          
+                                           UtilityMethods.createStartDateData(9), testT);
+        //below prevents mixed dml error by preventing 
+        insert testU;
+        System.runAs(testU[0]){
+            insert testT;
+            insert testL;
+            insert testTr;            
+        	}
         
+		}
+       
+    @isTest
+    public static void doTest(){   
         
         List <Training__c> AllTrainings = [SELECT Id, Name, TrainingLocation__r.OfficeName__c, TrainingTrack__r.ShortName__c,
                                            Status__c, TrainingClass__c, StartDate__c, EndDate__c, Trainer__r.Name, CoTrainer__r.Name
@@ -45,10 +46,16 @@ public class afTrainingBatchesApexControllerTest {
         List<Training__c> newTrainingsList = [SELECT Id, Name, TrainingLocation__r.OfficeName__c, TrainingTrack__r.ShortName__c,
                                            Status__c, TrainingClass__c, StartDate__c, EndDate__c, Trainer__r.Name, CoTrainer__r.Name
                                            FROM Training__c];
+        //set a training start date to enter condition loop
+        newTrainingsList[0].StartDate__c = null;
+        //record End date to later assert
+        Date nullTest = newTrainingsList[0].EndDate__c;
         system.assertEquals(newTrainingsList.size(), afTrainingBatchesApexController.AllTrainings.size()); 
         afTrainingBatchesApexController.updateBatchesServer(newTrainingsList);
-        
+        //assert that the end date is a day before when it began
+        system.assertEquals(nullTest.addDays(-1),newTrainingsList[0].EndDate__c);
         afTrainingBatchesApexController.getTrainingBatchesById(System.UserInfo.getProfileId());
+        system.debug('ASSERT'+ newTrainingsList[0].StartDate__c);
     }
 
 
