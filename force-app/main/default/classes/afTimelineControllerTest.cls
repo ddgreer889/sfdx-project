@@ -30,7 +30,7 @@ public class afTimelineControllerTest {
         trainings = createTrainingsData();
 
         Database.insert(users);
-        Database.insert(sDates);
+        //Database.insert(sDates);
         Database.insert(tracks);
         Database.insert(locations);
         Database.insert(trainings);
@@ -158,14 +158,14 @@ public class afTimelineControllerTest {
         List<Training__c> dummyData = new List<Training__c>();
         for(integer i = 0; i < numberToCreate; i++){
             Training__c newM = new Training__c();
-            newM.TrainingLocation__c = locations[i];
+            newM.TrainingLocation__c = locations[i].id;
             newM.Trainer__r = users[i];
             newM.StartDate__c = sDates[i];
             newM.EndDate__c = newM.StartDate__c + 10;
             if(Math.mod(i, 2) == 0) {
                 newM.CoTrainer__r = users[i+1];
             }
-            newM.TrainingTrack__c = tracks[i];
+            newM.TrainingTrack__c = tracks[i].id;
             
             dummyData.add(newM);
         }
@@ -192,22 +192,22 @@ public class afTimelineControllerTest {
         //     UserRoleId = uID);
 
         // return uData;
-
+        return null;
     }
 
     // Create dummy Training_Location__c's and return them in a List.
     private static List<Training_Location__c> createLocationData(){
-
+        return null;
     }
 
     // Create dummy Date objects and return them in a List.
     private static List<Date> createStartDateData(){
-
+        return null;
     }
     
     // Create dummy Training_Track__c's and return them in a List.
     private static List<Training_Track__c> createTrainingTrackData(){
-
+        return null;
     }
 
 }
