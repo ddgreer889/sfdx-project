@@ -7,7 +7,7 @@
     updateChart : function(component, event, helper)
     {
         
-        if (event.getSource().getName() == 'cFilterChartComponent') {
+        if (event.getSource().getName() === 'cFilterChartComponent') {
             component.set('v.data', event.getParam('data'));
         }
         var names = component.get('v.trainers');
@@ -24,7 +24,7 @@
                 var dataObj = response.getReturnValue();
                 component.set("v.data",dataObj);
                 var names = null;
-                if(event.getSource().getName() == 'cAfNewBatchForm'){
+                if(event.getSource().getName() === 'cAfNewBatchForm'){
                 $A.get('e.force:refreshView').fire();
                 }
                 

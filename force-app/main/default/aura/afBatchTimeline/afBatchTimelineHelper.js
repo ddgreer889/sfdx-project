@@ -71,7 +71,7 @@
             {
                 for(var c = 0; c < seriesObj.length; c++)
                 {
-                    if(seriesObj[c].name == seriesName)
+                    if(seriesObj[c].name === seriesName)
                     {
                         seriesObj[c].data.push ({'x' : dataObj[i].x, 'x2' : dataObj[i].x2, 'y' : dataObj[i].y, 'color' : dataObj[i].color});
                     }
@@ -112,7 +112,7 @@
                 //var currentTrainerFreeTime = [];
                 for(var j = i; j < dataObj.length; j++)
                 {
-                    if(currentTrainer == dataObj[j].y && !currentTrainerBatches.includes(dataObj[j])){
+                    if(currentTrainer === dataObj[j].y && !currentTrainerBatches.includes(dataObj[j])){
                         currentTrainerBatches.push(dataObj[j]);
                     }
                     
@@ -125,7 +125,7 @@
                         if(currentTrainerBatches[k].x2 < currentTrainerBatches[k+1].x){
                             freeTimeData.push({'x' : currentTrainerBatches[k].x2, 'x2' : currentTrainerBatches[k+1].x, 'y' : currentTrainer, 'color' : '#FFFFFF'});
                         }
-                        if(k == currentTrainerBatches.length - 2){
+                        if(k === currentTrainerBatches.length - 2){
                             break;
                         }
                     }
@@ -188,6 +188,7 @@
             },
             plotOptions: {
                 series: {
+                    stacking: 'normal'
                //     stacking: 'normal' (If this is enabled, the bars will be in one straight line in the middle, however if 
                //     						two trainers have batches starting the same week, it will move one of them down)
                 },
