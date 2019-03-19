@@ -1,20 +1,12 @@
-# OS generated files #
-######################
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-#######
 *.json
+<<<<<<< HEAD
 <<<<<<< HEAD
 .vscode/
 =======
 .vscode
 >>>>>>> 56ce1784d7766b2f5da1bae809875fe4c21e0ea3
 .vim-force.com
+=======
+>>>>>>> a18079aa80511dd6407e526560b9487adf36c284
 .sfdx/
-.forceignore
-config/
+.settings/
