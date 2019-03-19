@@ -1,5 +1,5 @@
 @isTest
-public class AssignForceTestClass{
+public class AssignForceTestClass{/*
     
     @testSetup
     public static void AssignForceDataSetup(){
@@ -307,7 +307,7 @@ public class AssignForceTestClass{
        //}
        System.assertEquals(training1.Trainer__c, usrTrainer.Id);
        System.assertEquals(training2.CoTrainer__c, usrCotrainer.Id);
-   }
+   }*/
 
    
     
