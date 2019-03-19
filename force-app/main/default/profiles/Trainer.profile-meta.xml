@@ -2,11 +2,11 @@
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
         <apexClass>ApexTestUtilityClass</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>AssignForceTestClass</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>CreateAssignForceData</apexClass>
@@ -14,7 +14,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afAvailListContainerApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afAvailListContainerApexControllerTest</apexClass>
@@ -22,7 +22,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afBatchesListViewTableExtension</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afBatchesListViewTableExtensionTest</apexClass>
@@ -30,7 +30,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afNewBatchFormApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afNewBatchFormApexControllerTest</apexClass>
@@ -38,7 +38,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afNewTrainingTrackTriggerHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afNewTrainingTrackTriggerHelperTest</apexClass>
@@ -46,7 +46,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afPTOTabsApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afPTOTabsApexControllerTest</apexClass>
@@ -54,11 +54,15 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTimelineController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>afTimelineControllerTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainerInfoController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainerInfoControllerTest</apexClass>
@@ -66,7 +70,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabListViewApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabListViewApexControllerTest</apexClass>
@@ -74,7 +78,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabPTOApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabPTOApexControllerTest</apexClass>
@@ -82,19 +86,15 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingBatchesApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingBatchesApexControllerTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>afTrainingLocationListViewApexController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>afTrainingTriggerHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingTriggerHelperTest</apexClass>

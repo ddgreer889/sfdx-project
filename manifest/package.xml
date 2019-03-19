@@ -20,7 +20,10 @@
         <members>*</members>
         <name>ApexTrigger</name>
     </types>
-
+    <types>
+        <members>*</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
     <types>
         <members>*</members>
         <name>ApprovalProcess</name>
@@ -51,7 +54,7 @@
     </types>
     <types>
         <members>*</members>
-        <name>StaticResource</name>
+        <name>Queue</name>
     </types>
     <version>45.0</version>
 </Package>
