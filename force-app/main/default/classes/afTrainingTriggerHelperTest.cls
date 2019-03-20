@@ -120,13 +120,10 @@ public class afTrainingTriggerHelperTest {
 
         // Create and insert 200 skills
         List<Skill__c> skills = new List<Skill__c>();
-        for (integer i = 0; i < 200; i += 2) {
-            Skill__c s1 = new Skill__c(Trainer__c = trainers.get(i).id, 
+        for (integer i = 0; i < 200; i++) {
+            Skill__c s = new Skill__c(Trainer__c = trainers.get(i).id, 
                                       Training_Track__c = tracks.get(i).id);
-            Skill__c s2 = new Skill__c(Trainer__c = trainers.get(i + 1).id, 
-                                      Training_Track__c = tracks.get(i + 1).id);
-            skills.add(s1);
-            skills.add(s2);
+            skills.add(s);
         }
         insert skills;
 
@@ -137,12 +134,12 @@ public class afTrainingTriggerHelperTest {
                                                     TrainingTrack__c = tracks.get(i).id,
                                                     TrainingLocation__c = loc.id,
                                                     Status__c = 'Completed');
+            trainings.add(training1);
             Training__c training2 = new Training__c(Trainer__c = trainers.get(i + 1).id,
                                                     CoTrainer__c = trainers.get(i).id,
-                                                    TrainingTrack__c = tracks.get(i + 1).id,
+                                                    TrainingTrack__c = tracks.get(i).id,
                                                     TrainingLocation__c = loc.id,
                                                     Status__c = 'Completed');
-            trainings.add(training1);
             trainings.add(training2);
         }
         insert trainings;
@@ -164,13 +161,27 @@ public class afTrainingTriggerHelperTest {
         //Check that the users have the read access they are supposed to.
         //The shareTrainings and executeSharing methods give read access for Trainings
         //To the trainer and cotrainer Users.
-        for (Integer i = 0; i < 20; i++) {
-            Boolean viewAccess = [SELECT RecordId, HasReadAccess 
-                                  FROM  UserRecordAccess 
-                                  WHERE UserId = :trainers.get(i).id 
-                                  AND RecordId = :trainings.get(i).id].HasReadAccess;
-            System.assert(viewAccess);
-        }
+        Boolean viewAccess = [SELECT RecordId, HasReadAccess 
+                                FROM  UserRecordAccess 
+                                WHERE UserId = :trainers.get(0).id 
+                                AND RecordId = :trainings.get(0).id].HasReadAccess;
+        System.assert(viewAccess);
+        viewAccess = [SELECT RecordId, HasReadAccess 
+                                FROM  UserRecordAccess 
+                                WHERE UserId = :trainers.get(0).id 
+                                AND RecordId = :trainings.get(1).id].HasReadAccess;
+        System.assert(viewAccess);
+        viewAccess = [SELECT RecordId, HasReadAccess 
+                                FROM  UserRecordAccess 
+                                WHERE UserId = :trainers.get(1).id 
+                                AND RecordId = :trainings.get(0).id].HasReadAccess;
+        System.assert(viewAccess);
+        viewAccess = [SELECT RecordId, HasReadAccess 
+                                FROM  UserRecordAccess 
+                                WHERE UserId = :trainers.get(1).id 
+                                AND RecordId = :trainings.get(1).id].HasReadAccess;
+        System.assert(viewAccess);
+        
 
         
         Test.stopTest();

@@ -77,7 +77,7 @@ public with sharing class afTrainersTabPTOApexControllerTest {
             //Assert that every PTO has the correct fields
             System.assertEquals(p.StartDate__c, Date.today());
             System.assertEquals(p.EndDate__c,   Date.today().addDays(10));
-            System.assertEquals(p.Status__c,    'Needs to be Submitted');
+            System.assertEquals(p.Status__c,    'Pending Approval');
             System.assertEquals(p.Reason__c,    'Test');
         }
 
