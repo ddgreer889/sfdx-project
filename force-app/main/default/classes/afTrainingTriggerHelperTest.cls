@@ -3,31 +3,8 @@ public class afTrainingTriggerHelperTest {
 
     @TestSetup
     static void doSetup(){
-        List<User> trainers = new List<User>();
 
-
-        id profileID = [SELECT id FROM Profile WHERE name = 'Trainer' LIMIT 1].id;
-        id roleID = [SELECT id FROM UserRole WHERE name = 'Trainer' LIMIT 1].id;
-
-
-        //Create and insert 200 Trainers for use throughout testing
-        for (integer i = 0; i < 200; i++) {
-            User u = new User(
-                ProfileId = profileID,
-                LastName = 'last ' + Math.round(Math.random()) + System.currentTimeMillis() + '@amamama.com' + System.currentTimeMillis(),
-                Email = 'puser' + Math.round(Math.random()) + System.currentTimeMillis() + '@amamama.com' + System.currentTimeMillis(),
-                Username = 'puser' + Math.round(Math.random()) + i + '@amamama.com' + System.currentTimeMillis(),
-                CompanyName = 'TEST',
-                Title = 'title',
-                Alias = 'alias',
-                TimeZoneSidKey = 'America/Los_Angeles',
-                EmailEncodingKey = 'UTF-8',
-                LanguageLocaleKey = 'en_US',
-                LocaleSidKey = 'en_US',
-                Available__c = 'Available',
-                UserRoleId = roleID);
-            trainers.add(u);
-        }
+        List<User> trainers = UtilityMethods.createUserData(200);
         insert trainers;
 
     }
@@ -51,8 +28,8 @@ public class afTrainingTriggerHelperTest {
         User cotrainer = trainers.get(1);
 
         //Create two training tracks for testing
-        Training_Track__c track = new Training_Track__c(ShortName__c = 'Test Track');
-        Training_Track__c track2 = new Training_Track__c(ShortName__c = 'Test Track 2');
+        Training_Track__c track = UtilityMethods.createTrainingTrackData(1).get(0);
+        Training_Track__c track2 = UtilityMethods.createTrainingTrackData(1).get(0);
         insert track;
         insert track2;
 
@@ -110,21 +87,12 @@ public class afTrainingTriggerHelperTest {
         ********************/
 
         // Create and insert 200 Training Tracks
-        List<Training_Track__c> tracks = new List<Training_Track__c>();
-        for (integer i = 0; i < 200; i++) {
-            Training_Track__c t = new Training_Track__c(ShortName__c = 'Test' + i);
-            tracks.add(t);
-        }
+        List<Training_Track__c> tracks = UtilityMethods.createTrainingTrackData(200);
         insert tracks;
 
 
         // Create and insert 200 skills
-        List<Skill__c> skills = new List<Skill__c>();
-        for (integer i = 0; i < 200; i++) {
-            Skill__c s = new Skill__c(Trainer__c = trainers.get(i).id, 
-                                      Training_Track__c = tracks.get(i).id);
-            skills.add(s);
-        }
+        List<Skill__c> skills = UtilityMethods.createSkillData(200,trainers,tracks);
         insert skills;
 
         List<Training__c> trainings = new List<Training__c>();

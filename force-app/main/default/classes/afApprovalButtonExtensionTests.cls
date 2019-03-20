@@ -17,27 +17,8 @@ public class afApprovalButtonExtensionTests {
 
     @TestSetup
     static void doSetup(){
-
-        //get the Profile ID and Role ID for Trainers
-        ID prof = [SELECT id FROM Profile WHERE Name = 'Trainer' LIMIT 1].id;
-        ID role = [SELECT id FROM UserRole WHERE Name = 'Trainer' LIMIT 1].id;
-
-        //Create a trainer user and insert
-        User u = new User(
-            ProfileId = prof,
-            LastName = 'last ' + Math.round(Math.random()),
-            Email = 'puser' + Math.round(Math.random()) + '@amamama.com',
-            Username = 'puser' + Math.round(Math.random()) + '@amamama.com' + System.currentTimeMillis(),
-            CompanyName = 'TEST',
-            Title = 'title',
-            Alias = 'alias',
-            TimeZoneSidKey = 'America/Los_Angeles',
-            EmailEncodingKey = 'UTF-8',
-            LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US',
-            Available__c = 'Available',
-            UserRoleId = role); 
-
+        
+        User u = UtilityMethods.createUserData(1).get(0);
         insert u;
       
     }

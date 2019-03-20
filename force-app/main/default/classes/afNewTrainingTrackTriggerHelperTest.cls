@@ -20,7 +20,7 @@ public with sharing class afNewTrainingTrackTriggerHelperTest {
 
         //Call the UtilityClass to create and insert training track
         // ApexTestUtilityClass.createNewTrainingTrack();
-        Training_Track__c newTrack = new Training_Track__c(ShortName__c = 'TrackShortName');
+        Training_Track__c newTrack = UtilityMethods.createTrainingTrackData(1).get(0);
         insert newTrack;
 
         //Query to get the training track that was inserted back from the Org
@@ -37,19 +37,12 @@ public with sharing class afNewTrainingTrackTriggerHelperTest {
             BULK CASE
         ***************/
 
-        //Create a list to store a lot of Training Track sObjects
-        List<Training_Track__c> newTracks = new List<Training_Track__c>();
-
-        //Create 200 Training tracks and add them to the list
-        for (integer i = 0; i < 200; i++){
-            Training_Track__c t = new Training_Track__c(ShortName__c = 'Test' + i);
-            newTracks.add(t);
-        }
-
-        //insert all the tracks, firing the trigger
+        //Create and insert 200 Training Tracks for testing
+        List<Training_Track__c> newTracks = UtilityMethods.createTrainingTrackData(200);
         insert newTracks;
 
-        //Query to get the training tracks back
+        //Query to get the training tracks back with the color fields
+        //  that should have been set by the trigger
         List<Training_Track__c> results = [SELECT id,color__c FROM Training_Track__c];
 
         //Ensure the list is not null, and has 200 tracks in it

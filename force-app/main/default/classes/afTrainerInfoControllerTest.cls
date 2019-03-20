@@ -2,10 +2,12 @@
 //author: sergey sambros
 //
 //16/18 lines covered, need to write asserts 
+
 @isTest
 public class afTrainerInfoControllerTest {
+
       @isTest
-      public static void afTrainerInfoControllerTest1(){    
+      public static void afTrainerInfoControllerTest1() {    
           
           afTrainerInfoController testC = new afTrainerInfoController();
           
@@ -17,6 +19,7 @@ public class afTrainerInfoControllerTest {
           testC.uploadFile();
           system.debug(testC.message);
           afTrainerInfoController.getFile(testU[0].Id);
+          
       }
           
       
