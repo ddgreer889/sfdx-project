@@ -36,23 +36,10 @@ public class afPTOTabsApexControllerTest {
 
 
 	//this is comparing the soql in the method to the expected results
-	@isTest
-    static void PTOTabGetAllPTOs() {
-
-       //get test user
-       User testUser = [SELECT id FROM USER LIMIT 1];
-       Id testId = testUser.id;
-
-       List<PTO__c> testPTO = [SELECT Id, Status__c, StartDate__c FROM PTO__c ORDER BY StartDate__c];
-       List<PTO__c> actualPTO = afPTOTabsApexController.getAllPTOs(testId);
-
-       System.assertEquals(testPTO,actualPTO);
-
-    }
-    
-
     @isTest
     public static void doTest() {
+
+        Test.startTest();
 
         //get test user
         User testUser = [SELECT id FROM USER LIMIT 1];
@@ -64,5 +51,12 @@ public class afPTOTabsApexControllerTest {
                                            FROM Training__c 
                                            WHERE Trainer__c=:testId OR CoTrainer__c=:testId];
         System.assertEquals(testBatches,actualBatches);
+
+        List<PTO__c> testPTO = [SELECT Id, Status__c, StartDate__c FROM PTO__c ORDER BY StartDate__c];
+        List<PTO__c> actualPTO = afPTOTabsApexController.getAllPTOs(testId);
+
+        System.assertEquals(testPTO,actualPTO);
+
+        Test.stopTest();
     }
 }
