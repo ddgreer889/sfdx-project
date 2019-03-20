@@ -2,7 +2,29 @@
     doInit : function(component, event, helper)
     {
         helper.getNames(component, event);
+
     },
+
+    testingAccounts: function(component) {
+        var getAccounts = component.get('c.AccountList');
+        var testArray = [];
+        var i;
+        getAccounts.setCallback(this, function(response){
+            var state = response.getState();
+            if(component.isValid() && state === "SUCCESS"){
+                for(i = 0; i < getAccounts.length; i++){
+                    testArray.push(getAccounts[i]);
+                }
+                // component.set('v.testingTime', testArray);
+                component.set('v.testingTime', response.getReturnValue());
+                //alert(testArray);
+            } else{
+                alert('Server side response not successful');
+            }
+        });
+        $A.enqueueAction(getAccounts);
+    },
+    
     
     updateChart : function(component, event, helper)
     {

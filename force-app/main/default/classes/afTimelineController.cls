@@ -1,7 +1,26 @@
+///////////////////////////////////////////////////////////////////
+// Last edited: 03/19/19
+// Edited by: Sharif Elkassed
+// Description: Controller used for the Batch Timeline component
+//  used on the 'Batches' tab within the AssignForce app
+///////////////////////////////////////////////////////////////////
 public class afTimelineController {
+
+    // Testing
+    @AuraEnabled
+    public static List<User> AccountList()
+    {
+        List<User> acc = new List<User>();
+        acc = [SELECT ID
+              FROM User];
+        return acc;
+    }
+    // End testing
     
+    // Declare List that will hold all Trainings
     public static List<Training__c> AllTrainings
     {
+        // Define a 'getter' for the AllTrainings variable
         get{
             if(AllTrainings == null)
             {
@@ -17,6 +36,7 @@ public class afTimelineController {
         set;
     }
     
+    // Unsure why currentTrainings exists if it is no different from AllTrainings
     public static List<Training__c> currentTrainings
     {
         get{
@@ -29,7 +49,9 @@ public class afTimelineController {
         set;
     }
     
+    // Declare List that will hold all trainers
     public static List<User> trainers {
+        // Define a 'getter' for the trainers variable
         get{
             if(trainers == null){
                 trainers =  [SELECT Name 
@@ -42,25 +64,37 @@ public class afTimelineController {
         set;
     } 
     
+    // Retrieve all Training locations 
     @AuraEnabled
     public static String[] getTrainingLocations()
     {
         String[] officeLocations = new String[]{};
-            for(Training__c t : AllTrainings)
+
+        // This for-loop references AllTrainings, while others in this code
+        // reference currentTrainings. AllTrainings appears to be executing a query
+        // in the 'getter' every time it is referenced.
+        // Replaced AllTrainings with currentTrainings -- code still works 
+        for(Training__c t : currentTrainings)
         {
             officeLocations.add(t.TrainingLocation__r.OfficeName__c);
         }
+
         return officeLocations;
     }
     
+    // Get List of all Trainer names 
     @AuraEnabled
     public static String[] getTrainers()
     {
         String[]trainerNames;
         trainerNames = new String[]{};
-            for(User u : trainers)
+        for(User u : trainers)
         { 
+            // This Boolean does appear to serve a purpose
+            // The for-loop below should be a while loop instead
+            // while(!trainerInTrainings){ // same logic minus break statement }  
             Boolean trainerInTrainings = false;
+            // Check if the trainer is currently in any Trainings
             for(Training__c t : currentTrainings){   
                 if(u.Name == t.Trainer__r.Name){
                     trainerInTrainings = true;
@@ -72,6 +106,7 @@ public class afTimelineController {
         return trainerNames;
     }
     
+    // Use the Wrapper class defined below: TrainingDateWrapper
     @AuraEnabled
     public static String wrapTrainingToJSON()
     {

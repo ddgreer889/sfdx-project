@@ -34,9 +34,9 @@
         var seriesObj = []
         var dataObj = JSON.parse(jsonData)
         if (names == null) {
-      var trainers = event.getParam('yAxisNames')
+          var trainers = event.getParam('yAxisNames')
         } else {
-      var trainers = names
+          var trainers = names
         }
     var trainerAssignment = []
         
@@ -83,7 +83,8 @@
 
                     },
           formatter: function () {
-            return Math.ceil((this.x2 - this.x) / (7 * 24 * 60 * 60 * 1000));
+            // Display the time (in weeks) for the batch itself
+            return Math.ceil((this.x2 - this.x) / (7 * 24 * 60 * 60 * 1000 )) + ' Weeks';
           }
         }
         })
@@ -179,11 +180,16 @@
           stacking: 'normal'
           //     stacking: 'normal' (If this is enabled, the bars will be in one straight line in the middle, however if
           //     						two trainers have batches starting the same week, it will move one of them down)
-        }
+        },
+        // column: {
+        //   pointPadding: 0.2,
+        //   borderWidth: 0
+        // },
 
       },
       series: // [ dataObj ]
-            seriesObj
+            seriesObj 
+            
     })
     }
 })

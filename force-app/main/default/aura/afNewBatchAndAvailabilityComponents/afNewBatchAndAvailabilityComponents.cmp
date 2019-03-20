@@ -12,6 +12,7 @@
                     <c:afAvailabilityListContainer/>
                     </span>
                 </div>
+
             </div>
         </div>     	
 </aura:component>
