@@ -8,27 +8,10 @@ public class afTrainerInfoControllerTest {
     @testSetup
     //Creates base set up, which is a list of users, currently creating 20 users at the start
     public static void doSetup() {
-        List<User> users = new List<User>();
-        id ProfileId = [SELECT Id FROM Profile WHERE Name = 'Trainer' LIMIT 1].id;
-        id roleid = [SELECT id FROM UserRole WHERE Name = 'Trainer' LIMIT 1].id;
-        Integer i=0;
-        for(i=0; i<20;i++){
-            User uData = new User(profileId = profileId,
-               					  userroleid = roleid,
-                				  LastName = 'last ' + i,
-                				  Email = 'puser' + i + '@amamama.com',
-                				  Username = 'puser' + i + '@amamama.com' + System.currentTimeMillis(),
-                                  CompanyName = 'TEST',
-                                  Title = 'title',
-                                  Alias = 'alias',
-                                  TimeZoneSidKey = 'America/Los_Angeles',
-                                  EmailEncodingKey = 'UTF-8',
-                                  LanguageLocaleKey = 'en_US',
-                                  LocaleSidKey = 'en_US',
-                                  Available__c = 'Available');
-            users.add(uData);
-        }
+
+        List<User> users = UtilityMethods.createUserData(20);
         insert users;
+
     }
     
     @isTest
@@ -36,12 +19,13 @@ public class afTrainerInfoControllerTest {
         
         Test.startTest();
         
-        //***************************************
-        //Single input test
-        //Obtains the first user of the list and uses it to run a create content which creates
-        //a new contentVersion. Then using a SOQL query call the newly generated document and compare the
-        //document createdbyid to the tempuserSingle id;.
-        //If matches, then it's successful.
+        /***************************************
+        * Single input test
+        * Obtains the first user of the list and uses it to run a create content which creates
+        * a new contentVersion. Then using a SOQL query call the newly generated document and compare the
+        * document createdbyid to the tempuserSingle id;.
+        * If matches, then it's successful.
+        ***************************************/
         User tempUserSingle = [SELECT id, name FROM User Limit 1];
         System.runAs(tempUserSingle){
             Content();
@@ -50,7 +34,8 @@ public class afTrainerInfoControllerTest {
             system.assertEquals(doc, afTrainerInfoController.getFile(tempUserSingle.Id));
             
         }
-        //
+
+
         //Bulk input Testing
         //Obtain all users.
         LIST<User> tempUserBulk = [SELECT id FROM User];
@@ -58,13 +43,12 @@ public class afTrainerInfoControllerTest {
         for(integer i=0; i<20; i++){
             System.runAs(tempUserBulk[i]){
                 //Generate a new contentVersion. This in turn will generate a new content document.
-                ContentVersion cont = new ContentVersion(
-                    Title = 'Penguins'+i,
-                    PathOnClient = 'Penguins'+i+'.jpg',
-                    VersionData = Blob.valueOf('Test Content'),
-                    IsMajorVersion = true
-                );
+                ContentVersion cont = new ContentVersion(Title = 'Penguins'+i,
+                                                         PathOnClient = 'Penguins'+i+'.jpg',
+                                                         VersionData = Blob.valueOf('Test Content'),
+                                                         IsMajorVersion = true);
                 insert cont;
+
                 //Used to display purposes
                 ContentDocument docTest = ([SELECT Title, createdbyid FROM ContentDocument WHERE CreatedbyId = :tempUserBulk[i].Id ORDER BY CreatedDate DESC LIMIT 1]);
                 ContentDocument docu = ([SELECT Id, Title FROM ContentDocument WHERE CreatedbyId = :tempUserBulk[i].Id ORDER BY CreatedDate DESC LIMIT 1]);

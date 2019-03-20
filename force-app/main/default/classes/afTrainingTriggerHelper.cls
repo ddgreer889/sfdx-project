@@ -65,26 +65,23 @@ public class afTrainingTriggerHelper {
             trainingShare.RowCause = Schema.Training__Share.RowCause.Rule__c;
             trainingSharesToInsert.add(trainingShare);
         }
-         System.debug('List function trainingSharesToInsert: ' + trainingSharesToInsert);
+        System.debug('List function trainingSharesToInsert: ' + trainingSharesToInsert);
         List<Database.SaveResult> listSr = Database.insert(trainingSharesToInsert,false);
         
-        for(Database.SaveResult sr : listSr){
-            if(sr.isSuccess()){
+        for(Database.SaveResult sr : listSr) {
+            if(sr.isSuccess()) {
                 System.debug('Successful insert.');
-            } else {
+            } 
+            else {
                 Database.Error err = sr.getErrors()[0];
-         if(err.getStatusCode() == StatusCode.FIELD_FILTER_VALIDATION_EXCEPTION  && 
-                  err.getMessage().contains('AccessLevel')){
-            // Indicates success.
-            System.debug('Success!');
-         }
-         else{
-            // Indicates failure.
-            System.debug('Failure.');
-         }
-
+                if(err.getStatusCode() == StatusCode.FIELD_FILTER_VALIDATION_EXCEPTION  && err.getMessage().contains('AccessLevel')){
+                    // Indicates success.
+                    System.debug('Success!');
+                } else {
+                    // Indicates failure.
+                    System.debug('Failure.');
+                }
             }
-        }
-        
+        } 
     }
 }
