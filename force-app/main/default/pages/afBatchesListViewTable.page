@@ -42,7 +42,8 @@
                 <!--</apex:pageBlockSection>-->
             </div>
             <apex:pageBlockButtons location="bottom">
-                <apex:commandButton value="Save" action="{!save}" id="saveButton" style="display:none"/>
+                <!-- changed save to quicksave to stop the redirect bug after inline editing and saving-->
+                <apex:commandButton value="Save" action="{!Quicksave}" id="saveButton" style="display:none"/>
                 <apex:commandButton value="Cancel" action="{!cancel}" id="cancelButton" style="display:none"/>
             </apex:pageBlockButtons>
             <apex:pageBlockSection rendered="{!ISNULL(batches)}" columns="1">
