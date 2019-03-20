@@ -15,7 +15,7 @@ public class afTrainingBatchesApexControllerTest {
         List<Training_Track__c> testT = UtilityMethods.createTrainingTrackData(3);
         List<Training__c> testTr = UtilityMethods.createTrainingsData(9, testL, testU,                                          
                                            UtilityMethods.createStartDateData(9), testT);
-        //below prevents mixed dml error by preventing 
+        //below prevents mixed dml error 
         insert testU;
         System.runAs(testU[0]){
             insert testT;
@@ -64,6 +64,11 @@ public class afTrainingBatchesApexControllerTest {
         system.assertEquals(newTrainingsList.size(), afTrainingBatchesApexController.AllTrainings.size());
         //negative case, start date = null, assert that the end date is a day before when it began
         system.assertEquals(nullTest.addDays(-1),newTrainingsList[0].EndDate__c);
+        //test get trainers by id
+        User testUser = [Select id From USER LIMIT 1 OFFSET 2];
+        system.assertEquals(afTrainingBatchesApexController.getTrainingBatchesById(testUser.Id),[SELECT Id, Name, TrainingLocation__r.OfficeName__c, TrainingTrack__r.ShortName__c,
+                                           Status__c, TrainingClass__c, StartDate__c, EndDate__c, Trainer__r.Name, CoTrainer__r.Name
+                                           FROM Training__c WHERE Trainer__r.Id = :testUser.id]) ;
     }
     public class UtilityMethods {
     // Create dummy Training__c's and return them in a List.
@@ -131,7 +136,7 @@ public class afTrainingBatchesApexControllerTest {
             return result;
         }
         
-       
+        // @TODO populate dates with something
         // Create dummy Date objects and return them in a List.
         public List<Date> createStartDateData(Integer amount){
         
