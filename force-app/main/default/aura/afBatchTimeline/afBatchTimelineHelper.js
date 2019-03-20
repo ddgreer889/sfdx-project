@@ -181,10 +181,7 @@
           //     stacking: 'normal' (If this is enabled, the bars will be in one straight line in the middle, however if
           //     						two trainers have batches starting the same week, it will move one of them down)
         },
-        // column: {
-        //   pointPadding: 0.2,
-        //   borderWidth: 0
-        // },
+
 
       },
       series: // [ dataObj ]
