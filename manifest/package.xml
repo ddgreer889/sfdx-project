@@ -26,9 +26,6 @@
     </types>
     <types>
         <members>*</members>
-<<<<<<< HEAD
-        <name>StaticResource</name>
-=======
         <name>ApprovalProcess</name>
     </types>
     <types>
@@ -67,7 +64,6 @@
     <types>
         <members>*</members>
         <name>Profile</name>
->>>>>>> 8b3d674969edeaafc5f6bac52231f4038d140afe
     </types>
     <version>45.0</version>
 </Package>
