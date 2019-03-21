@@ -188,7 +188,7 @@
             },
             plotOptions: {
                 series: {
-               //     stacking: 'normal' (If this is enabled, the bars will be in one straight line in the middle, however if 
+               //   stacking: 'normal' (If this is enabled, the bars will be in one straight line in the middle, however if 
                //     						two trainers have batches starting the same week, it will move one of them down)
                 },
                
