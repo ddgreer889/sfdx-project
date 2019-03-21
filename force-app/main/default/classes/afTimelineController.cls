@@ -45,13 +45,35 @@ public class afTimelineController {
             if(trainers == null){
                 trainers =  [SELECT Name 
                              FROM User 
-                             WHERE UserRole.Name = 'Trainer' OR UserRole.Name = 'CoTrainer'
+                             WHERE UserRole.Name = 'Trainer'
                              ORDER BY Name];
             }
             return trainers;
         }
         set;
     } 
+
+    public static List<PTO__c> approvedPTOs {
+        get{
+            if (approvedPTOs == null) {
+                approvedPTOs = [SELECT StartDate__c, EndDate__c, Trainer__c, Status__c, Trainer__r.CurrentLocation__c, Trainer__r.Name
+                                FROM PTO__c
+                                WHERE Status__c = 'Approved'];
+            }
+            return approvedPTOs;
+        }
+        set;
+    }
+
+    public static List<PTO__c> currentPTOs {
+        get{
+            if (currentPTOs == null) {
+                currentPTOs = approvedPTOs;
+            }
+            return currentPTOs;
+        }
+        set;
+    }
     
     // Retrieve all Training locations 
     @AuraEnabled
@@ -104,6 +126,7 @@ public class afTimelineController {
         Integer trainerNumber = 0;
         Integer trainerIndex = 0;
         Integer j = 0;
+        // Add all trainings to the dataset
         for(Training__c t : currentTrainings){
             Boolean trainerInMap = false;
             TrainingDataWrapper tdw = new TrainingDataWrapper();
@@ -133,6 +156,31 @@ public class afTimelineController {
             tdw.trainerName = t.Trainer__r.Name;
             trainerData.add(tdw);
         }
+
+        // Add all PTOs to the dataset
+        for(PTO__c pto : approvedPTOs) {
+            TrainingDataWrapper tdw = new TrainingDataWrapper();
+            // Find the trainer in the list
+            Boolean found = false;
+            for(j = 0; j < trainerNames.size(); j++) {
+                tdw.y = j;
+                found = true;
+                break;
+            }
+            if (!found) {
+                trainerNames.add(pto.Trainer__r.Name);
+                tdw.y = trainerNames.size();
+            }
+            // Mark the start and end dates
+            tdw.x = pto.StartDate__c;
+            tdw.x2 = pto.EndDate__c;
+            // Mark the series as distinct from training track
+            tdw.series = 'PTO';
+            tdw.color = 'Black';
+            tdw.trainerName = pto.Trainer__r.Name;
+            trainerData.add(tdw);
+        }
+
         return System.json.serialize(trainerData);   
     }
     
@@ -155,75 +203,10 @@ public class afTimelineController {
     @AuraEnabled
     public static String filterTrainingsByYearLocationQuarter(String[] location, Integer year, Integer quarter)
     {
-        List<Training__c> NewTrainings = new List<Training__c>();
-        List<Integer> monthList = new List<Integer>();        
-        switch on(quarter)
-        {
-            when 2
-            {
-                monthList.add(01);
-                monthList.add(02);
-                monthList.add(03);
-            }
-            
-            when 3
-            {
-                monthList.add(04);
-                monthList.add(05);
-                monthList.add(06);
-            }
-            
-            when 4
-            {
-                monthList.add(07);
-                monthList.add(08);
-                monthList.add(09);
-            }
-            
-            when 5
-            {
-                monthList.add(10);
-                monthList.add(11);
-                monthList.add(12);
-            }
-            
-            when else
-            {
-                return null;
-            }
-        }
-        Integer convertedYear = 0;
+        Integer convertedYear = convertYear(year);
+        List<Integer> monthList = convertQuarter(quarter);
         
-        switch on(year)
-        {
-            when 1
-            {
-                convertedYear = Date.today().year() + 1;
-            }
-            when 2
-            {
-                convertedYear = Date.today().year();
-            }
-            
-            when 3 
-            {
-                convertedYear = Date.today().year() - 1;
-            }
-            
-            when 4 
-            {
-                convertedYear = Date.today().year() - 2;
-            }
-            when 5
-            {
-                convertedYear = null;
-            }
-            
-            when else
-            {
-                return null;
-            }
-        }
+        List<Training__c> NewTrainings = new List<Training__c>();
         for(Training__c t : currentTrainings)
         {
             Integer trainingYear = t.StartDate__c.year();
@@ -241,6 +224,20 @@ public class afTimelineController {
             }
         }
         currentTrainings = NewTrainings;
+
+        List<PTO__c> newPTOs = new List<PTO__c>();
+        for (PTO__c pto : currentPTOs) {
+            Integer PTOYear = pto.StartDate__c.year();
+            Integer PTOMonth = pto.StartDate__c.month();
+            String PTOLoc = pto.Trainer__r.CurrentLocation__c;
+            if(location.contains(PTOLoc) && monthList.contains(PTOMonth) && convertedYear == PTOYear) {
+                newPTOs.add(pto);
+            } else if (location.contains(PTOLoc) && monthList.contains(PTOMonth) && convertedYear == null) {
+                newPTOs.add(pto);
+            }
+        }
+        currentPTOs = newPTOs;
+
         String trainerData = wrapTrainingToJSON();
         return trainerData;
     }
@@ -248,40 +245,9 @@ public class afTimelineController {
     @AuraEnabled
     public static String filterTrainingsByYearLocation(String[] location, Integer year)
     {
+        Integer convertedYear = convertYear(year);
+        
         List<Training__c> NewTrainings = new List<Training__c>();
-        Integer convertedYear = 0;
-        
-        switch on(year)
-        {
-            when 1
-            {
-                convertedYear = Date.today().year() + 1;
-            }
-            when 2
-            {
-                convertedYear = Date.today().year();
-            }
-            
-            when 3 
-            {
-                convertedYear = Date.today().year() - 1;
-            }
-            
-            when 4 
-            {
-                convertedYear = Date.today().year() - 2;
-            }
-            when 5
-            {
-                convertedYear = null;
-            }
-            
-            when else
-            {
-                return null;
-            }
-        }
-        
         for(Training__c t : currentTrainings)
         {
             Integer trainingYear = t.StartDate__c.year();
@@ -298,6 +264,19 @@ public class afTimelineController {
             }
         }
         currentTrainings = NewTrainings;
+
+        List<PTO__c> newPTOs = new List<PTO__c>();
+        for (PTO__c pto : currentPTOs) {
+            Integer PTOYear = pto.StartDate__c.year();
+            String PTOLoc = pto.Trainer__r.CurrentLocation__c;
+            if(location.contains(PTOLoc) && convertedYear == PTOYear) {
+                newPTOs.add(pto);
+            } else if (location.contains(PTOLoc) && convertedYear == null) {
+                newPTOs.add(pto);
+            }
+        }
+        currentPTOs = newPTOs;
+
         String trainerData = wrapTrainingToJSON();
         return trainerData;
     }
@@ -306,11 +285,92 @@ public class afTimelineController {
     @AuraEnabled
     public static String filterTrainingsByYearQuarter(Integer year, Integer quarter)
     {
-        List<Integer> monthList = new List<Integer>(); 
+        List<Integer> monthList = convertQuarter(quarter); 
+        Integer convertedYear = convertYear(year);
+        
         List<Training__c> NewTrainings = new List<Training__c>();
+        for(Training__c t : currentTrainings)
+        {
+            Integer trainingYear = t.StartDate__c.year();
+            Integer trainingMonth = t.StartDate__c.month();
+            
+            if(convertedYear == trainingYear && monthList.contains(trainingMonth))
+            {
+                NewTrainings.add(t);
+            }
+            else if(monthList.contains(trainingMonth) && convertedYear == null){
+                NewTrainings.add(t);
+            }
+            
+        }
+        currentTrainings = NewTrainings;
+
+        List<PTO__c> newPTOs = new List<PTO__c>();
+        for (PTO__c pto : currentPTOs) {
+            Integer PTOYear = pto.StartDate__c.year();
+            Integer PTOMonth = pto.StartDate__c.month();
+            if(convertedYear == PTOYear && monthList.contains(PTOMonth)) {
+                newPTOs.add(pto);
+            } else if (monthList.contains(PTOMonth) && convertedYear == null) {
+                newPTOs.add(pto);
+            }
+        }
+        currentPTOs = newPTOs;
+
+        String trainerData = wrapTrainingToJSON();
+        return trainerData;
+    }
+    
+    @AuraEnabled
+    public static String filterTrainingsByYear(Integer year)
+    {
+        System.debug('1');
+        Integer convertedYear = convertYear(year);
+        System.debug('2');
+
+        List<Training__c> NewTrainings = new List<Training__c>();
+        System.debug('3');
+        for(Training__c t : currentTrainings)
+        {
+            Integer trainingYear = t.StartDate__c.year();
+            
+            if(convertedYear == trainingYear )
+            {
+                NewTrainings.add(t);
+            }
+            else if(convertedYear == null){
+                NewTrainings.add(t);
+            }
+        }
+        System.debug('4');
+        currentTrainings = NewTrainings;
+        System.debug('5');
+
+        List<PTO__c> newPTOs = new List<PTO__c>();
+        System.debug('6');
+        for (PTO__c pto : currentPTOs) {
+            Integer PTOYear = pto.StartDate__c.year();
+            if(convertedYear == PTOYear) {
+                newPTOs.add(pto);
+            } else if (convertedYear == null) {
+                newPTOs.add(pto);
+            }
+        }
+        System.debug('7');
+        currentPTOs = newPTOs;
+        System.debug('8');
+
+        String trainerData = wrapTrainingToJSON();
+        System.debug('9');
+        return trainerData;
+    }
+
+    // Converts year code 1-5 into a real year integer
+    // Copy-pasted common logic into a method
+    private static Integer convertYear(Integer yearCode) {
         Integer convertedYear = 0;
         
-        switch on(year)
+        switch on(yearCode)
         {
             when 1
             {
@@ -340,7 +400,15 @@ public class afTimelineController {
                 return null;
             }
         }
-        switch on(quarter)
+
+        return convertedYear;
+    }
+
+    // Converts month code 2-5 into a real list of months (integers)
+    // Copy-pasted common logic into a method
+    private static List<Integer> convertQuarter(Integer quarterCode) {
+        List<Integer> monthList = new List<Integer>();
+        switch on(quarterCode)
         {
             when 2
             {
@@ -375,77 +443,7 @@ public class afTimelineController {
                 return null;
             }
         }
-        for(Training__c t : currentTrainings)
-        {
-            Integer trainingYear = t.StartDate__c.year();
-            Integer trainingMonth = t.StartDate__c.month();
-            
-            if(convertedYear == trainingYear && monthList.contains(trainingMonth))
-            {
-                NewTrainings.add(t);
-            }
-            else if(monthList.contains(trainingMonth) && convertedYear == null){
-                NewTrainings.add(t);
-            }
-            
-        }
-        currentTrainings = NewTrainings;
-        String trainerData = wrapTrainingToJSON();
-        return trainerData;
-    }
-    
-    @AuraEnabled
-    public static String filterTrainingsByYear(Integer year)
-    {
-        List<Training__c> NewTrainings = new List<Training__c>();
-        Integer convertedYear = 0;
-        
-        switch on(year)
-        {
-            when 1
-            {
-                convertedYear = Date.today().year() + 1;
-            }
-            when 2
-            {
-                convertedYear = Date.today().year();
-            }
-            
-            when 3 
-            {
-                convertedYear = Date.today().year() - 1;
-            }
-            
-            when 4 
-            {
-                convertedYear = Date.today().year() - 2;
-            }
-            when 5
-            {
-                convertedYear = null;
-            }
-            
-            when else
-            {
-                return null;
-            }
-        }
-        
-        for(Training__c t : currentTrainings)
-        {
-            Integer trainingYear = t.StartDate__c.year();
-            
-            if(convertedYear == trainingYear )
-            {
-                NewTrainings.add(t);
-            }
-            else if(convertedYear == null){
-                NewTrainings.add(t);
-            }
-        }
-        currentTrainings = NewTrainings;
-        String trainerData = wrapTrainingToJSON();
-        return trainerData;
+        return monthList;
     }
     
 }
