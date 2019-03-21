@@ -1,19 +1,26 @@
 <aura:component controller="afAvailListContainerApexController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
     <ltng:require styles="{!$Resource.RevatureStyles}"/>
     
+    <!--Passed by Master Controller Attributes-->
+    <aura:attribute name="allSkills" 				type="List"/>
+    <aura:attribute name="allTrainings" 			type="List"/>
+    <aura:attribute name="allRooms" 				type="List"/>    
+    <aura:attribute name="allTrainers"              type="List"/>
+    
+    
     <!-- Attributes-->
+    <aura:attribute name="trainers" 				type="User[]"/>
     <aura:attribute name="rooms" 					type="Object[]"/>
     <aura:attribute name="roomsNotAtLoc" 			type="Object[]"/>
-    <aura:attribute name="currentLocRooms" 			type="Object[]"/>
-    <aura:attribute name="trainers" 				type="User[]"/>
-    <aura:attribute name="allSkills" 				type="Skill__c[]"/>
-    <aura:attribute name="allTrainings" 			type="Training__c[]"/>
+    <aura:attribute name="currentLocRooms" 			type="Object[]"/>   
     <aura:attribute name="selectedTrainingTrack" 	type='ID'/>
     <aura:attribute name="tab1Shown" 				type="Boolean" 			default='true'/>
     <aura:attribute name="location" 				type="Id"/>
     
-    <!--Handlers-->
-    <aura:handler name="init" 		value="{!this}" 	action="{!c.doInit}"/>
+    <!--Handlers--> 
+    <aura:handler name="change" value="{!v.allRooms}" action="{!c.initRooms}"/>
+    <aura:handler name="change" value="{!v.allTrainers}" action="{!c.initTrainers}"/>
+    <!--<aura:handler name="init" 		value="{!this}" 	action="{!c.doInit}"/>-->
     <aura:handler event="c:afNewBatchFormTrackEvent" 	action="{!c.skillHasChanged}"/>
     <aura:handler event="c:afNewBatchFormDateEvent" 	action="{!c.dateHasChanged}"/>
     <aura:handler event="c:afNewBatchFormLocationEvent"	action="{!c.handleLoc}"/>
@@ -44,7 +51,7 @@
                     </div>
                     <div class="slds-scrollable" style="height: 300px">
                         <aura:iteration  items="{!v.trainers}" var="trainerVar">
-                            <c:afTrainerAvailabilityListItem trainerId="{!trainerVar.Id}" hasSkill="{!trainerVar.hasSkill}" availability="{!trainerVar.Available__c}"/>
+                            <c:afTrainerAvailabilityListItem trainerId="{!trainerVar.Id}" hasSkill="{!trainerVar.hasSkill__c}" availability="{!trainerVar.Available__c}"/>
                         </aura:iteration>
                     </div>
                 </div>

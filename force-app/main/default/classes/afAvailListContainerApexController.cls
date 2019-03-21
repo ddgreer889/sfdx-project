@@ -1,16 +1,7 @@
 public class afAvailListContainerApexController {
-    
-    public static List<Training_Room__c> allRooms = [SELECT Id, name, TrainingLocation__c, TrainingLocationName__c, AVAvailability__c, RoomCapacity__c
-                                                     FROM Training_Room__c
-                                                     ORDER BY name];
-    
-    public static List<User> Trainers = [SELECT Id, Name, Available__c
-                                         FROM User 
-                                         WHERE UserRole.Name = 'Trainer'];
-    /*WHERE Available__c!=null*/ /*UserRoleId=trainer role Id*/
-    
     @AuraEnabled
-    public static List<Training_Room__c> getRooms(){
+    public static List<Training_Room__c> getRooms(List<Training_Room__c> allRooms){
+        
         List<Training_Room__c> yesFirst = new List<Training_Room__c>();
         List<Training_Room__c> Requests = new List<Training_Room__c>();
         List<Training_Room__c> NOs = new List<Training_Room__c>();
@@ -34,7 +25,7 @@ public class afAvailListContainerApexController {
     }
     
     @AuraEnabled
-    public static List<User> getAllTrainers(){
+    public static List<User> getAllTrainers(List<user> Trainers){
         //Must add a WHERE clause UserRoleId=Trainer Role Id
         List<User> availableList = new List<User>();
         List<User> unavailableList = new List<User>();
@@ -49,12 +40,41 @@ public class afAvailListContainerApexController {
         return availableList;
     }
     @AuraEnabled
-    public static List<Skill__c> getAllSkills(){
-        return [SELECT Training_Track__c, Trainer__c From Skill__c];
+    public static List<Training_Room__c> RoomsMatchLocation (String location, List<Training_Room__c> trl)
+    {
+        system.debug(location);
+        List<Training_Room__c> newRooms = new List<Training_Room__c>();
+        if((location == '') || location == null)
+        {
+            return trl;
+        }
+        else{          
+            for(Integer i = 0; i<trl.size(); i++)
+            {
+                if(location == trl[i].TrainingLocation__c)
+                {
+                    newRooms.add(trl[i]);
+                }
+            }
+        }        
+        return newRooms;        
     }
     @AuraEnabled
-    public static List<Training__c> getAllTrainings(){
-        return [SELECT StartDate__c, EndDate__c, Trainer__c, CoTrainer__c, TrainingRoom__c FROM Training__c];
-    }
-    
+    public static List<User> TrainerHasSkill(String track, List<User> trainers, List<Skill__c> skills){       
+        for(User t:trainers){
+            t.hasSkill__c = false;  
+        } 
+        if(track!=null){ 
+            for(Skill__c s:skills){
+                if(s.Training_Track__c == track){                    
+                    for(User u:trainers){
+                        if(u.Id == s.Trainer__c){
+                            u.hasSkill__c = true;
+                        }
+                    }
+                }   
+            } 
+        }
+        return trainers;
+    } 
 }

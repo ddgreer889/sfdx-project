@@ -19,6 +19,7 @@
     <aura:attribute name="roomsForLocation" type="List" />
     <aura:attribute name="track"               type="Id" />
     <aura:attribute name="trainer"          type="User" />
+    <aura:attribute name="trainingTarget"   type="Integer" />
     <aura:attribute name="trainerUncleared" type="Boolean"       default="true"/>
     <aura:attribute name="startDate"           type="Date" />
     <aura:attribute name="status"              type="String"         default="Planned" />
@@ -67,11 +68,13 @@
             </div>
             <div class="slds-card__body slds-card__body_inner">
                 <aura:if isTrue="{!v.uncleared}">
+                    <!--Row1-->
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col slds-size_1-of-2">
                             <lightning:inputField fieldName="TrainingTrack__c" aura:id="trainingTrack" value="{!v.track}"/>
                         </div>
                     </div>
+                    <!--Row2-->
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col slds-size_1-of-4">
                             <lightning:inputField fieldName="StartDate__c" aura:id="startDate" value="{!v.startDate}" onchange="{!c.dateChanged}"/>
@@ -83,6 +86,7 @@
                             <lightning:inputField fieldName="EndDate__c" aura:id="endDate" value="{!v.endDate}" disabled="true"/> 
                         </div>
                     </div>
+                    <!--Row3-->
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col slds-size_1-of-4">
                             <aura:if isTrue="{!v.trainerUncleared}">
@@ -94,9 +98,10 @@
                             <lightning:inputField fieldName="Status__c" value="{!v.status}" hidden="true"/>
                         </div>
                         <div class="slds-col slds-size_1-of-6 slds-col_bump-left">
-                            <span> </span>
+                                <lightning:input type="number" label="Training Target" aura:id="trainingTarget" step="1" value="{!v.trainingTarget}"/>
                         </div>
                     </div>
+                    <!--Location-->
                     <div class="slds-text-heading_medium boxLabel">Location:</div>
                     <aura:if isTrue="{!v.locUncleared}">
                         <div class="slds-box">
