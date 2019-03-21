@@ -1,5 +1,6 @@
 <aura:component implements="flexipage:availableForAllPageTypes" access="global" >
     <ltng:require styles="{!$Resource.RevatureStyles}"/>
+
     <div class="slds-card">
         <div class="slds-card__header">
             <header class="slds-media slds-media_center slds-has-flexi-truncate">
