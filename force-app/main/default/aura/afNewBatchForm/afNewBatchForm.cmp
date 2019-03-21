@@ -5,7 +5,6 @@
     <!-- Attributes -->
     <aura:attribute name="allTrainers"     type="List" />
     <aura:attribute name="allCoTrainers"   type="List" />
-    <aura:attribute name="allRooms"        type="list" />
     <aura:attribute name="allLocations"        type="Training_Location__c[]" />
     <aura:attribute name="cotrainer"           type="User" />
     <aura:attribute name="endDate"          type="Date" />
@@ -25,7 +24,6 @@
     <aura:attribute name="status"              type="String"         default="Planned" />
     <aura:attribute name="uncleared"           type="Boolean"        default="true" />
     
-    <!--Creates a new batch-->
     <aura:attribute name="newBatch"         type="Map"           default="{     CoTrainer__c : '',
                                                                          EndDate__c : '',
                                                                          Trainer__c : '',
