@@ -26,7 +26,48 @@
     </types>
     <types>
         <members>*</members>
+<<<<<<< HEAD
         <name>StaticResource</name>
+=======
+        <name>ApprovalProcess</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Workflow</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Role</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Queue</name>
+    </types>
+    <types>
+        <members>PTO__c.Approve</members>
+        <members>PTO__c.Reject</members>
+        <name>WebLink</name>
+    </types>
+    <types>
+        <members>PTO__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Profile</name>
+>>>>>>> 8b3d674969edeaafc5f6bac52231f4038d140afe
     </types>
     <version>45.0</version>
 </Package>
