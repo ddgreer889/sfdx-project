@@ -13,6 +13,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>afApproveButtonExtension</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>afAvailListContainerApexController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -50,6 +54,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afPTOTabsApexControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>afRejectButtonExtension</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -134,7 +142,15 @@
         <layout>UserAlt-User Profile Layout</layout>
     </layoutAssignments>
     <pageAccesses>
+        <apexPage>afApproveButtonPage</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>afBatchesListViewTable</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>afRejectButtonPage</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <tabVisibilities>

@@ -1,22 +1,11 @@
 ///////////////////////////////////////////////////////////////////
-// Last edited: 03/19/19
+// Last edited: 03/20/19
 // Edited by: Sharif Elkassed
-// Description: Controller used for the Batch Timeline component
+// Description: Controller for the Batch Timeline component
 //  used on the 'Batches' tab within the AssignForce app
 ///////////////////////////////////////////////////////////////////
 public class afTimelineController {
 
-    // Testing
-    @AuraEnabled
-    public static List<User> AccountList()
-    {
-        List<User> acc = new List<User>();
-        acc = [SELECT ID
-              FROM User];
-        return acc;
-    }
-    // End testing
-    
     // Declare List that will hold all Trainings
     public static List<Training__c> AllTrainings
     {
@@ -90,9 +79,7 @@ public class afTimelineController {
         trainerNames = new String[]{};
         for(User u : trainers)
         { 
-            // This Boolean does appear to serve a purpose
-            // The for-loop below should be a while loop instead
-            // while(!trainerInTrainings){ // same logic minus break statement }  
+              
             Boolean trainerInTrainings = false;
             // Check if the trainer is currently in any Trainings
             for(Training__c t : currentTrainings){   
@@ -113,26 +100,34 @@ public class afTimelineController {
         List<TrainingDataWrapper> trainerData = new List<TrainingDataWrapper>();
         Map<Integer,String> trainerNumbersNames = new Map<Integer,String>();
         List<String> trainerNames = new List<String>();
+        // trainerNumber (I believe) represents the position on the Y-Axis (timeline chart) 
         Integer trainerNumber = 0;
         Integer trainerIndex = 0;
         Integer j = 0;
         for(Training__c t : currentTrainings){
             Boolean trainerInMap = false;
             TrainingDataWrapper tdw = new TrainingDataWrapper();
-            for(j = 0 ; j < trainerNames.size() ; j++){   
+            // Loop will not run the first time through, but the code
+            // after the loop exits will add to the List
+            for(j = 0 ; j < trainerNames.size() ; j++){
                 if(trainerNames[j] == t.Trainer__r.Name){
+                    // Configure Y-axis for timeline chart
                     tdw.y = j;
                     trainerInMap = true;
                     break;
                 } 
             }
+            // Account for the first time through, when the List is empty
             if(!trainerInMap){
                 trainerNames.add(t.Trainer__r.Name);
                 tdw.y = trainerNumber;
                 trainerNumber++;
             }
+            // x and x2 mark the start and end of the horizontal bar
             tdw.x = t.StartDate__c;
             tdw.x2 = t.EndDate__c;
+            // 'series' represents the name of the Training Track
+            // These can be seen as radio buttons at the bottom of the graph
             tdw.series = t.TrainingTrack__r.ShortName__c;
             tdw.color = t.TrainingTrack__r.Color__c;
             tdw.trainerName = t.Trainer__r.Name;

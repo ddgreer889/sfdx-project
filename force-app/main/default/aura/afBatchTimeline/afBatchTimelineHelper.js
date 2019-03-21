@@ -1,28 +1,41 @@
 ({
   getNames: function (component, event) {
     var action = component.get('c.getTrainers')
-        action.setCallback(this, function (response) {
+    action.setCallback(this, function (response) {
       var state = response.getState()
-            if (component.isValid() && state === 'SUCCESS') {
-        var trainerNames = response.getReturnValue()              
-                this.fireEvent(component, event, trainerNames)
-            } else if (state === 'ERROR') {
-        alert('Name Callback has failed!')
-            }
+      if (component.isValid() && state === 'SUCCESS') {
+        // Get list of Trainer names from afTimelineController
+        var trainerNames = response.getReturnValue()
+        // Pass trainerNames to the fireEvent function below              
+        this.fireEvent(component, event, trainerNames)
+      } else if (state === 'ERROR') {
+          alert('Name Callback has failed!')
+      }
     })
         $A.enqueueAction(action)
     },
 
+  // Receives trainerNames from getNames() function 
   fireEvent: function (component, event, trainerNames) {
-    var createJSON = component.getEvent('CreateJSON')
-        var newJSONstring = trainerNames.toString()
-        var newArray = newJSONstring.split(',')
-        component.set('v.trainers', newArray)
-        createJSON.setParam(
+    
+    // Reference the CreateJSON registerEvent tag in afBatchTimeline component 
+    var createJSON = component.getEvent('CreateJSON');
+
+    var newJSONstring = trainerNames.toString();
+    var namesArray = newJSONstring.split(',');
+
+    // Populate the 'trainers' attribute in afBatchTimeline component 
+    component.set('v.trainers', namesArray);
+
+    // Pass the value of the 'trainers' attribute in afBatchTimeline component
+    // to the 'yAxisNames' attribute in aura/CreateListOfStringJSON.evt
+    createJSON.setParam(
       'yAxisNames', component.get('v.trainers')
-    )
-        createJSON.fire()
-    },
+    );
+
+    // Fire the 'createJSON' event in afBatchTimelineController.js
+    createJSON.fire();
+  },
 
   InitUpdate: function (component, event, names) {
     component.set('v.data', event.getParam('data'))
@@ -142,7 +155,10 @@
         var charts = new Highcharts.chart({
       chart: {
         renderTo: component.find('container').getElement(),
-        type: 'xrange'
+        type: 'xrange',
+        // marginLeft: 50,
+        // marginBottom: 90
+        //type: 'xrange'
       },
       title: {
         text: component.get('v.chartTitle')
@@ -177,10 +193,11 @@
       },
       plotOptions: {
         series: {
-          stacking: 'normal'
+          //  stacking: 'disabled'
           //     stacking: 'normal' (If this is enabled, the bars will be in one straight line in the middle, however if
           //     						two trainers have batches starting the same week, it will move one of them down)
         },
+        //threshold: null
 
 
       },

@@ -5,6 +5,7 @@
     <!-- Attributes -->
     <aura:attribute name="allTrainers"     type="List" />
     <aura:attribute name="allCoTrainers"   type="List" />
+    <aura:attribute name="allRooms"        type="list" />
     <aura:attribute name="allLocations"        type="Training_Location__c[]" />
     <aura:attribute name="cotrainer"           type="User" />
     <aura:attribute name="endDate"          type="Date" />

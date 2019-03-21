@@ -42,10 +42,6 @@
     </types>
     <types>
         <members>*</members>
-        <name>Profile</name>
-    </types>
-    <types>
-        <members>*</members>
         <name>FlexiPage</name>
     </types>
     <types>
@@ -55,6 +51,19 @@
     <types>
         <members>*</members>
         <name>Queue</name>
+    </types>
+    <types>
+        <members>PTO__c.Approve</members>
+        <members>PTO__c.Reject</members>
+        <name>WebLink</name>
+    </types>
+    <types>
+        <members>PTO__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Profile</name>
     </types>
     <version>45.0</version>
 </Package>
