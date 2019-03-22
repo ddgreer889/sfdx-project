@@ -23,8 +23,11 @@
             </div>
             <div class="slds-col slds-size_5-of-12">
                 <span>
-                    <!-- Initiate child component with query of **** -->
-                    <c:afAvailabilityListContainer/>
+                    <!-- Initiate child component with query of skills, trainings, rooms, and trainers -->
+                    <c:afAvailabilityListContainer  allSkills="{!v.allSkills}"												   
+                                                    allTrainings="{v.allTrainings}"
+                                                    allRooms="{!v.allRooms}"
+                                                    allTrainers="{!v.allTrainers}"/>
                 </span>
             </div>
         </div>
