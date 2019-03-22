@@ -81,7 +81,7 @@
             {
                 seriesNames.push(seriesName);
                 seriesData.push(dataObj[i]);
-                seriesObj.push({'name' : seriesName, 'pointWidth' : 30,  'data' : [{'x' : dataObj[i].x, 'x2' : dataObj[i].x2, 'y' : dataObj[i].y, 'color' : dataObj[i].color}], 'dataLabels': {
+                seriesObj.push({'name' : seriesName, 'pointWidth' : 30, 'data' : [{'x' : dataObj[i].x, 'x2' : dataObj[i].x2, 'y' : dataObj[i].y, 'color' : dataObj[i].color}], 'dataLabels': {
                     enabled: true,
                     style:
                     {
@@ -124,7 +124,7 @@
                         
                         if(currentTrainerBatches[k].x2 < currentTrainerBatches[k+1].x){
                             
-							freeTimeData.push({'x' : currentTrainerBatches[k].x2, 'x2' : currentTrainerBatches[k+1].x, 'y' : currentTrainer, 'color' : '#FFA500'});
+                                freeTimeData.push({'x' : currentTrainerBatches[k].x2, 'x2' : currentTrainerBatches[k+1].x, 'y' : currentTrainer, 'color' : '#FFFFFF'});
                         }
                         if(k == currentTrainerBatches.length - 2){
                             break;
@@ -138,7 +138,7 @@
             enabled : true,
             style:
             {
-                fontSize : '0px',
+                fontSize : '17px',
                 fontFamily : 'Futura-Std-Bold',
                 textAlign : 'bottom',
                 color : 'black',
@@ -189,8 +189,8 @@
             },
             plotOptions: {
                 series: {
-              //      stacking: 'disabled'
-                    stacking: 'normal' //(If this is enabled, the bars will be in one straight line in the middle, however if 
+                 //      stacking: 'disabled'
+                 //     stacking: 'normal' //(If this is enabled, the bars will be in one straight line in the middle, however if 
                  //  						two trainers have batches starting the same week, it will move one of them down)
                 },
             },

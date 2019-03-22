@@ -98,7 +98,7 @@ public class afTimelineController {
             }
             tdw.x = t.StartDate__c;
             tdw.x2 = t.EndDate__c;
-            tdw.series = t.TrainingTrack__r.ShortName__c;
+            //tdw.series = t.TrainingTrack__r.ShortName__c;
             tdw.color = t.TrainingTrack__r.Color__c;
             tdw.trainerName = t.Trainer__r.Name;
             trainerData.add(tdw);
