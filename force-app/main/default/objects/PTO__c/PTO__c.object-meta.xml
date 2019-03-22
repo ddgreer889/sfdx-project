@@ -38,7 +38,11 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <type>Default</type>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>PTO_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
@@ -52,22 +56,14 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>PTO Request</label>
+    <label>PTO</label>
     <nameField>
         <displayFormat>PTO-{0000}</displayFormat>
-        <label>PTO Request Number</label>
+        <label>PTO Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>PTO Requests</pluralLabel>
-    <searchLayouts>
-        <excludedStandardButtons>New</excludedStandardButtons>
-        <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
-        <excludedStandardButtons>Accept</excludedStandardButtons>
-        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
-        <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
-        <listViewButtons>Approve</listViewButtons>
-        <listViewButtons>Reject</listViewButtons>
-    </searchLayouts>
+    <pluralLabel>PTOs</pluralLabel>
+    <searchLayouts/>
     <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

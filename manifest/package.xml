@@ -66,8 +66,8 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>*</members>
-        <name>Profile</name>
+        <members>User.hasSkill__c</members>
+        <name>CustomField</name>
     </types>
     <version>45.0</version>
 </Package>

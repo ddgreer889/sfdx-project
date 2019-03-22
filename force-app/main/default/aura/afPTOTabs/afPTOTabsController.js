@@ -17,15 +17,14 @@
                     else if(PTOs[i].Status__c ==="Pending Approval" && new Date(PTOs[i].StartDate__c)>=Date.now()){
                         pendingPTOs.push(PTOs[i]);
                     }
-                    else if(PTOs[i].Status__c ==="Approved" && new Date(PTOs[i].StartDate__c)<Date.now()){
-                        oldApprovedPTOs.push(PTOs[i]);
-                    }
+                        else if(PTOs[i].Status__c ==="Approved" && new Date(PTOs[i].StartDate__c)<Date.now()){
+                            oldApprovedPTOs.push(PTOs[i]);
+                        }
                 }
                 component.set('v.approvedPTOs', approvedPTOs);
                 component.set('v.pendingPTOs', pendingPTOs);
                 component.set('v.newApprovedPTOs', approvedPTOs);
                 component.set('v.oldApprovedPTOs', oldApprovedPTOs);
-                helper.setPTOTabs(component);
             } else if(state==='ERROR'){
                 console.log('Server error occured');
             } else{
@@ -56,7 +55,6 @@
         var newPTO = {Id:newId, StartDate__c:newStartDate};
         console.log(newPTO);
         pending.push(newPTO);
-        helper.setPTOTabs(component);
         component.set('v.pendingPTOs', helper.sortPTOs(pending));
     },
     approvedPTOClicked : function(component, event, helper) {

@@ -427,29 +427,6 @@ public class afTimelineControllerTest {
             result.add(track);
         }
         return result;
-    }
-
-    // Insert test data; Inserting to multiple objects without an async method produces a MIXED_DML_OPERATION
-    // To be used between Test.startTest() and Test.stopTest()
-    @future
-    private static void insertTestData(
-        // List<User> users,
-        // List<Training_Track__c> tracks,
-        // List<Training_Location__c> locations,
-        // List<Training__c> trainings
-        ){
-
-        users = createUserData(5);
-        tracks = createTrainingTrackData(2);
-        locations = createLocationData(5);
-        trainings = createTrainingsData(10,locations,users,createStartDateData(10),tracks);
-        
-        Database.insert(users);
-        System.runAs(users[0]){
-            Database.insert(tracks);
-            Database.insert(locations);
-            Database.insert(trainings);
-        }
     }*/
 
 }

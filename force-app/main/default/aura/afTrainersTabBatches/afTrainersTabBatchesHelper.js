@@ -108,14 +108,25 @@
         var endYear = endDateString.getUTCFullYear();
         var endMonth = endDateString.getUTCMonth();
         var endDay =  endDateString.getUTCDate();
-        var tempArray = {   
-            startDate : startDateString = new Date(startYear, startMonth, startDay + 1) ,
-            endDate : endDateString = new Date (endYear,endMonth,endDay +1) ,
-            status : tempObj.Status__c,
-            
-            track : tempObj.TrainingTrack__r.ShortName__c,
-            
-        };
+        var tempArray;
+        try {
+            tempArray = {   
+                startDate : startDateString = new Date(startYear, startMonth, startDay + 1) ,
+                endDate : endDateString = new Date (endYear,endMonth,endDay +1) ,
+                status : tempObj.Status__c,
+                
+                track : tempObj.TrainingTrack__r.ShortName__c,
+                
+            };
+        } catch(error) {
+            console.log(error);
+            tempArray = {   
+                startDate : startDateString = new Date(startYear, startMonth, startDay + 1) ,
+                endDate : endDateString = new Date (endYear,endMonth,endDay +1) ,
+                status : tempObj.Status__c,
+                track : null,
+            };
+        }
         return tempArray;
     },
     
