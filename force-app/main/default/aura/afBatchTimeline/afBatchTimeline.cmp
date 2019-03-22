@@ -4,32 +4,18 @@
     <aura:attribute name="data" type="List" description="This is the attribute that sets the data for the chart."/>
     <aura:attribute name="resetBoolean" type="Boolean" default="true"/>
     
-    <ltng:require   styles="{!$Resource.RevatureStyles}" 
-                    scripts="{!join(',',$Resource.highchartsJS, $Resource.xrange, $Resource.exporting)}" 
-                    afterScriptsLoaded="{!c.doInit}"
-    />
-    <!-- Reference the event located in aura/CreateListOfStringJSON -->
-    <aura:registerEvent name="CreateJSON" 
-                        type="c:CreateListOfStringJSON"
-                        description="This allows for us to recieve the event when the database 
-                            has returned the information from the database to us. This
-                            was made due to the asynchronous nature of lightning."
-    />
-    <!-- Reference the event located in aura/CreateListOfStringJSON -->
-    <aura:handler   name="CreateJSON" 
-                    event="c:CreateListOfStringJSON" 
-                    action="{!c.createJSON}" 
-                    description="This is the event handler for the CreateJSON event
-                        that is fired from this component."
-    />
+    <ltng:require styles="{!$Resource.RevatureStyles}" scripts="{!join(',',$Resource.highchartsJS, $Resource.xrange, $Resource.exporting)}" afterScriptsLoaded="{!c.doInit}"/>
+    <aura:registerEvent name="CreateJSON" type="c:CreateListOfStringJSON" description="This allows for us to recieve the event when the database
+                                                                                       has returned the information from the database to us. This
+                                                                                       was made due to the asynchronous nature of lightning."/>
+    <aura:handler name="CreateJSON" event="c:CreateListOfStringJSON" action="{!c.createJSON}" description="This is the event handler for the CreateJSON event
+                                                                                                           that is fired from this component."/>
     
-    <aura:handler   event="c:UpdateChartEvent" 
-                    action="{!c.updateChart}" 
-                    description="This is the event handler that allows us to recieve 
-                        the application event from the filter component." 
-    />
+    <aura:handler event="c:UpdateChartEvent" action="{!c.updateChart}" description="This is the event handler that allows us to recieve the application event from
+                                                                                    the filter component." />
     <aura:handler event="c:afNewBatchCreatedEvent" action="{!c.createJSON}" description="This will recieve the new incoming data and refresh our chart with it."/>  
     
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> 
     <aura:method name="reInit" action="{!c.doInit}" description="Runs the init method again "/>
         
     <aura:if isTrue="{!v.resetBoolean}">

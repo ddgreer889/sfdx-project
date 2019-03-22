@@ -69,10 +69,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>afRejectButtonExtension</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>afTimelineController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -159,16 +155,8 @@
         <layout>UserAlt-User Profile Layout</layout>
     </layoutAssignments>
     <pageAccesses>
-        <apexPage>afApproveButtonPage</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>afBatchesListViewTable</apexPage>
         <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>afRejectButtonPage</apexPage>
-        <enabled>false</enabled>
     </pageAccesses>
     <tabVisibilities>
         <tab>Batches</tab>

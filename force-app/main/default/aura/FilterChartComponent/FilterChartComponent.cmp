@@ -9,9 +9,8 @@
     <aura:attribute name="quarterOptions" type="List" access="PRIVATE" description="This is a dynamic variable that houses the 4 Quarters. Each Quarter displays 3 months."/>
     <aura:attribute name="locationOptions" type="List" access="PRIVATE" description="This is a dynamic variable that displays the checkbox options for the location."/>
     <aura:attribute name="value" type="List" description="This is the selected values for location."/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" description="This is the intialization for the filter to default show data."/>
     <aura:registerEvent name="UpdateChart" type="c:UpdateChartEvent" description="This is the event that regathers the data to display on the chart."/>
-
-    <ltng:require styles="{!$Resource.RevatureStyles}" scripts="{!join(',',$Resource.highchartsJS, $Resource.xrange, $Resource.exporting)}" afterScriptsLoaded="{!c.doInit}"/>
 
     
     <lightning:select name="yearSelect" label="Filter by year:" aura:id="yearSelect" value="{!v.selectedYear}" onchange="{!c.handleChange}">

@@ -2,14 +2,10 @@
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
         <apexClass>ApexTestUtilityClass</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>AssignForceTestClass</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>CreateAssignForceData</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -26,7 +22,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afAvailListContainerApexController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afAvailListContainerApexControllerTest</apexClass>
@@ -34,7 +30,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afBatchesListViewTableExtension</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afBatchesListViewTableExtensionTest</apexClass>
@@ -46,7 +42,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afNewBatchFormApexController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afNewBatchFormApexControllerTest</apexClass>
@@ -54,7 +50,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afNewTrainingTrackTriggerHelper</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afNewTrainingTrackTriggerHelperTest</apexClass>
@@ -62,19 +58,15 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afPTOTabsApexController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afPTOTabsApexControllerTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>afRejectButtonExtension</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>afTimelineController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTimelineControllerTest</apexClass>
@@ -82,7 +74,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainerInfoController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainerInfoControllerTest</apexClass>
@@ -90,7 +82,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabListViewApexController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabListViewApexControllerTest</apexClass>
@@ -98,7 +90,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabPTOApexController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabPTOApexControllerTest</apexClass>
@@ -106,7 +98,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingBatchesApexController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingBatchesApexControllerTest</apexClass>
@@ -118,7 +110,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingTriggerHelper</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingTriggerHelperTest</apexClass>
@@ -158,25 +150,26 @@
     <layoutAssignments>
         <layout>UserAlt-User Profile Layout</layout>
     </layoutAssignments>
-    <pageAccesses>
-        <apexPage>afApproveButtonPage</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>PTO__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <pageAccesses>
         <apexPage>afBatchesListViewTable</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
-    <pageAccesses>
-        <apexPage>afRejectButtonPage</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
     <tabVisibilities>
         <tab>Batches</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>PTO__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Profile</tab>
@@ -184,19 +177,19 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Skill__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Trainers</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Training_Location__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Training_Track__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Training__c</tab>
@@ -257,10 +250,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>ConvertLeads</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>CreateCustomizeFilters</name>
     </userPermissions>
     <userPermissions>
@@ -314,10 +303,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>FieldServiceAccess</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ImportPersonal</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

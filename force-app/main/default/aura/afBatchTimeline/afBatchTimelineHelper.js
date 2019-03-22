@@ -81,7 +81,7 @@
             {
                 seriesNames.push(seriesName);
                 seriesData.push(dataObj[i]);
-                seriesObj.push({'name' : seriesName, 'pointWidth' : 30,  'data' : [{'x' : dataObj[i].x, 'x2' : dataObj[i].x2, 'y' : dataObj[i].y, 'color' : dataObj[i].color}], 'dataLabels': {
+                seriesObj.push({'name' : seriesName, 'pointWidth' : 30, 'data' : [{'x' : dataObj[i].x, 'x2' : dataObj[i].x2, 'y' : dataObj[i].y, 'color' : dataObj[i].color}], 'dataLabels': {
                     enabled: true,
                     style:
                     {
@@ -139,7 +139,7 @@
             {
                 fontSize : '17px',
                 fontFamily : 'Futura-Std-Bold',
-                textAlign : 'center',
+                textAlign : 'bottom',
                 color : 'black',
                 textOutline : false,
             },
@@ -188,10 +188,10 @@
             },
             plotOptions: {
                 series: {
-               //     stacking: 'normal' (If this is enabled, the bars will be in one straight line in the middle, however if 
-               //     						two trainers have batches starting the same week, it will move one of them down)
+                 //      stacking: 'disabled'
+                 //     stacking: 'normal' //(If this is enabled, the bars will be in one straight line in the middle, however if 
+                 //  						two trainers have batches starting the same week, it will move one of them down)
                 },
-               
             },
             series: //[ dataObj ]
             seriesObj            
