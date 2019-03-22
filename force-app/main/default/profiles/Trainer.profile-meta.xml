@@ -101,6 +101,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>afTrainingLocationListViewApexController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>afTrainingTriggerHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>

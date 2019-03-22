@@ -15,7 +15,7 @@
             <div class="slds-grid slds-gutters">
                 <div class="slds-col slds-size_10-of-12">
                     <span>
-                    <c:afBatchTimeline/>
+                    <c:afBatchTimeline />
                         </span>
                 </div>
                 <div class="slds-col slds-size_2-of-12">

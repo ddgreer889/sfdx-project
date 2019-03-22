@@ -1,7 +1,5 @@
 *.json
 .vscode/
-.settings/
-test.txt
 .vim-force.com
 .sfdx/
 .settings/
