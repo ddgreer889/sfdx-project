@@ -62,7 +62,7 @@
         <name>WebLink</name>
     </types>
     <types>
-        <members>PTO__c</members>
+        <members>*</members>
         <name>CustomObject</name>
     </types>
     <types>

@@ -1,3 +1,12 @@
+/*************************************************
+* afTrainersTabListViewApexController Test Class
+* Author: Ian Blanchard
+*
+* Tests the methods of the Apex Controller for 
+*   the afTrainersTabListView component
+*
+*************************************************/
+
 @isTest
 public class afTrainersTabListViewApexControllerTest {
 

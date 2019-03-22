@@ -1,9 +1,11 @@
-/*
- * afNewTrainingTrackTriggerHelperTest
- * Tests the NewTrainingTrack Trigger Helper class
- * Ensures the trigger runs correctly for both a single record
- * and a large number of records.
- */ 
+/**************************************************************
+* afNewTrainingTrackTriggerHelper Test Class
+* Author: Ian Blanchard
+*
+* Tests the NewTrainingTrack Trigger Helper class
+* Ensures the trigger runs correctly for both a single record
+* and a large number of records.
+***************************************************************/ 
 
 
 @isTest

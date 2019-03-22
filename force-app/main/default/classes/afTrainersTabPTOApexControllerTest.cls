@@ -1,11 +1,12 @@
-/*
- * afTrainersTabPTOApexController Test
- * The method in this controller returns all the PTO for a given trainer
- * by their id. This test will create a user and 200 PTOS for that user,
- * and use the method in the controller to ensure that the data is returned
- * correctly.
- */
-
+/**********************************************
+* afTrainersTabPTOApexController Test Class
+* Author: Ian Blanchard
+*
+* The method in this controller returns all the PTO for a given trainer
+*   by their id. This test will create a user and 200 PTOS for that user,
+*   and use the method in the controller to ensure that the data is returned
+*   correctly.
+**********************************************/
 
 @isTest
 public with sharing class afTrainersTabPTOApexControllerTest {

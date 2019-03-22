@@ -1,27 +1,6 @@
 @isTest
 public class UtilityMethods {
     
-    // Create dummy Training__c's and return them in a List.
-    public static List<Training__c> createTrainingsData( Integer amount,
-                                                         List<Training_Location__c> tLocList,
-                                                         List<User> tTrainerList,
-                                                         List<Date> tsDateList,
-                                                         List<Training_Track__c> tTrackList) {
-    
-        List<Training__c> result = new List<Training__c>();
-
-        for(integer i = 0; i < amount; i++) {
-            Training__c training = new Training__c(TrainingLocation__c = tLocList[Math.mod(i,tLocList.size())].id,
-                                                   Trainer__c = tTrainerList[Math.mod(i,tTrainerList.size())].id,
-                                                   StartDate__c = tsDateList[Math.mod(i,tsDateList.size())],
-                                                   EndDate__c = tsDateList[Math.mod(i,tsDateList.size())] + 10,
-                                                   TrainingTrack__c = tTrackList[Math.mod(i,tTrackList.size())].id);            
-            result.add(training);
-        }
-        return result;
-    }
-    
-    
     // Create dummy Users and return them in a List.
     public static List<User> createUserData(Integer amount) {
     
@@ -94,9 +73,7 @@ public class UtilityMethods {
         return result;
     }
 
-    public static List<Skill__c> createSkillData(Integer amount, 
-                                                 List<User> trainers, 
-                                                 List<Training_Track__c> tracks){
+    public static List<Skill__c> createSkillData(Integer amount, List<User> trainers, List<Training_Track__c> tracks) {
 
         List<Skill__c> result = new List<Skill__c>();
 
@@ -107,7 +84,36 @@ public class UtilityMethods {
         }
 
         return result;
+    }
+    
+    // Create dummy Training__c's and return them in a List.
+    public static List<Training__c> createTrainingsData( Integer amount, List<Training_Location__c> tLocList, List<User> tTrainerList,
+                                                         List<Date> tsDateList, List<Training_Track__c> tTrackList) {
+    
+        List<Training__c> result = new List<Training__c>();
 
+        for(integer i = 0; i < amount; i++) {
+            Training__c training = new Training__c(TrainingLocation__c = tLocList[Math.mod(i,tLocList.size())].id,
+                                                   Trainer__c = tTrainerList[Math.mod(i,tTrainerList.size())].id,
+                                                   StartDate__c = tsDateList[Math.mod(i,tsDateList.size())],
+                                                   EndDate__c = tsDateList[Math.mod(i,tsDateList.size())] + 10,
+                                                   TrainingTrack__c = tTrackList[Math.mod(i,tTrackList.size())].id);            
+            result.add(training);
+        }
+        return result;
+    }
+
+    //Create dummy Training Rooms and return them in a list
+    public static List<Training_Room__c> createRoomData(Integer amount, Training_Location__c location){
+
+        List<Training_Room__c> result = new List<Training_Room__c>();
+
+        for (integer i = 0; i < amount; i++) {
+            Training_Room__c r = new Training_Room__c(TrainingLocation__c = location.id);
+            result.add(r);
+        }
+
+        return result;
     }
     
 }

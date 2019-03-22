@@ -1,15 +1,16 @@
-/*
- *  afApprovalButtonExtensionTests
- *
- *  Unit Tests for the Following VF Page Extensions:
- *  -afApproveButtonExtension
- *  -afRejectButtonExtension
- *
- *  These extensions will approve/reject the selected PTO records
- *      from the list view with a button added to the top of the page.
- *      This test creates many PTO requests and runs both extensions 
- *      to approve some, reject some, and ignore others.
- */
+/********************************************************************
+* afApprovalButtonExtension Test Class
+* Author: Ian Blanchard
+*
+* Unit Tests for the Following VF Page Extensions:
+*  -afApproveButtonExtension
+*  -afRejectButtonExtension
+*
+*  These extensions will approve/reject the selected PTO records
+*      from the list view with a button added to the top of the page.
+*      This test creates many PTO requests and runs both extensions 
+*      to approve some, reject some, and ignore others.
+*********************************************************************/
 
 
 @isTest

@@ -1,9 +1,11 @@
-/*
- * afBatchesListViewTableExtensionTest
- * Tests the Extension for the VisualForce page
- * Ensures that the extensions constructor sets the pagesize for the 
- * StandardSetController correctly, and the cancel button works as intended
- */
+/**************************************************************************
+* afBatchesListViewTableExtension Test Class
+* Author: Ian Blanchard
+*
+* Tests the Apex Extension for the VisualForce page
+* Ensures that the extensions constructor sets the pagesize for the 
+* StandardSetController correctly, and the cancel button works as intended
+***************************************************************************/
 
 @isTest
 public class afBatchesListViewTableExtensionTest {
