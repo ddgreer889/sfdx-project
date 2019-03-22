@@ -16,6 +16,13 @@ public class afAvailListContainerApexController {
                 NOs.add(room);
             }
         }
+
+        //Combine lists in order
+        yesFirst.addall(Requests);
+        yesFirst.addall(NOs);
+
+        //return full list, sorted
+        return yesFirst;
     }
     
     @AuraEnabled
@@ -23,14 +30,17 @@ public class afAvailListContainerApexController {
         //Must add a WHERE clause UserRoleId=Trainer Role Id
         List<User> availableList = new List<User>();
         List<User> unavailableList = new List<User>();
+
         for(User t: Trainers){
             if(t.Available__c=='Available'){
                 availableList.add(t);
             }else{
-                    room[r].AVAvailability__c = 'Yes';
+                unavailableList.add(t);
             }
         }
+
         availableList.addAll(unavailableList);
+        
         return availableList;
     }
     @AuraEnabled
@@ -38,26 +48,28 @@ public class afAvailListContainerApexController {
     {
         system.debug(location);
         List<Training_Room__c> newRooms = new List<Training_Room__c>();
-        if((location == '') || location == null)
-        {
+
+        if((location == '') || location == null) {
             return trl;
-        }
-        else{          
-            for(Integer i = 0; i<trl.size(); i++)
-            {
-                if(location == trl[i].TrainingLocation__c)
-                {
+        } else {          
+            for(Integer i = 0; i<trl.size(); i++) {
+                if(location == trl[i].TrainingLocation__c) {
                     newRooms.add(trl[i]);
                 }
             }
         }        
+
         return newRooms;        
     }
+
+
     @AuraEnabled
     public static List<User> TrainerHasSkill(String track, List<User> trainers, List<Skill__c> skills){       
+        
         for(User t:trainers){
             t.hasSkill__c = false;  
         } 
+
         if(track!=null){ 
             for(Skill__c s:skills){
                 if(s.Training_Track__c == track){                    
@@ -69,6 +81,7 @@ public class afAvailListContainerApexController {
                 }   
             } 
         }
+
         return trainers;
     } 
 }
@@ -170,7 +183,6 @@ public static List<Training_Room__c> rooms(List<User> trainR, List<Training__c> 
                     room[r].AVAvailability__c = 'Yes';
             }
         }
-<<<<<<< HEAD
     }
 }
 }
