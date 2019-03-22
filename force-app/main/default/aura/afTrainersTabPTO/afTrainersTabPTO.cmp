@@ -39,7 +39,7 @@
                                     columns="{!v.empPTORecordset}"
                                     keyField="id"
                                     aura:id="empDataTables"
-                                    hideCheckboxColumn="true"
+                                    hideCheckboxColumn="false"
                                     description="data table to reflect batches associated with a specific trainer"
                                     />
            </lightning:card>

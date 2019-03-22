@@ -3,28 +3,10 @@ public class afTrainersTabListViewApexControllerTest {
 
     @TestSetup
     public static void doSetup(){
-        List<User> users = new List<User>();
-        Id profileId = [SELECT Id FROM Profile WHERE Name = 'Trainer' LIMIT 1].id;
-        Id roleId = [SELECT Id FROM UserRole WHERE Name = 'Trainer' LIMIT 1].id;
 
-        //Create 10 trainers and insert them
-        for (integer i = 0; i < 10; i++){
-            User u = new User(
-            ProfileId = profileId,
-            LastName = 'last ' + Math.round(Math.random()),
-            Email = 'puser' + Math.round(Math.random()) + '@amamama.com',
-            Username = 'puser' + Math.round(Math.random()) + '@amamama.com' + System.currentTimeMillis(),
-            CompanyName = 'TEST',
-            Title = 'title',
-            Alias = 'alias',
-            TimeZoneSidKey = 'America/Los_Angeles',
-            EmailEncodingKey = 'UTF-8',
-            LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US',
-            Available__c = 'Available',
-            UserRoleId = roleId);
-        }
+        List<User> users = UtilityMethods.createUserData(10);
         insert users;
+
     }
 
     @isTest
@@ -40,29 +22,21 @@ public class afTrainersTabListViewApexControllerTest {
         System.assertNotEquals(userResults,null);
         System.assertEquals(users.size(),userResults.size());
 
-        //Create and insert a TestTrack Training Track
-        Training_Track__c track = new Training_Track__c(ShortName__c = 'TestTrack');
-        insert track;
+        //Create and insert 100 Training Tracks
+        List<Training_Track__c> tracks = UtilityMethods.createTrainingTrackData(100);
+        insert tracks;
 
-        //Create a list of 100 skill records
-        List<Skill__c> skills = new List<Skill__c>();
-        for (integer i = 0; i < 100; i++){
-            //Set the skill track to the track created above and the user to the first Trainer in the list
-            Skill__c sk = new Skill__c(Training_Track__c = track.id,
-                                       Trainer__c = userResults.get(0).id);
-            skills.add(sk);
-        }
-
-        //Insert list of skills
+        //Create and insert 100 skills for one user
+        List<Skill__c> skills = UtilityMethods.createSkillData(100, new User[]{userResults.get(0)}, tracks);
         insert skills;
 
         String results = afTrainersTabListViewApexController.getTrainerSkills(userResults.get(0).id);
 
         //Using a loop to construct the string that is expected to be returned by
         //      the getTrainerSkills method. There are 100 skills, so its going to be long
-        String expected = 'TestTrack';
-        for (integer i = 0; i < 99; i++){
-            expected += ', TestTrack';
+        String expected = 'Track0';
+        for (integer i = 1; i < 100; i++){
+            expected += ', Track' + i;
         }
 
         //Check that the results from the Controller method call for trainer skills

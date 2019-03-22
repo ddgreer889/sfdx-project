@@ -101,7 +101,6 @@ public class afTimelineController {
         trainerNames = new String[]{};
         for(User u : trainers)
         { 
-              
             Boolean trainerInTrainings = false;
             // Check if the trainer is currently in any Trainings
             for(Training__c t : currentTrainings){   
@@ -122,7 +121,8 @@ public class afTimelineController {
         List<TrainingDataWrapper> trainerData = new List<TrainingDataWrapper>();
         Map<Integer,String> trainerNumbersNames = new Map<Integer,String>();
         List<String> trainerNames = new List<String>();
-        // trainerNumber (I believe) represents the position on the Y-Axis (timeline chart) 
+
+        // trainerNumber represents the position on the Y-Axis (timeline chart) 
         Integer trainerNumber = 0;
         Integer trainerIndex = 0;
         Integer j = 0;
@@ -130,25 +130,30 @@ public class afTimelineController {
         for(Training__c t : currentTrainings){
             Boolean trainerInMap = false;
             TrainingDataWrapper tdw = new TrainingDataWrapper();
+
             // Loop will not run the first time through, but the code
             // after the loop exits will add to the List
             for(j = 0 ; j < trainerNames.size() ; j++){
                 if(trainerNames[j] == t.Trainer__r.Name){
+                    
                     // Configure Y-axis for timeline chart
                     tdw.y = j;
                     trainerInMap = true;
                     break;
                 } 
             }
+            
             // Account for the first time through, when the List is empty
             if(!trainerInMap){
                 trainerNames.add(t.Trainer__r.Name);
                 tdw.y = trainerNumber;
                 trainerNumber++;
             }
+
             // x and x2 mark the start and end of the horizontal bar
             tdw.x = t.StartDate__c;
             tdw.x2 = t.EndDate__c;
+
             // 'series' represents the name of the Training Track
             // These can be seen as radio buttons at the bottom of the graph
             tdw.series = t.TrainingTrack__r.ShortName__c;

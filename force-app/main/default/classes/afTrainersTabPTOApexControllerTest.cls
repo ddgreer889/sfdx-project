@@ -14,22 +14,7 @@ public with sharing class afTrainersTabPTOApexControllerTest {
     static void doSetup(){
 
         //Create the Trainer user that will be used in the test.
-        User u = new User(
-            ProfileId = [SELECT Id FROM Profile WHERE Name = 'Trainer' LIMIT 1].id,
-            LastName = 'last ' + Math.round(Math.random()),
-            Email = 'puser' + Math.round(Math.random()) + '@amamama.com',
-            Username = 'puser' + Math.round(Math.random()) + '@amamama.com' + System.currentTimeMillis(),
-            CompanyName = 'TEST',
-            Title = 'title',
-            Alias = 'alias',
-            TimeZoneSidKey = 'America/Los_Angeles',
-            EmailEncodingKey = 'UTF-8',
-            LanguageLocaleKey = 'en_US',
-            LocaleSidKey = 'en_US',
-            Available__c = 'Available',
-            UserRoleId = [SELECT Id FROM UserRole WHERE Name = 'Trainer' LIMIT 1].id);
-        
-        //Insert the user record
+        User u = UtilityMethods.createUserData(1).get(0);
         insert u;
 
     }
@@ -77,7 +62,7 @@ public with sharing class afTrainersTabPTOApexControllerTest {
             //Assert that every PTO has the correct fields
             System.assertEquals(p.StartDate__c, Date.today());
             System.assertEquals(p.EndDate__c,   Date.today().addDays(10));
-            System.assertEquals(p.Status__c,    'Needs to be Submitted');
+            System.assertEquals(p.Status__c,    'Pending Approval');
             System.assertEquals(p.Reason__c,    'Test');
         }
 

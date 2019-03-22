@@ -1,3 +1,6 @@
+//Testing afNewBatchFormApexController
+//author: sergey sambros
+
 @isTest
 public class afNewBatchFormApexControllerTest {
     

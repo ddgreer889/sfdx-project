@@ -2,11 +2,11 @@
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
         <apexClass>ApexTestUtilityClass</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>AssignForceTestClass</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>CreateAssignForceData</apexClass>
@@ -14,7 +14,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afAvailListContainerApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afAvailListContainerApexControllerTest</apexClass>
@@ -22,7 +22,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afBatchesListViewTableExtension</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afBatchesListViewTableExtensionTest</apexClass>
@@ -30,7 +30,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afNewBatchFormApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afNewBatchFormApexControllerTest</apexClass>
@@ -38,7 +38,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afNewTrainingTrackTriggerHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afNewTrainingTrackTriggerHelperTest</apexClass>
@@ -46,7 +46,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afPTOTabsApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afPTOTabsApexControllerTest</apexClass>
@@ -54,7 +54,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTimelineController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTimelineControllerTest</apexClass>
@@ -62,7 +62,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainerInfoController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainerInfoControllerTest</apexClass>
@@ -70,7 +70,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabListViewApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabListViewApexControllerTest</apexClass>
@@ -78,7 +78,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabPTOApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainersTabPTOApexControllerTest</apexClass>
@@ -86,7 +86,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingBatchesApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingBatchesApexControllerTest</apexClass>
@@ -94,11 +94,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingLocationListViewApexController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingTriggerHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>afTrainingTriggerHelperTest</apexClass>
@@ -144,39 +144,39 @@
     </objectPermissions>
     <pageAccesses>
         <apexPage>afBatchesListViewTable</apexPage>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </pageAccesses>
     <tabVisibilities>
         <tab>Batches</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>PTO__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Profile</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Skill__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Trainers</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Training_Location__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Training_Track__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Training__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <userLicense>Analytics Cloud Integration User</userLicense>
     <userPermissions>

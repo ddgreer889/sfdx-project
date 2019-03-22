@@ -2,7 +2,6 @@
     doInit : function(component, event, helper)
     {
         helper.getNames(component, event);
-
     },
     
     updateChart : function(component, event, helper)
