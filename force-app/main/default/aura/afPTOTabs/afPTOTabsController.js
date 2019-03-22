@@ -56,7 +56,10 @@
         var newPTO = {Id:newId, StartDate__c:newStartDate};
         console.log(newPTO);
         pending.push(newPTO);
+<<<<<<< HEAD
         helper.setPTOTabs(component);
+=======
+>>>>>>> fec43760a4cfb394b3f1c48f381bb3c68bcf3de4
         component.set('v.pendingPTOs', helper.sortPTOs(pending));
     },
     approvedPTOClicked : function(component, event, helper) {

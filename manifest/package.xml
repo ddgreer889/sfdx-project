@@ -65,9 +65,5 @@
         <members>PTO__c</members>
         <name>CustomObject</name>
     </types>
-    <types>
-        <members>*</members>
-        <name>Profile</name>
-    </types>
     <version>45.0</version>
 </Package>

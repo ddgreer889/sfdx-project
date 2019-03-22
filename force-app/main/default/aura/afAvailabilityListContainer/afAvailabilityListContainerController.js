@@ -62,11 +62,17 @@
     
     dateHasChanged: function(component, event, helper){
         //This method checks the start date and end date of every training within the dates selected from the afBatchFormDateEvent and changes the availability of the trainer accordingly
-        var trainers = component.get('v.trainers');
-        var trainings = component.get('v.allTrainings');
-        var startDate = new Date(event.getParam('startDate'));
-        var endDate = new Date(event.getParam('endDate'));
-        var currentLocRooms = component.get('v.currentLocRooms');
+        
+        // var trainers = component.get('v.trainers');
+        // var trainings = component.get('v.allTrainings');
+        // var startDate = new Date(event.getParam('startDate'));
+        // var endDate = new Date(event.getParam('endDate'));
+        // var currentLocRooms = component.get('v.currentLocRooms');
+
+        var g = component.get("c.trains");
+        g.setParams({train : component.get("v.trainers"),
+                     batch : component.get("v.allTrainings")});
+
         for(var i=0; i<trainers.length; i++){
             for (var j = 0; j < trainings.length; j++) {
                 if(trainers[i].Id == trainings[j].Trainer__c || trainers[i].Id == trainings[j].CoTrainer__c) {
