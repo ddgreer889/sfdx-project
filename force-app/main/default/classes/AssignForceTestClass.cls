@@ -257,19 +257,12 @@ public class AssignForceTestClass{/*
        }
        System.runAs(Trainers[1]){
         training2 = [SELECT CoTrainer__c FROM Training__c WHERE TargetCapacity__c = 99 LIMIT 1];
-<<<<<<< HEAD
        //}
        System.assertEquals(training1.Trainer__c, usrTrainer.Id);
        System.assertEquals(training2.CoTrainer__c, usrCotrainer.Id);
    }*/
 
    
-=======
-       }
-       System.assertEquals(training1.Trainer__c, TrainerId);
-       System.assertEquals(training2.CoTrainer__c, CotrainerId);
-   }
->>>>>>> 9a021fd1dba2fe4c8bc04e2ccaa1edf6e5b8963c
     
   /* @isTest
    public static void afTrainerInfoControllerTest(){      

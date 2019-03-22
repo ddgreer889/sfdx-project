@@ -100,11 +100,8 @@ public class afTimelineController {
         List<TrainingDataWrapper> trainerData = new List<TrainingDataWrapper>();
         Map<Integer,String> trainerNumbersNames = new Map<Integer,String>();
         List<String> trainerNames = new List<String>();
-<<<<<<< HEAD
 
         // trainerNumber represents the position on the Y-Axis (timeline chart) 
-=======
->>>>>>> 9a021fd1dba2fe4c8bc04e2ccaa1edf6e5b8963c
         Integer trainerNumber = 0;
         Integer trainerIndex = 0;
         Integer j = 0;
@@ -112,7 +109,6 @@ public class afTimelineController {
         for(Training__c t : currentTrainings){
             Boolean trainerInMap = false;
             TrainingDataWrapper tdw = new TrainingDataWrapper();
-<<<<<<< HEAD
 
             // Loop will not run the first time through, but the code
             // after the loop exits will add to the List
@@ -120,26 +116,18 @@ public class afTimelineController {
                 if(trainerNames[j] == t.Trainer__r.Name){
                     
                     // Configure Y-axis for timeline chart
-=======
-            for(j = 0 ; j < trainerNames.size() ; j++){   
-                if(trainerNames[j] == t.Trainer__r.Name){
->>>>>>> 9a021fd1dba2fe4c8bc04e2ccaa1edf6e5b8963c
                     tdw.y = j;
                     trainerInMap = true;
                     break;
                 } 
             }
-<<<<<<< HEAD
             
             // Account for the first time through, when the List is empty
-=======
->>>>>>> 9a021fd1dba2fe4c8bc04e2ccaa1edf6e5b8963c
             if(!trainerInMap){
                 trainerNames.add(t.Trainer__r.Name);
                 tdw.y = trainerNumber;
                 trainerNumber++;
             }
-<<<<<<< HEAD
 
             // x and x2 mark the start and end of the horizontal bar
             tdw.x = t.StartDate__c;
@@ -148,11 +136,6 @@ public class afTimelineController {
             // 'series' represents the name of the Training Track
             // These can be seen as radio buttons at the bottom of the graph
             tdw.series = t.TrainingTrack__r.ShortName__c;
-=======
-            tdw.x = t.StartDate__c;
-            tdw.x2 = t.EndDate__c;
-            //tdw.series = t.TrainingTrack__r.ShortName__c;
->>>>>>> 9a021fd1dba2fe4c8bc04e2ccaa1edf6e5b8963c
             tdw.color = t.TrainingTrack__r.Color__c;
             tdw.trainerName = t.Trainer__r.Name;
             trainerData.add(tdw);
