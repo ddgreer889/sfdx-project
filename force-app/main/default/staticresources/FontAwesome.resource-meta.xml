@@ -2,4 +2,8 @@
 <StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
     <cacheControl>Private</cacheControl>
     <contentType>application/x-zip-compressed</contentType>
+<<<<<<< HEAD
 </StaticResource>
+=======
+</StaticResource>
+>>>>>>> fec43760a4cfb394b3f1c48f381bb3c68bcf3de4

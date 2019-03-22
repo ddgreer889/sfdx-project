@@ -5,7 +5,7 @@
         var trainersAvailablePlusHasSkill = [];
         var trainersUnavailable = [];
         for(var i=0; i<trainerList.length;i++){
-            if(trainerList[i].Available__c=="Available" && trainerList[i].hasSkill==true){
+            if(trainerList[i].Available__c=="Available" && trainerList[i].hasSkill__c==true){
                 trainersAvailablePlusHasSkill.push(trainerList[i]);
             }else if(trainerList[i].Available__c=="Available"){
                 trainersAvailable.push(trainerList[i]);
@@ -22,6 +22,7 @@
         return everyone;
         
     },
+    
     sortTrainingRoom : function(trainingRoomList) {
         // sort method that sorts the trainers by available first then by name
         var trainingRoomAvailable = [];
@@ -35,10 +36,11 @@
             }
         trainingRoomAvailable = this.sortAlphabetically(trainingRoomAvailable);
         trainingRoomUnavailable = this.sortAlphabetically(trainingRoomUnavailable);
-        var everyone = trainingRoomAvailable.concat(trainingRoomUnavailable);
+        var everyone = trainingRoomAvailable.concat(trainingRoomUnavailable);       
         return everyone;
         
     },
+    
     checkHasSkill : function(trainers, skills, selectedTrainingTrack){
         trainers = this.resetHasSkill(trainers);
         if(selectedTrainingTrack!=null){
@@ -65,11 +67,13 @@
     },
     resetHasSkill : function(trainers){
         for(var i=0; i<trainers.length; i++){
-            trainers[i].hasSkill = false;
+            trainers[i].hasSkill__c = true;
         }
         return trainers;
     },
+    
     sortAlphabetically : function(listToSort){
         return listToSort.sort((a,b) => (a.Name>b.Name) ? 1 :-1);
     },
+    
 })

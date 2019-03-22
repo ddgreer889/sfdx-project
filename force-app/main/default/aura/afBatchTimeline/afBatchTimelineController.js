@@ -7,7 +7,7 @@
     updateChart : function(component, event, helper)
     {
         
-        if (event.getSource().getName() == 'cFilterChartComponent') {
+        if (event.getSource().getName() === 'cFilterChartComponent') {
             component.set('v.data', event.getParam('data'));
         }
         var names = component.get('v.trainers');
@@ -15,7 +15,7 @@
         
     },
     
-    createJSON : function(component, event, helper)
+    createJSON : function(component, event)
     {
         var action = component.get("c.wrapTrainingToJSON");
         action.setCallback(this, function(response){
@@ -23,8 +23,7 @@
             if(component.isValid() && state === 'SUCCESS'){
                 var dataObj = response.getReturnValue();
                 component.set("v.data",dataObj);
-                var names = null;
-                if(event.getSource().getName() == 'cAfNewBatchForm'){
+                if(event.getSource().getName() === 'cAfNewBatchForm'){
                 $A.get('e.force:refreshView').fire();
                 }
                 
