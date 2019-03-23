@@ -116,4 +116,19 @@ public class UtilityMethods {
         return result;
     }
     
+    public static List<PTO__c> createPTOData(Integer amount, User trainer){
+
+        List<PTO__c> result = new List<PTO__c>();
+
+        for (Integer i = 0; i < amount; i++) {
+            PTO__c p = new PTO__c(Trainer__c = trainer.id,
+                                  StartDate__c = Date.today().addDays(i),
+                                  EndDate__c = Date.today().addDays(i),
+                                  Reason__c = 'Because',
+                                  Status__c = 'Approved');
+            result.add(p);
+        }
+
+        return result;
+    }
 }

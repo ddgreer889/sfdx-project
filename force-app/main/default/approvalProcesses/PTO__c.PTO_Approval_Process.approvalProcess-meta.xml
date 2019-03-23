@@ -23,8 +23,10 @@
         </approvalActions>
         <assignedApprover>
             <approver>
-                <type>userHierarchyField</type>
+                <name>PTORequests</name>
+                <type>queue</type>
             </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
         </assignedApprover>
         <label>Manager Approval</label>
         <name>Manager_Approval</name>
