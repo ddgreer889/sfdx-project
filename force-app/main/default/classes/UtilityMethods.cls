@@ -122,8 +122,8 @@ public class UtilityMethods {
 
         for (Integer i = 0; i < amount; i++) {
             PTO__c p = new PTO__c(Trainer__c = trainer.id,
-                                  StartDate__c = Date.today().addDays(i),
-                                  EndDate__c = Date.today().addDays(i),
+                                  StartDate__c = (Date.today().addYears(i).addMonths(2*i).addDays(2)),
+                                  EndDate__c = (Date.today().addYears(i).addMonths(2*i).addDays(2)),
                                   Reason__c = 'Because',
                                   Status__c = 'Approved');
             result.add(p);

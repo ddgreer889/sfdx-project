@@ -137,6 +137,7 @@ public class afTimelineController {
             // 'series' represents the name of the Training Track
             // These can be seen as radio buttons at the bottom of the graph
             tdw.series = t.TrainingTrack__r.ShortName__c;
+            tdw.location = t.TrainingLocation__r.OfficeName__c;
             tdw.color = t.TrainingTrack__r.Color__c;
             tdw.trainerName = t.Trainer__r.Name;
             trainerData.add(tdw);
@@ -166,6 +167,7 @@ public class afTimelineController {
 
             // Mark the series as distinct from training track
             tdw.series = 'PTO';
+            tdw.location = 'PTO';
             tdw.color = 'Black';
             tdw.trainerName = pto.Trainer__r.Name;
             trainerData.add(tdw);
@@ -187,6 +189,8 @@ public class afTimelineController {
         public String color;
         @AuraEnabled
         public String trainerName;
+        @AuraEnabled
+        public String location;
     }
     
     @AuraEnabled
@@ -197,7 +201,7 @@ public class afTimelineController {
         
         List<Training__c> NewTrainings = new List<Training__c>();
 
-        for(Training__c t : currentTrainings) {
+        for(Training__c t : allTrainings) {
 
             Integer trainingYear = t.StartDate__c.year();
             Integer trainingMonth = t.StartDate__c.month();
@@ -216,7 +220,7 @@ public class afTimelineController {
 
         List<PTO__c> newPTOs = new List<PTO__c>();
 
-        for (PTO__c pto : currentPTOs) {
+        for (PTO__c pto : approvedPTOs) {
             Integer PTOYear = pto.StartDate__c.year();
             Integer PTOMonth = pto.StartDate__c.month();
             String PTOLoc = pto.Trainer__r.CurrentLocation__c;
@@ -239,7 +243,7 @@ public class afTimelineController {
         
         List<Training__c> NewTrainings = new List<Training__c>();
 
-        for(Training__c t : currentTrainings) {
+        for(Training__c t : allTrainings) {
             Integer trainingYear = t.StartDate__c.year();
             
             for(String s : Location) {
@@ -256,7 +260,7 @@ public class afTimelineController {
 
         List<PTO__c> newPTOs = new List<PTO__c>();
 
-        for (PTO__c pto : currentPTOs) {
+        for (PTO__c pto : approvedPTOs) {
             Integer PTOYear = pto.StartDate__c.year();
             String PTOLoc = pto.Trainer__r.CurrentLocation__c;
             if(location.contains(PTOLoc) && convertedYear == PTOYear) {
@@ -280,7 +284,7 @@ public class afTimelineController {
         
         List<Training__c> NewTrainings = new List<Training__c>();
 
-        for(Training__c t : currentTrainings) {
+        for(Training__c t : allTrainings) {
 
             Integer trainingYear = t.StartDate__c.year();
             Integer trainingMonth = t.StartDate__c.month();
@@ -297,7 +301,7 @@ public class afTimelineController {
 
         List<PTO__c> newPTOs = new List<PTO__c>();
 
-        for (PTO__c pto : currentPTOs) {
+        for (PTO__c pto : approvedPTOs) {
 
             Integer PTOYear = pto.StartDate__c.year();
             Integer PTOMonth = pto.StartDate__c.month();
@@ -321,7 +325,7 @@ public class afTimelineController {
 
         List<Training__c> NewTrainings = new List<Training__c>();
         
-        for(Training__c t : currentTrainings) {
+        for(Training__c t : allTrainings) {
 
             Integer trainingYear = t.StartDate__c.year();
             
@@ -337,7 +341,7 @@ public class afTimelineController {
 
         List<PTO__c> newPTOs = new List<PTO__c>();
         
-        for (PTO__c pto : currentPTOs) {
+        for (PTO__c pto : approvedPTOs) {
 
             Integer PTOYear = pto.StartDate__c.year();
 
@@ -355,6 +359,7 @@ public class afTimelineController {
 
     // Converts year code 1-5 into a real year integer
     // Copy-pasted common logic into a method
+    @testVisible
     private static Integer convertYear(Integer yearCode) {
 
         Integer convertedYear = 0;
@@ -386,6 +391,7 @@ public class afTimelineController {
 
     // Converts month code 2-5 into a real list of months (integers)
     // Copy-pasted common logic into a method
+    @testVisible
     private static List<Integer> convertQuarter(Integer quarterCode) {
 
         List<Integer> monthList = new List<Integer>();
