@@ -221,6 +221,11 @@
         <field>Training__c.Training_Location_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.hasSkill__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Manager</label>
     <license>Salesforce</license>
