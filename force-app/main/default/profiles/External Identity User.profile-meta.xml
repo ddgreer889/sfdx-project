@@ -13,6 +13,18 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>UtilityMethods</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>afApprovalButtonExtensionTests</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>afApproveButtonExtension</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>afAvailListContainerApexController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -26,6 +38,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afBatchesListViewTableExtensionTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>afNewBatchAndAvailabilityApexController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -50,6 +66,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afPTOTabsApexControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>afRejectButtonExtension</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -130,12 +150,28 @@
         <field>PTO__c.Trainer__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.hasSkill__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <layoutAssignments>
+        <layout>User-User Layout</layout>
+    </layoutAssignments>
     <layoutAssignments>
         <layout>UserAlt-User Profile Layout</layout>
     </layoutAssignments>
     <pageAccesses>
+        <apexPage>afApproveButtonPage</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>afBatchesListViewTable</apexPage>
         <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>afRejectButtonPage</apexPage>
+        <enabled>false</enabled>
     </pageAccesses>
     <tabVisibilities>
         <tab>Batches</tab>
