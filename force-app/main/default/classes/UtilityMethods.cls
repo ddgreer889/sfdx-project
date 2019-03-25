@@ -35,9 +35,11 @@ public class UtilityMethods {
     public static List<Training_Location__c> createLocationData(Integer amount){
     
         List<Training_Location__c> result = new List<Training_Location__c>();
-        
-        for(Integer i = 0; i < amount; i++) {
-            Training_Location__c tLoc = new Training_Location__c(OfficeName__c = 'OfficeName' + String.valueOf(i),
+
+        result.add(new Training_Location__c(OfficeName__c = 'Fairfax', Access__c = 'Open Access'));
+    
+        for(Integer i = 1; i < amount; i++) {
+            Training_Location__c tLoc = new Training_Location__c(OfficeName__c = 'Fairfax' + i,
                                                                  Access__c = 'Open Access');
             result.add(tLoc);
         }
@@ -96,7 +98,7 @@ public class UtilityMethods {
             Training__c training = new Training__c(TrainingLocation__c = tLocList[Math.mod(i,tLocList.size())].id,
                                                    Trainer__c = tTrainerList[Math.mod(i,tTrainerList.size())].id,
                                                    StartDate__c = tsDateList[Math.mod(i,tsDateList.size())],
-                                                   EndDate__c = tsDateList[Math.mod(i,tsDateList.size())] + 10,
+                                                   EndDate__c = tsDateList[Math.mod(i,tsDateList.size())].toStartOfWeek().addDays(5),
                                                    TrainingTrack__c = tTrackList[Math.mod(i,tTrackList.size())].id);            
             result.add(training);
         }
@@ -122,8 +124,8 @@ public class UtilityMethods {
 
         for (Integer i = 0; i < amount; i++) {
             PTO__c p = new PTO__c(Trainer__c = trainer.id,
-                                  StartDate__c = (Date.today().addYears(i).addMonths(2*i).addDays(2)),
-                                  EndDate__c = (Date.today().addYears(i).addMonths(2*i).addDays(2)),
+                                  StartDate__c = (Date.today().addMonths(2*i).addDays(2)),
+                                  EndDate__c = (Date.today().addMonths(2*i).addDays(2)),
                                   Reason__c = 'Because',
                                   Status__c = 'Approved');
             result.add(p);

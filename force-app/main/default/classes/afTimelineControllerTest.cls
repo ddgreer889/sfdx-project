@@ -50,6 +50,7 @@ public class afTimelineControllerTest {
             insert trainings;
         }
 
+        setTrainerLocations();
 
         Test.stopTest();
     }
@@ -152,7 +153,8 @@ public class afTimelineControllerTest {
         Test.stopTest();
     }
 
-
+    //Test the filterTrainingsByYearLocationQuarter Method in the afTimelineController
+    //The method runs the wrapTrainingToJSON method after filtering trainings by Year, Location, and Quarter
     @isTest
     public static void filterTrainingsByYearLocationQuarterTest(){
 
@@ -230,6 +232,8 @@ public class afTimelineControllerTest {
         Test.stopTest();
     }
 
+    //Test the filterTrainingsByYearLocation Method in the afTimelineController
+    //The method runs the wrapTrainingToJSON method after filtering trainings by Year and Location
     @isTest
     public static void filterTrainingsByYearLocationTest(){
 
@@ -302,10 +306,13 @@ public class afTimelineControllerTest {
         Test.stopTest();
     }
 
+    //Test the filterTrainingsByYear Method in the afTimelineController
+    //The method runs the wrapTrainingToJSON method after filtering trainings by Year
     @isTest
     public static void filterTrainingsByYearTest(){
 
         Test.startTest();
+
 
         //Approve all pending PTOs
         approvePTOs();
@@ -365,6 +372,8 @@ public class afTimelineControllerTest {
         Test.stopTest();
     }
 
+    //Test the filterTrainingsByYearQuarter Method in the afTimelineController
+    //The method runs the wrapTrainingToJSON method after filtering trainings by Year and Quarter
     @isTest
     public static void filterTrainingsByYearQuarterTest(){
 
@@ -437,6 +446,9 @@ public class afTimelineControllerTest {
         Test.stopTest();
     }
 
+    //Test the convertYear and convertQuarter Methods inthe afTimelineController
+    //These methods take single digit year and quarter codes and convert them into actual years or
+    //      a list of integer representing months to be used by the filtering methods
     @isTest
     public static void conversionMethodsTest(){
         System.assertEquals(afTimelineController.convertYear(1),Date.today().year() + 1);
@@ -455,6 +467,8 @@ public class afTimelineControllerTest {
 
     }
 
+    //Approves all pending PTOs for use in testing. This method is called at the beginning of each
+    //      test method that requires PTOs for this purpose.
     public static void approvePTOs(){
         List<PTO__c> allPTOs = [SELECT id FROM PTO__c];
         List<ID> PTOids = new List<ID>();
@@ -480,6 +494,18 @@ public class afTimelineControllerTest {
 
         // Process all approvals at once to avoid DML limits
         Approval.process(reqs);
+    }
+
+    public static void setTrainerLocations(){
+        
+        List<User> trainers = [SELECT id, CurrentLocation__c FROM User WHERE UserRole.Name = 'Trainer'];
+        String location = [SELECT id, OfficeName__c FROM Training_Location__c ORDER BY OfficeName__c LIMIT 1].OfficeName__c;
+
+        for (User u : trainers){
+            u.CurrentLocation__c = location;
+        }
+
+        update trainers;
     }
 
 }

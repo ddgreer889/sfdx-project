@@ -144,7 +144,7 @@ public class afTimelineController {
         }
 
         // Add all PTOs to the dataset
-        for(PTO__c pto : approvedPTOs) {
+        for(PTO__c pto : currentPTOs) {
 
             TrainingDataWrapper tdw = new TrainingDataWrapper();
 
