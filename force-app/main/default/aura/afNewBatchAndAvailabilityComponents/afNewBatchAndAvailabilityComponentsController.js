@@ -82,11 +82,11 @@
         $A.enqueueAction(getTrainers);
         
         //Get all Trainings from APEX SOQL Query and pass back to component attribute
-        var getTrainings = component.get("c.masterTrainings");
+        var getTrainings = component.get("c.masterOpenTrainings");
         getTrainings.setCallback(this, function(response) {
             var state = response.getState();
             if (component.isValid() && state === "SUCCESS") {
-                component.set('v.allTrainings', response.getReturnValue());                
+                component.set('v.openTrainings', response.getReturnValue());                
             } else if (state === "ERROR") {
                 var errors = response.getError();
                 if (errors) {

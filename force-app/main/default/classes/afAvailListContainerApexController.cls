@@ -6,10 +6,15 @@ public class afAvailListContainerApexController {
 
     @AuraEnabled
     public static List<User> sortTrainersBySelectedCategories(Date startOfBatch, Date endOfBatch,
-                                                             Training_Track__c chosenTrack, String selectedLocation){
+                                                             Object chosenTrack, String selectedLocation){
 		List<User> sortedList = new List<User>();
         List<List<User>> sortingUserList = new List<List<User>>();
-        
+		String chosenTrackString = null;
+		if(chosenTrack != null){
+	        chosenTrackString = String.valueOf(chosenTrack);
+			chosenTrackString = chosenTrackString.removeStart('(');
+			chosenTrackString = chosenTrackString.removeEnd(')');
+		}
 		/* SORTING PRIORITY LIST:
 			1. Initially sort by trainers that do not have a scheduled training or PTO that is greater than todays date
 				followed by trainers that have scheduled trainings and/or PTOs that are greater than todays date
@@ -33,11 +38,9 @@ public class afAvailListContainerApexController {
 		else{
 			sortingUserList = sortTrainersAvail(startOfBatch, endOfBatch);
 		}
-
-		resetHasSkill(sortingUserList);
 		
-		if(chosenTrack != null){
-            sortingUserList = sortBySkill(chosenTrack, sortingUserList);
+		if(chosenTrackString != null){
+            sortingUserList = sortBySkill(chosenTrackString, sortingUserList);
 		}
         if(selectedLocation != null){
             sortingUserList = sortLocations(selectedLocation, sortingUserList);
@@ -49,22 +52,6 @@ public class afAvailListContainerApexController {
 		}
     	return sortedList;
     }
-
-	
-	/*------------------------------------------
-			  Reset Field Value methods
-    ------------------------------------------*/
-
-	//RESET THE HAS SKILL CHECKBOX VALUE
-	
-	public static List<List<User>> resetHasSkill(List<List<User>> sortListOfUsers){
-		for(List<User> sortingList: sortListOfUsers){
-			for(User userInLists: sortingList){
-				userInLists.hasSkill__c = false;
-			}
-		}
-    	return sortListOfUsers;
-	}
 	
 	/*------------------------------------------
 				  Subsort methods
@@ -92,21 +79,27 @@ public class afAvailListContainerApexController {
 			upcomingPTOsUsers.add(t.Trainer__c);
 		}
 
-        List<User> notAvail = [SELECT Id, name, CurrentLocation__c, Available__c
+        List<User> notAvail = [SELECT Id, name, CurrentLocation__c, Available__c, hasSkill__c
                                 FROM User 
                                 WHERE (Id IN :upcomingTrainingsUsers
                                 OR Id IN :upcomingPTOsUsers)
                                 AND Profile.Name = 'Trainer'
 								ORDER BY LastName];
 
-        List<User> Avail = [ SELECT Id, name, CurrentLocation__c, Available__c
+        List<User> Avail = [ SELECT Id, name, CurrentLocation__c, Available__c, hasSkill__c
                                 FROM User 
                                 WHERE Id NOT IN :upcomingTrainingsUsers
                                 AND Id NOT IN :upcomingPTOsUsers
                                 AND Profile.Name = 'Trainer'
 								ORDER BY LastName];
 
-        
+        for(User u: Avail){
+			u.Available__c = 'Available';
+		}
+        for(User u: notAvail){
+			u.Available__c = 'Not Available';
+		}
+
 		//Add available and not available user lists to the combined list for further sorting or for combining and returning
 		combinedList.add(Avail);
         combinedList.add(notAvail);
@@ -123,7 +116,6 @@ public class afAvailListContainerApexController {
         //Two Queries:
 		//		1. Query for all trainers that do not have a current training or PTO during the user selected dates
 		//		2. Query for the opposite case for trainers that are currently busy during dates in question
-		
 		List<ID> upcomingTrainingsUsers = new List<ID>();
 		for (Training__c t : [SELECT Trainer__c FROM Training__c WHERE (StartDate__c < :startOfBatch AND EndDate__c > :startOfBatch) OR 
 																	   (StartDate__c < :endOfBatch AND EndDate__c > :endOfBatch)]){
@@ -131,28 +123,32 @@ public class afAvailListContainerApexController {
 		}
 
 		List<ID> upcomingPTOsUsers = new List<ID>();
-		for (PTO__c t : [SELECT Trainer__c FROM PTO__c WHERE (StartDate__c > :endOfBatch OR EndDate__c < :startOfBatch) AND Status__c = 'Approved']){
+		for (PTO__c t : [SELECT Trainer__c FROM PTO__c WHERE ((StartDate__c < :startOfBatch AND EndDate__c > :startOfBatch) OR 
+															 (StartDate__c < :endOfBatch AND EndDate__c > :endOfBatch)) AND Status__c = 'Approved']){
 			upcomingPTOsUsers.add(t.Trainer__c);
 		}
 		
-        List<User> notAvail = [SELECT Id, name, CurrentLocation__c, Available__c
+        List<User> notAvail = [SELECT Id, name, CurrentLocation__c, Available__c, hasSkill__c
                             FROM User 
                             WHERE (Id IN :upcomingTrainingsUsers
                             OR Id IN :upcomingPTOsUsers)
                            	AND Profile.Name = 'Trainer'
 							ORDER BY LastName];
 
-        List<User> Avail = [ SELECT Id, name, CurrentLocation__c, Available__c
+        List<User> Avail = [ SELECT Id, name, CurrentLocation__c, Available__c, hasSkill__c
                                 FROM User 
                                 WHERE Id NOT IN :upcomingTrainingsUsers
                                 AND Id NOT IN :upcomingPTOsUsers
                               	AND Profile.Name = 'Trainer'
 								ORDER BY LastName];
-		for (user u : avail){
-			System.debug('Available - ' + u.name);
+
+        for(User u: Avail){
+			u.Available__c = 'Available';
+		}
+        for(User u: notAvail){
+			u.Available__c = 'Not Available';
 		}
 
-        
 		//Add available and not available user lists to the combined list for further sorting or for combining and returning
 		combinedList.add(Avail);
         combinedList.add(notAvail);
@@ -161,7 +157,7 @@ public class afAvailListContainerApexController {
 	
 	//METHOD 3: TRAINERS MATCHING WITH SKILLS
 	
-    public static List<List<User>> sortBySkill(Training_Track__c chosenTrack, List<List<User>> sortListOfUsers){
+    public static List<List<User>> sortBySkill(String chosenTrack, List<List<User>> sortListOfUsers){
 		
 		/*CombinedList returns four sub lists of Available-hasSkill, Available-noSkill, notAvailable-hasSkill and notAvailable-noSkill
 		and notAvailable-noSkill trainers*/
@@ -177,23 +173,22 @@ public class afAvailListContainerApexController {
 		List<User> notAvailSkill = new List<User>();
 		List<User> notAvailNoSkill = new List<User>();
 
-        Id chosenTrackId = chosenTrack.id;
 		//Two Queries:
 		//		1. Query for all trainers that match the selected skill
 		//		2. Query for all trainers that do not match the selected skill
-		List<User> matchSkill = [SELECT Id, name, CurrentLocation__c, Available__c
+		List<User> matchSkill = [SELECT Id, name, CurrentLocation__c
 									FROM User 
 									WHERE Id IN (SELECT Trainer__c
 													FROM Skill__c 
-													WHERE Training_Track__c = :chosenTrackId)
+													WHERE Training_Track__c = :chosenTrack)
                                 	AND Profile.Name = 'Trainer'
 									ORDER BY LastName];
 
-		List<User> noMatchingSkill = [SELECT Id, name, CurrentLocation__c, Available__c
+		List<User> noMatchingSkill = [SELECT Id, name, CurrentLocation__c
 										FROM User 
 										WHERE Id NOT IN (SELECT Trainer__c
 															FROM Skill__c 
-															WHERE Training_Track__c = :chosenTrackId)
+															WHERE Training_Track__c = :chosenTrack)
                                      	AND Profile.Name = 'Trainer'
 										ORDER BY LastName];
 
@@ -210,11 +205,16 @@ public class afAvailListContainerApexController {
 
 		for(User trainerWithSkill: matchSkill){
 			for (User u : availableTrainers)
-				if (u.id == trainerWithSkill.id)
-					availSkill.add(trainerWithSkill);
-			for (User u : notAvailableTrainers)
-				if (u.id == trainerWithSkill.id)
-					notAvailSkill.add(trainerWithSkill);
+				if (u.id == trainerWithSkill.id){
+					u.hasSkill__c = true;
+					availSkill.add(u);
+				}
+			for (User u : notAvailableTrainers){
+				if (u.id == trainerWithSkill.id){
+					u.hasSkill__c = true;
+					notAvailSkill.add(u);
+				}
+			}
 			/**********************************************************
 			if(availableTrainers.contains(trainerWithSkill)){
 				trainerWithSkill.hasSkill__c = true;
@@ -229,11 +229,16 @@ public class afAvailListContainerApexController {
 		
 		for(User trainerWithoutSkill: noMatchingSkill){
 			for (User u : availableTrainers)
-				if (u.id == trainerWithoutSkill.id)
-					availNoSkill.add(trainerWithoutSkill);
-			for (User u : notAvailableTrainers)
-				if (u.id == trainerWithoutSkill.id)
-					notAvailNoSkill.add(trainerWithoutSkill);
+				if (u.id == trainerWithoutSkill.id){
+					u.hasSkill__c = false;
+					availNoSkill.add(u);
+				}
+			for (User u : notAvailableTrainers){
+				if (u.id == trainerWithoutSkill.id){
+					u.hasSkill__c = false;
+					notAvailNoSkill.add(u);
+				}
+			}
 			/*************************************************************
 			if(availableTrainers.contains(trainerWithoutSkill)){
 				availNoSkill.add(trainerWithoutSkill);
@@ -265,13 +270,13 @@ public class afAvailListContainerApexController {
 		//Two Queries:
 		//		1. Query for all trainers that match the selected location
 		//		2. Query for all trainers that do not match the selected location
-		List<User> atLocation = [SELECT Id, name, CurrentLocation__c, Available__c
+		List<User> atLocation = [SELECT Id, name, CurrentLocation__c
 									FROM User 
 									WHERE CurrentLocation__c = :selectedLocation
                                 	AND Profile.Name = 'Trainer'
 									ORDER BY LastName];
 
-		List<User> notAtLocation = [SELECT Id, name, CurrentLocation__c, Available__c
+		List<User> notAtLocation = [SELECT Id, name, CurrentLocation__c
 										FROM User 
 										WHERE CurrentLocation__c != :selectedLocation
                                    		AND Profile.Name = 'Trainer'
@@ -307,10 +312,10 @@ public class afAvailListContainerApexController {
 			for(User trainerAtLocation: atLocation){
 				for (User u : availableTrainers)
 					if (u.id == trainerAtLocation.id)
-						availAtLocation.add(trainerAtLocation);
+						availAtLocation.add(u);
 				for (User u : notAvailableTrainers)
 					if (u.id == trainerAtLocation.id)
-						notAvailAtLocation.add(trainerAtLocation);
+						notAvailAtLocation.add(u);
 				/*************************************************************
 				if(availableTrainers.contains(trainerAtLocation)){
 					availAtLocation.add(trainerAtLocation);
@@ -324,10 +329,10 @@ public class afAvailListContainerApexController {
 			for(User trainerNotAtLocation: notAtLocation){
 				for (User u : availableTrainers)
 					if (u.id == trainerNotAtLocation.id)
-						availAtLocation.add(trainerNotAtLocation);
+						availAtLocation.add(u);
 				for (User u : notAvailableTrainers)
 					if (u.id == trainerNotAtLocation.id)
-						notAvailAtLocation.add(trainerNotAtLocation);
+						notAvailAtLocation.add(u);
 				/******************************************************************
 				if(availableTrainers.contains(trainerNotAtLocation)){
 					availNotAtLocation.add(trainerNotAtLocation);
@@ -379,16 +384,16 @@ public class afAvailListContainerApexController {
 			for(User trainerAtLocation : atLocation){								//1ST FOR LOOP
 				for (User u : availSkillTrainers)
 					if (u.id == trainerAtLocation.id)
-						availWithSkillAtLocation.add(trainerAtLocation);
+						availWithSkillAtLocation.add(u);
 				for (User u : availNoSkillTrainers)
 					if (u.id == trainerAtLocation.id)
-						availWithoutSkillAtLocation.add(trainerAtLocation);
+						availWithoutSkillAtLocation.add(u);
 				for (User u : notAvailSkillTrainers)
 					if (u.id == trainerAtLocation.id)
-						notAvailWithSkillAtLocation.add(trainerAtLocation);
+						notAvailWithSkillAtLocation.add(u);
 				for (User u : notAvailNoSkillTrainers)
 					if (u.id == trainerAtLocation.id)
-						notAvailWithoutSkillAtLocation.add(trainerAtLocation);
+						notAvailWithoutSkillAtLocation.add(u);
 				/**************************************************************
 				if(availSkillTrainers.contains(trainerAtLocation)){
 					availWithSkillAtLocation.add(trainerAtLocation);
@@ -408,16 +413,16 @@ public class afAvailListContainerApexController {
 			for(User trainerNotAtLocation: notAtLocation){							//2ND FOR LOOP
 				for (User u : availSkillTrainers)
 					if (u.id == trainerNotAtLocation.id)
-						availWithSkillAtLocation.add(trainerNotAtLocation);
+						availWithSkillAtLocation.add(u);
 				for (User u : availNoSkillTrainers)
 					if (u.id == trainerNotAtLocation.id)
-						availWithoutSkillAtLocation.add(trainerNotAtLocation);
+						availWithoutSkillAtLocation.add(u);
 				for (User u : notAvailSkillTrainers)
 					if (u.id == trainerNotAtLocation.id)
-						notAvailWithSkillAtLocation.add(trainerNotAtLocation);
+						notAvailWithSkillAtLocation.add(u);
 				for (User u : notAvailNoSkillTrainers)
 					if (u.id == trainerNotAtLocation.id)
-						notAvailWithoutSkillNotAtLocation.add(trainerNotAtLocation);
+						notAvailWithoutSkillNotAtLocation.add(u);
 				/****************************************************************
 				if(availSkillTrainers.contains(trainerNotAtLocation)){
 					availWithSkillNotAtLocation.add(trainerNotAtLocation);

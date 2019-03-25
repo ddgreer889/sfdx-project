@@ -57,14 +57,15 @@ public class afNewBatchAndAvailApexControllerTest {
                                               TrainingLocation__c, TrainingLocation__r.OfficeName__c, 
                                               TrainingTrack__c, TrainingTrack__r.ShortName__c, TrainingTrack__r.Color__c, 
                                               TrainingClass__c, TrainingRoom__c, StartDate__c, EndDate__c 
-                                       FROM Training__c];
+                                       FROM Training__c
+                                       WHERE Status__c != 'Completed' OR Status__c != 'Cancelled'];
 
         //Get the results from the Controller methods
         List<User> trainerResults = afNewBatchAndAvailabilityApexController.masterTrainers();
         List<Training_Room__c> roomResults = afNewBatchAndAvailabilityApexController.masterRooms();
         List<Training_Location__c> locationResults = afNewBatchAndAvailabilityApexController.masterLocations();
         List<Skill__c> skillResults = afNewBatchAndAvailabilityApexController.masterSkills();
-        List<Training__c> trainingResults = afNewBatchAndAvailabilityApexController.masterTrainings();
+        List<Training__c> trainingResults = afNewBatchAndAvailabilityApexController.masterOpenTrainings();
 
         Test.stopTest();
 

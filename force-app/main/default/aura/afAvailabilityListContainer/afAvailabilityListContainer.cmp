@@ -1,9 +1,8 @@
-<aura:component controller="afAvailListContainerApexController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="afAvailListContainerApexController">
     <ltng:require styles="{!$Resource.RevatureStyles}"/>
     
     <!--Passed by Master Controller Attributes-->
     <aura:attribute name="allSkills" 				type="List"/>
-    <aura:attribute name="allTrainings" 			type="List"/>
     <aura:attribute name="allRooms" 				type="List"/>    
     <aura:attribute name="allTrainers"              type="List"/>
     
@@ -12,22 +11,25 @@
         All areas of the component that is updated- shows to the right of newBatchForm
     -->
     <aura:attribute name="trainers" 				type="User[]"/>
-    <aura:attribute name="rooms" 					type="Object[]"/>
-    <aura:attribute name="roomsNotAtLoc" 			type="Object[]"/>
-    <aura:attribute name="currentLocRooms" 			type="Object[]"/>   
-    <aura:attribute name="selectedTrainingTrack" 	type='ID'/>
+    <!--<aura:attribute name="rooms" 					type="Training_Rooms__c[]"/>-->
     <aura:attribute name="tab1Shown" 				type="Boolean" 			default='true'/>
     <aura:attribute name="location" 				type="Id"/>
     
-    <!--Handlers passed in through controller afAvailListContainerApexController 
-    --> 
-    <aura:handler name="change" value="{!v.allRooms}" action="{!c.initRooms}"/>
+    <!--Handler to pass in user input from afNewBatchForm --> 
+    <aura:handler     event="c:afNewBatchFormEvent" 	action="{!c.userInputRecieved}"/>
+    
+    <!-- Initialize Sort -->
+    <aura:handler name="init" 		value="{!this}" 	action="{!c.doInit}"/>
+    <!--<aura:handler name="change" value="{!v.allRooms}" action="{!c.initRooms}"/>
     <aura:handler name="change" value="{!v.allTrainers}" action="{!c.initTrainers}"/>
-    <!--<aura:handler name="init" 		value="{!this}" 	action="{!c.doInit}"/>-->
+    -->
+    
+    <!--
     <aura:handler event="c:afNewBatchFormTrackEvent" 	action="{!c.skillHasChanged}"/>
     <aura:handler event="c:afNewBatchFormDateEvent" 	action="{!c.dateHasChanged}"/>
     <aura:handler event="c:afNewBatchFormLocationEvent"	action="{!c.handleLoc}"/>
-    
+    -->
+
     <!--Visual Components-->
     <div class="slds-card">
         <div class="slds-card__body slds-card__body_inner">
@@ -77,7 +79,7 @@
                     </div>
                     <!-- Iterate over available rooms in accordance to criteria set-->
                     <div class="slds-scrollable" style="height: 300px">
-                        <aura:iteration items="{!v.currentLocRooms}" var="room">
+                        <aura:iteration items="{!v.allRooms}" var="room">
                             <c:afRoomAvailabilityListItem room="{!room}"/>   
                         </aura:iteration>
                     </div>

@@ -92,7 +92,7 @@ public class afAvailListContainerApexControllerTest {
         //Create Parameters for the Controller's method
         Date startDate = Date.today().addDays(14).toStartOfWeek().addDays(1);
         Date endDate = startDate.addDays(70).toStartOfWeek().addDays(5);
-        Training_Track__c track = [SELECT id FROM Training_Track__c WHERE ShortName__c = 'Track0' LIMIT 1];
+        ID track = [SELECT id FROM Training_Track__c WHERE ShortName__c = 'Track0' LIMIT 1].id;
         String officeName = 'Fairfax';
 
         //Initialize List to hold results from the method
