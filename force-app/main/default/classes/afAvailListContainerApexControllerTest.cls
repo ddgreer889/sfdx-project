@@ -3,11 +3,7 @@
 * Author: Ian Blanchard
 * 
 * Tests the methods of the Apex Controller for 
-*   the afAvailListContainer component    
-*
-* BUG: The method calls that have non-null values for StartDate
-*       and EndDate duplicate Trainers in the result list.
-*       Logic is flawed in the controller.        
+*   the afAvailListContainer component     
 ******************************************************************/
 
 @isTest
@@ -112,11 +108,29 @@ public class afAvailListContainerApexControllerTest {
         //This sort version has all trainers with no trainings in the time frame provided. Then it sorts further by putting trainers
         //          at the provided location and with a skill in the provided track towards the top.
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //          
-        //
-
-        /* BUG: The sorts that have non-null inputs for startDate and endDate are duplicating trainers */
-        /* Thus the results list ends up being 63 trainers long, even though there are only 52         */
+        //          39,12,15,18,21,24,27,3,30,33,36,42,45,48,51,6,9,13,26,14,16,17,18,2
+        //          20,22,23,25,28,29,31,32,34,35,37,38,4,40,41,43,44,46,47,49,5,50,7,8,0,1
+        System.assertEquals(results.size(),52);
+        System.assertEquals(results.get(0).name, 'last 39');
+        System.assertEquals(results.get(1).name, 'last 12');
+        System.assertEquals(results.get(2).name, 'last 15');
+        System.assertEquals(results.get(13).name, 'last 48');
+        System.assertEquals(results.get(14).name, 'last 51');
+        System.assertEquals(results.get(15).name, 'last 6');
+        System.assertEquals(results.get(16).name, 'last 9');
+        System.assertEquals(results.get(17).name, 'last 13');
+        System.assertEquals(results.get(28).name, 'last 23');
+        System.assertEquals(results.get(29).name, 'last 25');
+        System.assertEquals(results.get(30).name, 'last 28');
+        System.assertEquals(results.get(31).name, 'last 29');
+        System.assertEquals(results.get(32).name, 'last 31');
+        System.assertEquals(results.get(40).name, 'last 41');
+        System.assertEquals(results.get(41).name, 'last 43');
+        System.assertEquals(results.get(42).name, 'last 44');
+        System.assertEquals(results.get(45).name, 'last 49');
+        System.assertEquals(results.get(46).name, 'last 5');
+        System.assertEquals(results.get(50).name, 'last 0');
+        System.assertEquals(results.get(51).name, 'last 1');
 
 
 
@@ -169,13 +183,25 @@ public class afAvailListContainerApexControllerTest {
         results = afAvailListContainerApexController.sortTrainersBySelectedCategories(startDate,endDate,null,officeName);
 
         //This sort version has all trainers with no trainings in the timeframe provided. Then it sorts trainers
-        //           at the provided location towards the top.
+        //          at the provided location towards the top.
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //
-        //
-
-        /* BUG: The sorts that have non-null inputs for startDate and endDate are duplicating trainers */
-        /* Thus the results list ends up being 63 trainers long, even though there are only 52         */
+        //          13,26,39,10,11,12,14,15,16,17,18,19,2,20,21,22,23,24,25,27,28,29,3,30,31,32
+        //          33,34,35,36,37,38,4,40,41,42,43,44,45,46,47,48,49,5,50,51,6,7,8,9,0,1
+        System.assertEquals(results.size(),52);
+        System.assertEquals(results.get(0).name, 'last 13');
+        System.assertEquals(results.get(1).name, 'last 26');
+        System.assertEquals(results.get(2).name, 'last 39');
+        System.assertEquals(results.get(3).name, 'last 10');
+        System.assertEquals(results.get(4).name, 'last 11');
+        System.assertEquals(results.get(24).name, 'last 31');
+        System.assertEquals(results.get(25).name, 'last 32');
+        System.assertEquals(results.get(26).name, 'last 33');
+        System.assertEquals(results.get(27).name, 'last 34');
+        System.assertEquals(results.get(45).name, 'last 51');
+        System.assertEquals(results.get(46).name, 'last 6');
+        System.assertEquals(results.get(47).name, 'last 7');
+        System.assertEquals(results.get(50).name, 'last 0');
+        System.assertEquals(results.get(51).name, 'last 1');
 
 
 
@@ -191,11 +217,24 @@ public class afAvailListContainerApexControllerTest {
         //This sort version has all trainers with no trainings in the timeframe provided. Then it sorts trainers
         //           with skill in the provided training track towards the top.
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //          
-        //
-
-        /* BUG: The sorts that have non-null inputs for startDate and endDate are duplicating trainers */
-        /* Thus the results list ends up being 63 trainers long, even though there are only 52         */
+        //          12,15,18,21,24,27,3,30,33,36,39,42,45,48,51,6,9,10,11,13,14,16,17,19,2,20
+        //          22,23,25,26,28,29,31,32,34,35,37,38,4,40,41,43,44,46,47,49,5,50,7,8,0,1        
+        System.assertEquals(results.size(),52);
+        System.assertEquals(results.get(0).name, 'last 12');
+        System.assertEquals(results.get(1).name, 'last 15');
+        System.assertEquals(results.get(2).name, 'last 18');
+        System.assertEquals(results.get(3).name, 'last 21');
+        System.assertEquals(results.get(14).name, 'last 51');
+        System.assertEquals(results.get(15).name, 'last 6');
+        System.assertEquals(results.get(16).name, 'last 9');
+        System.assertEquals(results.get(17).name, 'last 10');
+        System.assertEquals(results.get(18).name, 'last 11');
+        System.assertEquals(results.get(25).name, 'last 20');
+        System.assertEquals(results.get(26).name, 'last 22');
+        System.assertEquals(results.get(48).name, 'last 7');
+        System.assertEquals(results.get(49).name, 'last 8');
+        System.assertEquals(results.get(50).name, 'last 0');
+        System.assertEquals(results.get(51).name, 'last 1');
 
 
 
@@ -243,11 +282,22 @@ public class afAvailListContainerApexControllerTest {
         //This sort version has all trainers with no trainings in the timeframe provided first, then 
         //          trainers with trainings at some time in the future. No other sort criteria are used
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //
-        //
-
-        /* BUG: The sorts that have non-null inputs for startDate and endDate are duplicating trainers */
-        /* Thus the results list ends up being 63 trainers long, even though there are only 52         */
+        //          10,11,12,13,14,15,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33
+        //          34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,6,7,8,9,0,1
+        System.assertEquals(results.size(),52);
+        System.assertEquals(results.get(0).name, 'last 10');
+        System.assertEquals(results.get(1).name, 'last 11');
+        System.assertEquals(results.get(2).name, 'last 12');
+        System.assertEquals(results.get(3).name, 'last 13');
+        System.assertEquals(results.get(25).name, 'last 33');
+        System.assertEquals(results.get(26).name, 'last 34');
+        System.assertEquals(results.get(27).name, 'last 35');
+        System.assertEquals(results.get(46).name, 'last 6');
+        System.assertEquals(results.get(47).name, 'last 7');
+        System.assertEquals(results.get(48).name, 'last 8');
+        System.assertEquals(results.get(49).name, 'last 9');
+        System.assertEquals(results.get(50).name, 'last 0');
+        System.assertEquals(results.get(51).name, 'last 1');
 
 
 

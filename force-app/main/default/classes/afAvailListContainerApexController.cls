@@ -101,13 +101,8 @@ public class afAvailListContainerApexController {
 
         List<User> Avail = [ SELECT Id, name, CurrentLocation__c, Available__c
                                 FROM User 
-                                WHERE Id NOT IN (SELECT Trainer__c
-                                                 FROM Training__c 
-                                                 WHERE (EndDate__c > TODAY))
-                                AND Id NOT IN (SELECT Trainer__c
-                                               FROM PTO__c
-                                               WHERE (EndDate__c > TODAY)
-                                               AND Status__c = 'Approved')
+                                WHERE Id NOT IN :upcomingTrainingsUsers
+                                AND Id NOT IN :upcomingPTOsUsers
                                 AND Profile.Name = 'Trainer'
 								ORDER BY LastName];
 
@@ -130,7 +125,8 @@ public class afAvailListContainerApexController {
 		//		2. Query for the opposite case for trainers that are currently busy during dates in question
 		
 		List<ID> upcomingTrainingsUsers = new List<ID>();
-		for (Training__c t : [SELECT Trainer__c FROM Training__c WHERE (StartDate__c > :endOfBatch OR EndDate__c < :startOfBatch)]){
+		for (Training__c t : [SELECT Trainer__c FROM Training__c WHERE (StartDate__c < :startOfBatch AND EndDate__c > :startOfBatch) OR 
+																	   (StartDate__c < :endOfBatch AND EndDate__c > :endOfBatch)]){
 			upcomingTrainingsUsers.add(t.Trainer__c);
 		}
 
@@ -139,24 +135,22 @@ public class afAvailListContainerApexController {
 			upcomingPTOsUsers.add(t.Trainer__c);
 		}
 		
-        List<User> Avail = [SELECT Id, name, CurrentLocation__c, Available__c
+        List<User> notAvail = [SELECT Id, name, CurrentLocation__c, Available__c
                             FROM User 
                             WHERE (Id IN :upcomingTrainingsUsers
                             OR Id IN :upcomingPTOsUsers)
                            	AND Profile.Name = 'Trainer'
 							ORDER BY LastName];
 
-        List<User> notAvail = [ SELECT Id, name, CurrentLocation__c, Available__c
+        List<User> Avail = [ SELECT Id, name, CurrentLocation__c, Available__c
                                 FROM User 
-                                WHERE Id NOT IN (SELECT Trainer__c
-                                                 FROM Training__c 
-                                                 WHERE (StartDate__c > :endOfBatch AND EndDate__c < :startOfBatch))
-                                AND Id NOT IN (SELECT Trainer__c
-                                               FROM PTO__c
-                                               WHERE (StartDate__c > :endOfBatch OR EndDate__c < :startOfBatch)
-                                               AND Status__c = 'Approved')
+                                WHERE Id NOT IN :upcomingTrainingsUsers
+                                AND Id NOT IN :upcomingPTOsUsers
                               	AND Profile.Name = 'Trainer'
 								ORDER BY LastName];
+		for (user u : avail){
+			System.debug('Available - ' + u.name);
+		}
 
         
 		//Add available and not available user lists to the combined list for further sorting or for combining and returning
@@ -449,9 +443,6 @@ public class afAvailListContainerApexController {
 			combinedList.add(notAvailWithSkillNotAtLocation);
 			combinedList.add(notAvailWithoutSkillAtLocation);
 			combinedList.add(notAvailWithoutSkillNotAtLocation);
-			for (List<User> us : combinedList)
-				for (User u : us)
-					System.debug(u.name);
 		}
 		
 		return combinedList;
