@@ -2,7 +2,7 @@
    TrainersPTO : function (component, event, helper){
        component.set('v.empPTORecordset', [
 
-           { label: 'Start Date', fieldName: 'startDate', type: 'date', sortable: 'true' },
+           { label: 'Start Date', fieldName: 'startDate', type: 'date', sortable: 'true', initialWidth: '30px' },
            { label: 'End Date', fieldName: 'endDate', type: 'date', sortable: 'true' },
            { label: 'Status', fieldName: 'status', type: 'text', sortable: 'true'},
            { label: 'Reason', fieldName: 'reason', type: 'text', sortable: 'true'},

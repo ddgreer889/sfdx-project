@@ -1,5 +1,5 @@
 ({
-    changeEndDate : function(component, event, helper) {
+    changeEndDate : function(component, event) {
         
         var startDate = new Date(component.get("v.startDate"));	// get startDate
         var numWeeks = component.get("v.numWeeks");				// get numWeeks
@@ -25,29 +25,21 @@
                 date += 1;
             }
             
-            component.set("v.endDate", (year + "-" + (month+1) + "-" + date));
-            
-            // pass new start/end dates to application event
-            startDate = component.get("v.startDate");
-            endDate = component.get("v.endDate");
-            var dateEvent = $A.get("e.c:afNewBatchFormDateEvent");
-            dateEvent.setParams({
-                "startDate" : startDate,
-                "endDate"   : endDate
-            });
-            console.log('dateChanged');
-            dateEvent.fire();
+            month = ("0" + (month + 1)).slice(-2);
+            date = ("0" + date).slice(-2);
+
+            component.set("v.endDate", (year + "-" + month + "-" + date));
             
         } else { // Thursday || Friday || Saturday || Sunday (no batches start here)
-            component.set("v.endDate", "");
+            component.set("v.endDate", null);
         }
     },
     
     clear : function(component, event) {   
         
         // refresh the aura:if containing the recordEditForm
-        component.set("v.uncleared", false);
-        component.set("v.uncleared", true);
+        // component.set("v.uncleared", false);
+        // component.set("v.uncleared", true);
         
         // reset Location ltng:select to start with an empty value
         var allLocs = component.get("v.allLocations");
@@ -57,16 +49,18 @@
         }
         
         //set component values (that aren't handled in doInit) to empty
-        component.set("v.cotrainer", "");
-        component.set("v.endDate", null);
-        component.set("v.hiddenRoom", "");
-        component.set("v.location", "");
-        component.set("v.numWeeks", 10);
-        component.set("v.room", "");
-        component.set("v.roomsForLocation", []);
+        component.set("v.track", "");
         component.set("v.startDate", null);
-        component.set("v.track", "")
+        component.set("v.numWeeks", 10);
+        component.set("v.endDate", null);
         component.set("v.trainer", ""); 
+        component.set("v.cotrainer", "");
+        component.set("v.location", "");
+        component.set("v.room", "");
+        
+        component.set("v.roomsForLocation", []);
+        component.set("v.hiddenLoc", "");
+        component.set("v.hiddenRoom", "");
     },
     
     showTrainerToast : function(helper, event, trainings, trainer, startDate, endDate) {

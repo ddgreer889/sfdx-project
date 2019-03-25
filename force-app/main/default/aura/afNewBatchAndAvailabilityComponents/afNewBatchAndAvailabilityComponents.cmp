@@ -8,7 +8,7 @@
     <aura:attribute name="allRooms"     type="List" access="public"/>
     <aura:attribute name="allSkills"     type="List" access="public"/>
     <aura:attribute name="allTrainers"     type="List" />
-    <aura:attribute name="allTrainings"     type="List" access="public"/>
+    <aura:attribute name="openTrainings"     type="List" access="public"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     
     <ltng:require styles="{!$Resource.RevatureStyles}"/>
@@ -18,14 +18,14 @@
                 <span>
                     <!-- Initiate child component with query of allLocations and allRooms -->
                   	<c:afNewBatchForm allLocations="{!v.allLocations}" 
-                                    allRooms="{!v.allRooms}"/>
+                                      openTrainings="{!v.openTrainings}"
+                                      allRooms="{!v.allRooms}"/>
                 </span>
             </div>
             <div class="slds-col slds-size_5-of-12">
                 <span>
                     <!-- Initiate child component with query of skills, trainings, rooms, and trainers -->
-                    <c:afAvailabilityListContainer  allSkills="{!v.allSkills}"												   
-                                                    allTrainings="{v.allTrainings}"
+                    <c:afAvailabilityListContainer  allSkills="{!v.allSkills}"
                                                     allRooms="{!v.allRooms}"
                                                     allTrainers="{!v.allTrainers}"/>
                 </span>

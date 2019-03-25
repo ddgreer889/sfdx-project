@@ -37,14 +37,15 @@ public class afNewBatchAndAvailabilityApexController {
     
     //Query for all Trainings
     @AuraEnabled
-    public static List<Training__c> masterTrainings(){
+    public static List<Training__c> masterOpenTrainings(){
 
         return [SELECT Id, Name, CreatedDate, CoTrainer__c, CoTrainer__r.name, 
                        Trainer__c, Trainer__r.Name, TrainingTarget__c,
                        TrainingLocation__c, TrainingLocation__r.OfficeName__c, 
                        TrainingTrack__c, TrainingTrack__r.ShortName__c, TrainingTrack__r.Color__c, 
                        TrainingClass__c, TrainingRoom__c, StartDate__c, EndDate__c
-                FROM Training__c];
+                FROM Training__c
+                WHERE Status__c != 'Completed' OR Status__c != 'Cancelled'];
     }
 
 }

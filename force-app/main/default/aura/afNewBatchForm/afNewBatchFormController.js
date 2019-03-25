@@ -1,11 +1,7 @@
 ({
     /*----------------------------------------------------------
-    				Init and Extra Section
+    				Clear Input Section
     ----------------------------------------------------------*/
-    doInit : function(component, event, helper) {
-                
-    },
-    
     clearBatchFields : function(component, event, helper) {
         helper.clear(component, event);
     },
@@ -17,27 +13,24 @@
     //TODO: MAKE SURE THIS FUNCTION FUNCTIONS
 
     onSubmit : function(component, event, helper) {
-        // in-built functionality to handle recordEditForm submission
-        // console.log('onSubmit new');
-        // var form = component.find("newBatchForm");
-        event.preventDefault();       // stop the form from submitting
+        // In-built functionality to handle recordEditForm submission
+        event.preventDefault();       // Stop the form from submitting
         var fields = event.getParam('fields');
         
         component.find('newBatchForm').submit(fields);
     },
     
     onSuccess : function(component, event, helper) {
-        console.log('onSuccess');
         
         var newBatch = [{
-            CoTrainer__c         : component.get("v.cotrainer"),
-            EndDate__c             : component.get("v.endDate"),
-            Trainer__c             : component.get("v.trainer"),
-            TrainingLocation__c : component.get("v.location"),
-            TrainingRoom__c     : component.get("v.hiddenRoom"),
-            TrainingTrack__c     : component.get("v.track"),
-            StartDate__c         : component.get("v.startDate"),
-            Status__c             : component.get("v.status")
+            TrainingTrack__c        : component.get("v.track"),
+            StartDate__c            : component.get("v.startDate"),
+            EndDate__c              : component.get("v.endDate"),
+            Trainer__c              : component.get("v.trainer"),
+            CoTrainer__c            : component.get("v.cotrainer"),
+            TrainingLocation__c     : component.get("v.location"),
+            TrainingRoom__c         : component.get("v.hiddenRoom"),
+            Status__c               : 'Planned'
         }];
         
         // records have been submitted, clear form
@@ -60,16 +53,88 @@
         newBatchEvent.setParams({
             "newBatch" : newBatch
         });
-        
-        console.log('newBatch JSON ' + JSON.stringify(newBatchEvent.getParam("newBatch")));
+        //FOR TESTING:
+        //console.log('newBatch JSON ' + JSON.stringify(newBatchEvent.getParam("newBatch")));
         newBatchEvent.fire();
     },
-    
+
+    /*----------------------------------------------------------
+    				Handle User Input Change
+    ----------------------------------------------------------*/
+    updateAvailabilityOnChange : function (component, event, helper) {
+
+        /*-------------------------------------------
+               DETECT USER INPUT: TRACK CHANGED
+        -------------------------------------------*/
+        var trackChosen = component.get('v.track');
+        if( trackChosen == ""){
+            trackChosen = null;
+        }
+        console.log(trackChosen + "   SFNKGJDFDSNKFNS");
+        /*-------------------------------------------
+               DETECT USER INPUT: DATE CHANGED
+        -------------------------------------------*/
+        var startBatch = component.get('v.startDate');
+        var endBatch = null;
+        component.set("v.endDate", endBatch);
+
+        if(startBatch != null){
+            helper.changeEndDate(component, event);
+            endBatch = component.get('v.endDate');
+            if(endBatch == null){
+                startBatch = null;
+            }
+        }
+        else {
+            startBatch = null;
+            endBatch = null;
+        }
+
+        //Check if trainer is busy during dates selected
+        var trainings   = component.get("v.openTrainings");
+        var trainer     = component.get("v.trainer");
+        var startDate   = component.get("v.startDate");
+        var endDate     = component.get("v.endDate");
+        helper.showTrainerToast(helper, event, trainings, trainer, startDate, endDate);
+
+        /*-------------------------------------------
+             DETECT USER INPUT: LOCATION CHANGED
+        -------------------------------------------*/
+        var locationChosen = component.get('v.location');
+
+        /*-------------------------------------------
+          DETECT USER INPUT: SEND TO OTHER COMPONENT
+        -------------------------------------------*/
+        var filterEvent = $A.get("e.c:afNewBatchFormEvent");
+        filterEvent.setParams({
+            chosenTrack : trackChosen,
+            startOfBatch : startBatch,
+            endOfBatch : endBatch,
+            selectedLocation : locationChosen
+        });
+        filterEvent.fire();
+
+        /*
+        var filterEvent = component.getEvent("updateFiltersEvent");
+        var trackChosen = component.get(v.track);
+        var startBatch = component.get(v.startDate);
+        var endBatch = component.get(v.endDate);
+        var locationChosen = component.get(v.location);
+        console.log("Please work." + trackChosen + " ; " + startBatch + " ; " + endBatch + " ; " + locationChosen + " ;");
+        filterEvent.setParams({
+            chosenTrack : null,
+            startOfBatch : null,
+            endOfBatch : null,
+            selectedLocation : null
+        });
+        filterEvent.fire();
+        */
+    },
     
     /*----------------------------------------------------------
     				Training Track Section 
     ----------------------------------------------------------*/
-    trackChanged : function(component, event, helper) {
+/*    trackChanged : function(component, event, helper) {
         var track = component.get("v.track");
         // console.log('track: ' + track);
         // pass selected training track to application event
@@ -80,20 +145,7 @@
         // console.log('trackChanged');
         trackEvent.fire();  
     },
-    
-    /*----------------------------------------------------------
-    						Time Section
-    ----------------------------------------------------------*/
-    dateChanged : function(component, event, helper) {
-        
-        helper.changeEndDate(component, event, helper);
-        
-        // get and set trainer/cotrainer to invoke showTrainerToast indirectly 
-        var trainer   = component.get("v.trainer");
-        var cotrainer = component.get("v.cotrainer");
-        component.set("v.trainer", trainer);
-        component.set("v.cotrainer", cotrainer);
-    },
+*/    
     
     /*----------------------------------------------------------
     					Trainer Section 
@@ -116,7 +168,7 @@
     
     trainerChanged : function(component, event, helper) {
         var trainings   = component.get("v.openTrainings");
-        var trainer     = event.getParam("value");
+        var trainer     = component.get("v.trainer");
         var startDate   = component.get("v.startDate");
         var endDate     = component.get("v.endDate");
         
@@ -127,7 +179,7 @@
     /*----------------------------------------------------------
     					Location Section
     ----------------------------------------------------------*/
-    setRoomField : function(component, event, helper){
+/*    setRoomField : function(component, event, helper){
         var room = event.getParam("room");
         var allRooms = component.get("v.roomList");
         var roomsForLoc = [];
@@ -148,8 +200,8 @@
         component.set("v.room", room.Id);
         
     },
-    
-    selectRoom : function(component, event, helper) {
+*/    
+/*    selectRoom : function(component, event, helper) {
         var room    = component.get("v.room");
         var rooms   = component.get("v.roomsForLocation");
         
@@ -161,7 +213,7 @@
         // set to hidden inputField for form submission
         component.set("v.hiddenRoom", room.Id);
     },
-    
+*/    
     locationChanged : function(component, event, helper) {
         component.set("v.locUncleared", false);
         component.set("v.locUncleared", true);
@@ -200,6 +252,6 @@
         });
         locEvent.fire();
     },
-    
+   
     
 })
