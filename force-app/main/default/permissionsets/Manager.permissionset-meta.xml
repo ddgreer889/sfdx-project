@@ -223,6 +223,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>User.CurrentLocation__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>User.hasSkill__c</field>
         <readable>false</readable>
     </fieldPermissions>

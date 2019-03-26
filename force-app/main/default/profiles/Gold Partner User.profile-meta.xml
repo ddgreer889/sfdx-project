@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>AssignForce</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
     <classAccesses>
         <apexClass>CreateAssignForceData</apexClass>
         <enabled>false</enabled>
@@ -343,6 +348,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Training__c.Training_Location_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.CurrentLocation__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
