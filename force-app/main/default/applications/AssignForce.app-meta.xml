@@ -9,10 +9,13 @@
     <isNavPersonalizationDisabled>true</isNavPersonalizationDisabled>
     <label>AssignForce</label>
     <navType>Standard</navType>
+    <setupExperience>all</setupExperience>
     <tabs>Batches</tabs>
     <tabs>Training_Location__c</tabs>
     <tabs>Trainers</tabs>
     <tabs>Profile</tabs>
+    <tabs>External_Trainer</tabs>
+    <tabs>External_Trainer__c</tabs>
     <tabs>Training_Track__c</tabs>
     <tabs>Training__c</tabs>
     <tabs>PTO__c</tabs>

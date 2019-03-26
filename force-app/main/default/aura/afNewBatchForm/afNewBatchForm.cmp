@@ -12,6 +12,7 @@
    <aura:attribute name="endDate"              type="Date" />
    <aura:attribute name="trainer"              type="User" />
    <aura:attribute name="cotrainer"            type="User" />
+   <aura:attribute name="ExternalTrainer"      type="External_Trainer__c"/>
    <aura:attribute name="location"             type="Id"/>  
    <aura:attribute name="room"                 type="Training_Room__c" />
 
@@ -19,10 +20,6 @@
    <aura:attribute name="allLocations"         type="Training_Location__c[]" />
    <aura:attribute name="allRooms"			     type="Training_Room__c[]" />
    <aura:attribute name="openTrainings"        type="List" />
-   <!-- OLD CODE: May not need these two lists of users
-   <aura:attribute name="allTrainers"          type="User[]" />
-   <aura:attribute name="allCoTrainers"        type="User[]" />
-	-->
 
    <!-- 
       Component Refresh
@@ -42,6 +39,7 @@
                                                                                           EndDate__c : '',
                                                                                           Trainer__c : '',
                                                                                           CoTrainer__c : '',
+                                                                                          External_Trainer__c : '',
                                                                                           TrainingLocation__c : '',
                                                                                           TrainingRoom__c : '',
                                                                                           Status__c : ''  }"/>
@@ -51,35 +49,16 @@
 
    <!-- Events -->
    <aura:registerEvent name="updateFiltersEvent"        type="c:afNewBatchFormEvent"/>
-
-   <!-- Old Events
-   <aura:registerEvent 	name="afNewBatchFormLocation"     type="c:afNewBatchFormLocationEvent"/>
-   <aura:registerEvent 	name="afNewBatchFormDate"         type="c:afNewBatchFormDateEvent"/>
    <aura:registerEvent 	name="afNewBatchCreated"          type="c:afNewBatchCreatedEvent"/>
-   <aura:registerEvent 	name="afNewBatchFormTrack"        type="c:afNewBatchFormTrackEvent"/>
-   -->
    
    <!-- Handlers -->
-   <!--
-   <aura:handler                       event="c:afNewBatchFormEvent"     action="{!c.updateAvailabilityOnChange}"/>
    <aura:handler                       event="c:TrainerSelected"              action="{!c.setTrainerField}"/>
    <aura:handler                       event="c:roomSelected"                 action="{!c.setRoomField}"/>
-   -->
    <aura:handler 		name="change"     value="{!v.track}"        	            action="{!c.updateAvailabilityOnChange}"/>
    <aura:handler 		name="change"     value="{!v.startDate}"        	      action="{!c.updateAvailabilityOnChange}"/>
    <aura:handler 		name="change"     value="{!v.numWeeks}"        	         action="{!c.updateAvailabilityOnChange}"/>
    <aura:handler 		name="change"     value="{!v.trainer}"        	         action="{!c.updateAvailabilityOnChange}"/>
    <aura:handler 		name="change"     value="{!v.location}"        	         action="{!c.updateAvailabilityOnChange}"/>
-   
-
-   <!-- Old Handlers
-   <aura:handler 		name="init"         value="{!this}"             	action="{!c.doInit}" />
-   <aura:handler 		name="change"       value="{!v.trainer}"        	action="{!c.trainerChanged}"/>
-   <aura:handler 		name="change"       value="{!v.cotrainer}"      	action="{!c.trainerChanged}"/>
-   <aura:handler 		name="change"       value="{!v.track}"          	action="{!c.trackChanged}"/>
-   <aura:handler                        	event="c:TrainerSelected" 		action="{!c.setTrainerField}"/>
-   <aura:handler                        	event="c:roomSelected"        	action="{!c.setRoomField}"/>
-   -->
    
 
    <!-- Component Content: Black Create a New Batch Bar with buttons -->
@@ -132,8 +111,8 @@
                <div class="slds-col slds-size_1-of-4 slds-col_bump-left">
                   <lightning:inputField fieldName="CoTrainer__c" aura:id="cotrainer" value="{!v.cotrainer}" onchange="{!c.trainerChanged}" />
                </div>
-               <div class="slds-col slds-size_1-of-6 slds-col_bump-left">
-                  <span> </span>
+               <div class="slds-col slds-size_1-of-4 slds-col_bump-left">
+                  <lightning:inputField fieldName="External_Trainer__c" value="{!v.ExternalTrainer}"/>
                </div>
             </div> 
          </div>
@@ -144,7 +123,7 @@
                <div class="slds-box">
                   <div class="slds-grid slds-grid_align-spread">
                      <div class="slds-col slds-size_1-of-3">
-                        <lightning:select name="trainingLoc" label="Training Location" aura:id="trainingLoc" value="{!v.location}"> <!-- onchange="{!c.locationChanged}" -->
+                        <lightning:select name="trainingLoc" label="Training Location" aura:id="trainingLoc" value="{!v.location}" onchange="{!c.locationChanged}">
                            <aura:iteration items="{!v.allLocations}" var="loc">
                               <option value="{!loc.id}" selected="{!v.loc}">{!loc.OfficeName__c}</option>
                            </aura:iteration>
