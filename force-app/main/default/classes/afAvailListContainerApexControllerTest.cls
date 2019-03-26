@@ -6,7 +6,7 @@
 *   the afAvailListContainer component     
 ******************************************************************/
 
-@isTest
+@isTest(SeeAllData=false)
 public class afAvailListContainerApexControllerTest {
 
     private static List<User> trainers;
@@ -15,6 +15,7 @@ public class afAvailListContainerApexControllerTest {
     private static List<Skill__c> skills;
     private static List<Training__c> trainings;
     private static List<Date> sDates;
+    private static List<PTO__c> ptos;
     
     @testSetup
     public static void doSetup(){
@@ -75,8 +76,21 @@ public class afAvailListContainerApexControllerTest {
                                           TrainingTrack__c = tracks.get(Math.mod(i,tracks.size())).id));
         }
 
+        ptos = new List<PTO__c>();
+        ptos.add(new PTO__c(Trainer__c = trainers.get(0).id,
+                            StartDate__c = Date.today().addDays(14).toStartOfWeek(),
+                            EndDate__c = Date.today().addDays(14).toStartOfWeek().addDays(10),
+                            Reason__c = 'Because',
+                            Status__c = 'Pending Approval'));
+        ptos.add(new PTO__c(Trainer__c = trainers.get(13).id,
+                            StartDate__c = Date.today().addDays(14).toStartOfWeek(),
+                            EndDate__c = Date.today().addDays(14).toStartOfWeek().addDays(10),
+                            Reason__c = 'Because',
+                            Status__c = 'Pending Approval'));
+
         //Insert Trainings and Skills
         System.runAs(trainers.get(0)){
+            insert ptos;
             insert skills;
             insert trainings;
         }
@@ -89,6 +103,9 @@ public class afAvailListContainerApexControllerTest {
 
         Test.startTest();
 
+        //Approve all PTOs
+        approvePTOs();
+
         //Create Parameters for the Controller's method
         Date startDate = Date.today().addDays(14).toStartOfWeek().addDays(1);
         Date endDate = startDate.addDays(70).toStartOfWeek().addDays(5);
@@ -96,6 +113,7 @@ public class afAvailListContainerApexControllerTest {
         String officeName = 'Fairfax';
 
         //Initialize List to hold results from the method
+        List<User> result = new List<User>();
         List<User> results = new List<User>();
 
         /**********************
@@ -103,13 +121,18 @@ public class afAvailListContainerApexControllerTest {
         **********************/
 
         //Call method with all parameters filled
-        results = afAvailListContainerApexController.sortTrainersBySelectedCategories(startDate,endDate,track,officeName);
+        results.clear();
+        result = afAvailListContainerApexController.sortTrainersBySelectedCategories(startDate,endDate,track,officeName);
+        for (User u : result){
+            if (u.name.contains('last '))
+                results.add(u);
+        }
 
         //This sort version has all trainers with no trainings in the time frame provided. Then it sorts further by putting trainers
         //          at the provided location and with a skill in the provided track towards the top.
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //          39,12,15,18,21,24,27,3,30,33,36,42,45,48,51,6,9,13,26,14,16,17,18,2
-        //          20,22,23,25,28,29,31,32,34,35,37,38,4,40,41,43,44,46,47,49,5,50,7,8,0,1
+        //          39,12,15,18,21,24,27,3,30,33,36,42,45,48,51,6,9,26,14,16,17,18,2,20
+        //          22,23,25,28,29,31,32,34,35,37,38,4,40,41,43,44,46,47,49,5,50,7,8,0,13,1
         System.assertEquals(results.size(),52);
         System.assertEquals(results.get(0).name, 'last 39');
         System.assertEquals(results.get(1).name, 'last 12');
@@ -118,18 +141,18 @@ public class afAvailListContainerApexControllerTest {
         System.assertEquals(results.get(14).name, 'last 51');
         System.assertEquals(results.get(15).name, 'last 6');
         System.assertEquals(results.get(16).name, 'last 9');
-        System.assertEquals(results.get(17).name, 'last 13');
-        System.assertEquals(results.get(28).name, 'last 23');
-        System.assertEquals(results.get(29).name, 'last 25');
-        System.assertEquals(results.get(30).name, 'last 28');
-        System.assertEquals(results.get(31).name, 'last 29');
-        System.assertEquals(results.get(32).name, 'last 31');
-        System.assertEquals(results.get(40).name, 'last 41');
-        System.assertEquals(results.get(41).name, 'last 43');
-        System.assertEquals(results.get(42).name, 'last 44');
-        System.assertEquals(results.get(45).name, 'last 49');
-        System.assertEquals(results.get(46).name, 'last 5');
-        System.assertEquals(results.get(50).name, 'last 0');
+        System.assertEquals(results.get(17).name, 'last 26');
+        System.assertEquals(results.get(28).name, 'last 25');
+        System.assertEquals(results.get(29).name, 'last 28');
+        System.assertEquals(results.get(30).name, 'last 29');
+        System.assertEquals(results.get(31).name, 'last 31');
+        System.assertEquals(results.get(32).name, 'last 32');
+        System.assertEquals(results.get(40).name, 'last 43');
+        System.assertEquals(results.get(41).name, 'last 44');
+        System.assertEquals(results.get(42).name, 'last 46');
+        System.assertEquals(results.get(45).name, 'last 5');
+        System.assertEquals(results.get(46).name, 'last 50');
+        System.assertEquals(results.get(50).name, 'last 13');
         System.assertEquals(results.get(51).name, 'last 1');
 
 
@@ -141,31 +164,36 @@ public class afAvailListContainerApexControllerTest {
         **********************/
 
         //Call method without a start or end date
-        results = afAvailListContainerApexController.sortTrainersBySelectedCategories(null,null,track,officeName);
+        results.clear();
+        result = afAvailListContainerApexController.sortTrainersBySelectedCategories(null,null,track,officeName);
+        for (User u : result){
+            if (u.name.contains('last '))
+                results.add(u);
+        }
 
         //This sort version has all trainers with no upcoming trainings first, then trainers with trainings
         //          at some time in the future. Then it sorts further by putting trainers at the provided location 
         //          and with a skill in the provided track towards the top.
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //          39,15,18,21,24,27,30,33,36,42,45,48,51,13,26,14,16,17,19,20,22,23,25,28,29,31,
-        //          32,34,35,37,38,40,41,43,44,46,47,49,50,0,12,3,6,9,10,11,1,2,4,5,7,8
+        //          39,15,18,21,24,27,30,33,36,42,45,48,51,26,14,16,17,19,20,22,23,25,28,29,31,
+        //          32,34,35,37,38,40,41,43,44,46,47,49,50,0,13,12,3,6,9,10,11,1,2,4,5,7,8
         System.assertEquals(results.size(),52);
         System.assertEquals(results.get(0).name, 'last 39');
         System.assertEquals(results.get(1).name, 'last 15');
         System.assertEquals(results.get(2).name, 'last 18');
         System.assertEquals(results.get(3).name, 'last 21');
         System.assertEquals(results.get(12).name, 'last 51');
-        System.assertEquals(results.get(13).name, 'last 13');
-        System.assertEquals(results.get(14).name, 'last 26');
-        System.assertEquals(results.get(15).name, 'last 14');
-        System.assertEquals(results.get(16).name, 'last 16');
-        System.assertEquals(results.get(17).name, 'last 17');
-        System.assertEquals(results.get(26).name, 'last 32');
-        System.assertEquals(results.get(27).name, 'last 34');
-        System.assertEquals(results.get(38).name, 'last 50');
-        System.assertEquals(results.get(39).name, 'last 0');
-        System.assertEquals(results.get(40).name, 'last 12');
-        System.assertEquals(results.get(41).name, 'last 3');
+        System.assertEquals(results.get(13).name, 'last 26');
+        System.assertEquals(results.get(14).name, 'last 14');
+        System.assertEquals(results.get(15).name, 'last 16');
+        System.assertEquals(results.get(16).name, 'last 17');
+        System.assertEquals(results.get(17).name, 'last 19');
+        System.assertEquals(results.get(26).name, 'last 34');
+        System.assertEquals(results.get(27).name, 'last 35');
+        System.assertEquals(results.get(38).name, 'last 0');
+        System.assertEquals(results.get(39).name, 'last 12');
+        System.assertEquals(results.get(40).name, 'last 3');
+        System.assertEquals(results.get(41).name, 'last 6');
         System.assertEquals(results.get(44).name, 'last 1');
         System.assertEquals(results.get(49).name, 'last 5');
         System.assertEquals(results.get(50).name, 'last 7');
@@ -180,27 +208,32 @@ public class afAvailListContainerApexControllerTest {
         **********************/
 
         //Call method without a training track
-        results = afAvailListContainerApexController.sortTrainersBySelectedCategories(startDate,endDate,null,officeName);
+        results.clear();
+        result = afAvailListContainerApexController.sortTrainersBySelectedCategories(startDate,endDate,null,officeName);
+        for (User u : result){
+            if (u.name.contains('last '))
+                results.add(u);
+        }
 
         //This sort version has all trainers with no trainings in the timeframe provided. Then it sorts trainers
         //          at the provided location towards the top.
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //          13,26,39,10,11,12,14,15,16,17,18,19,2,20,21,22,23,24,25,27,28,29,3,30,31,32
-        //          33,34,35,36,37,38,4,40,41,42,43,44,45,46,47,48,49,5,50,51,6,7,8,9,0,1
+        //          26,39,10,11,12,14,15,16,17,18,19,2,20,21,22,23,24,25,27,28,29,3,30,31,32
+        //          33,34,35,36,37,38,4,40,41,42,43,44,45,46,47,48,49,5,50,51,6,7,8,9,0,13,1
         System.assertEquals(results.size(),52);
-        System.assertEquals(results.get(0).name, 'last 13');
-        System.assertEquals(results.get(1).name, 'last 26');
-        System.assertEquals(results.get(2).name, 'last 39');
-        System.assertEquals(results.get(3).name, 'last 10');
-        System.assertEquals(results.get(4).name, 'last 11');
-        System.assertEquals(results.get(24).name, 'last 31');
-        System.assertEquals(results.get(25).name, 'last 32');
-        System.assertEquals(results.get(26).name, 'last 33');
-        System.assertEquals(results.get(27).name, 'last 34');
-        System.assertEquals(results.get(45).name, 'last 51');
-        System.assertEquals(results.get(46).name, 'last 6');
-        System.assertEquals(results.get(47).name, 'last 7');
-        System.assertEquals(results.get(50).name, 'last 0');
+        System.assertEquals(results.get(0).name, 'last 26');
+        System.assertEquals(results.get(1).name, 'last 39');
+        System.assertEquals(results.get(2).name, 'last 10');
+        System.assertEquals(results.get(3).name, 'last 11');
+        System.assertEquals(results.get(4).name, 'last 12');
+        System.assertEquals(results.get(24).name, 'last 32');
+        System.assertEquals(results.get(25).name, 'last 33');
+        System.assertEquals(results.get(26).name, 'last 34');
+        System.assertEquals(results.get(27).name, 'last 35');
+        System.assertEquals(results.get(45).name, 'last 6');
+        System.assertEquals(results.get(46).name, 'last 7');
+        System.assertEquals(results.get(47).name, 'last 8');
+        System.assertEquals(results.get(50).name, 'last 13');
         System.assertEquals(results.get(51).name, 'last 1');
 
 
@@ -212,13 +245,18 @@ public class afAvailListContainerApexControllerTest {
         **********************/
 
         //Call method without a location name
-        results = afAvailListContainerApexController.sortTrainersBySelectedCategories(startDate,endDate,track,null);
+        results.clear();
+        result = afAvailListContainerApexController.sortTrainersBySelectedCategories(startDate,endDate,track,null);
+        for (User u : result){
+            if (u.name.contains('last '))
+                results.add(u);
+        }
 
         //This sort version has all trainers with no trainings in the timeframe provided. Then it sorts trainers
         //           with skill in the provided training track towards the top.
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //          12,15,18,21,24,27,3,30,33,36,39,42,45,48,51,6,9,10,11,13,14,16,17,19,2,20
-        //          22,23,25,26,28,29,31,32,34,35,37,38,4,40,41,43,44,46,47,49,5,50,7,8,0,1        
+        //          12,15,18,21,24,27,3,30,33,36,39,42,45,48,51,6,9,10,11,14,16,17,19,2,20
+        //          22,23,25,26,28,29,31,32,34,35,37,38,4,40,41,43,44,46,47,49,5,50,7,8,0,1,13        
         System.assertEquals(results.size(),52);
         System.assertEquals(results.get(0).name, 'last 12');
         System.assertEquals(results.get(1).name, 'last 15');
@@ -229,12 +267,12 @@ public class afAvailListContainerApexControllerTest {
         System.assertEquals(results.get(16).name, 'last 9');
         System.assertEquals(results.get(17).name, 'last 10');
         System.assertEquals(results.get(18).name, 'last 11');
-        System.assertEquals(results.get(25).name, 'last 20');
-        System.assertEquals(results.get(26).name, 'last 22');
-        System.assertEquals(results.get(48).name, 'last 7');
-        System.assertEquals(results.get(49).name, 'last 8');
-        System.assertEquals(results.get(50).name, 'last 0');
-        System.assertEquals(results.get(51).name, 'last 1');
+        System.assertEquals(results.get(25).name, 'last 22');
+        System.assertEquals(results.get(26).name, 'last 23');
+        System.assertEquals(results.get(48).name, 'last 8');
+        System.assertEquals(results.get(49).name, 'last 0');
+        System.assertEquals(results.get(50).name, 'last 1');
+        System.assertEquals(results.get(51).name, 'last 13');
 
 
 
@@ -245,25 +283,30 @@ public class afAvailListContainerApexControllerTest {
         **********************/
 
         //Call method with only a training track
-        results = afAvailListContainerApexController.sortTrainersBySelectedCategories(null,null,track,null);
+        results.clear();
+        result = afAvailListContainerApexController.sortTrainersBySelectedCategories(null,null,track,null);
+        for (User u : result){
+            if (u.name.contains('last '))
+                results.add(u);
+        }
 
         //This sort version has all trainers with no upcoming trainings first, then trainers with trainings
         //          at some time in the future. Then it sorts trainers with skill in the provided training track 
         //          towards the top.
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //          15,18,21,24,27,30,33,36,39,42,45,48,51,13,14,16,17,19,20,22,23,25,26,28,29,31,
-        //          32,34,35,37,38,40,41,43,44,46,47,49,50,0,12,3,6,9,1,10,11,2,4,5,7,8
+        //          15,18,21,24,27,30,33,36,39,42,45,48,51,14,16,17,19,20,22,23,25,26,28,29,31,
+        //          32,34,35,37,38,40,41,43,44,46,47,49,50,0,12,3,6,9,1,10,11,13,2,4,5,7,8
         System.assertEquals(results.size(),52);
         System.assertEquals(results.get(0).name, 'last 15');
         System.assertEquals(results.get(1).name, 'last 18');
         System.assertEquals(results.get(2).name, 'last 21');
         System.assertEquals(results.get(3).name, 'last 24');
         System.assertEquals(results.get(12).name, 'last 51');
-        System.assertEquals(results.get(13).name, 'last 13');
-        System.assertEquals(results.get(14).name, 'last 14');
-        System.assertEquals(results.get(38).name, 'last 50');
-        System.assertEquals(results.get(39).name, 'last 0');
-        System.assertEquals(results.get(40).name, 'last 12');
+        System.assertEquals(results.get(13).name, 'last 14');
+        System.assertEquals(results.get(14).name, 'last 16');
+        System.assertEquals(results.get(38).name, 'last 0');
+        System.assertEquals(results.get(39).name, 'last 12');
+        System.assertEquals(results.get(40).name, 'last 3');
         System.assertEquals(results.get(49).name, 'last 5');
         System.assertEquals(results.get(50).name, 'last 7');
         System.assertEquals(results.get(51).name, 'last 8');
@@ -277,27 +320,32 @@ public class afAvailListContainerApexControllerTest {
         **********************/
 
         //Call method with only a start and end date
-        results = afAvailListContainerApexController.sortTrainersBySelectedCategories(startDate,endDate,null,null);
+        results.clear();
+        result = afAvailListContainerApexController.sortTrainersBySelectedCategories(startDate,endDate,null,null);
+        for (User u : result){
+            if (u.name.contains('last '))
+                results.add(u);
+        }
 
         //This sort version has all trainers with no trainings in the timeframe provided first, then 
         //          trainers with trainings at some time in the future. No other sort criteria are used
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //          10,11,12,13,14,15,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33
-        //          34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,6,7,8,9,0,1
+        //          10,11,12,14,15,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33
+        //          34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,6,7,8,9,0,1,13
         System.assertEquals(results.size(),52);
         System.assertEquals(results.get(0).name, 'last 10');
         System.assertEquals(results.get(1).name, 'last 11');
         System.assertEquals(results.get(2).name, 'last 12');
-        System.assertEquals(results.get(3).name, 'last 13');
-        System.assertEquals(results.get(25).name, 'last 33');
-        System.assertEquals(results.get(26).name, 'last 34');
-        System.assertEquals(results.get(27).name, 'last 35');
-        System.assertEquals(results.get(46).name, 'last 6');
-        System.assertEquals(results.get(47).name, 'last 7');
-        System.assertEquals(results.get(48).name, 'last 8');
-        System.assertEquals(results.get(49).name, 'last 9');
-        System.assertEquals(results.get(50).name, 'last 0');
-        System.assertEquals(results.get(51).name, 'last 1');
+        System.assertEquals(results.get(3).name, 'last 14');
+        System.assertEquals(results.get(25).name, 'last 34');
+        System.assertEquals(results.get(26).name, 'last 35');
+        System.assertEquals(results.get(27).name, 'last 36');
+        System.assertEquals(results.get(46).name, 'last 7');
+        System.assertEquals(results.get(47).name, 'last 8');
+        System.assertEquals(results.get(48).name, 'last 9');
+        System.assertEquals(results.get(49).name, 'last 0');
+        System.assertEquals(results.get(50).name, 'last 1');
+        System.assertEquals(results.get(51).name, 'last 13');
 
 
 
@@ -308,21 +356,26 @@ public class afAvailListContainerApexControllerTest {
         **********************/
 
         //Call method with only a location name
-        results = afAvailListContainerApexController.sortTrainersBySelectedCategories(null,null,null,officeName);
+        results.clear();
+        result = afAvailListContainerApexController.sortTrainersBySelectedCategories(null,null,null,officeName);
+        for (User u : result){
+            if (u.name.contains('last '))
+                results.add(u);
+        }
 
         //This sort version has all trainers with no upcoming trainings first, then trainers with trainings
         //      at some time in the future. No other sort criteria are used
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //          13,26,39,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,35,36,37,
-        //          38,40,41,42,43,44,45,46,47,48,49,50,51,0,1,10,11,12,2,3,4,5,6,7,8,9
+        //          26,39,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,35,36,37,
+        //          38,40,41,42,43,44,45,46,47,48,49,50,51,0,13,1,10,11,12,2,3,4,5,6,7,8,9
         System.assertEquals(results.size(),52);
-        System.assertEquals(results.get(0).name, 'last 13');
-        System.assertEquals(results.get(1).name, 'last 26');
-        System.assertEquals(results.get(2).name, 'last 39');
-        System.assertEquals(results.get(3).name, 'last 14');
-        System.assertEquals(results.get(4).name, 'last 15');
-        System.assertEquals(results.get(38).name, 'last 51');
-        System.assertEquals(results.get(39).name, 'last 0');
+        System.assertEquals(results.get(0).name, 'last 26');
+        System.assertEquals(results.get(1).name, 'last 39');
+        System.assertEquals(results.get(2).name, 'last 14');
+        System.assertEquals(results.get(3).name, 'last 15');
+        System.assertEquals(results.get(4).name, 'last 16');
+        System.assertEquals(results.get(38).name, 'last 0');
+        System.assertEquals(results.get(39).name, 'last 13');
         System.assertEquals(results.get(40).name, 'last 1');
         System.assertEquals(results.get(41).name, 'last 10');
         System.assertEquals(results.get(50).name, 'last 8');
@@ -337,24 +390,58 @@ public class afAvailListContainerApexControllerTest {
         **********************/
 
         //Call Method with null for all parameters
-        results = afAvailListContainerApexController.sortTrainersBySelectedCategories(null,null,null,null);
+        results.clear();
+        result = afAvailListContainerApexController.sortTrainersBySelectedCategories(null,null,null,null);
+        for (User u : result){
+            if (u.name.contains('last '))
+                results.add(u);
+        }
 
         //This sort version has all trainers with no upcoming trainings first, then trainers with trainings
         //      at some time in the future. No other sort criteria are used
         //The order they should be sorted as follows: (Numbers are the number in the last name)
-        //          13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38
-        //          39,40,41,42,43,44,45,46,47,48,49,50,51,0,1,10,11,12,2,3,4,5,6,7,8,9
+        //          14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38
+        //          39,40,41,42,43,44,45,46,47,48,49,50,51,0,1,10,11,12,13,2,3,4,5,6,7,8,9
         System.assertEquals(results.size(),52);
-        System.assertEquals(results.get(0).name, 'last 13');
-        System.assertEquals(results.get(1).name, 'last 14');
-        System.assertEquals(results.get(2).name, 'last 15');
-        System.assertEquals(results.get(37).name, 'last 50');
-        System.assertEquals(results.get(38).name, 'last 51');
-        System.assertEquals(results.get(39).name, 'last 0');
-        System.assertEquals(results.get(40).name, 'last 1');
+        System.assertEquals(results.get(0).name, 'last 14');
+        System.assertEquals(results.get(1).name, 'last 15');
+        System.assertEquals(results.get(2).name, 'last 16');
+        System.assertEquals(results.get(37).name, 'last 51');
+        System.assertEquals(results.get(38).name, 'last 0');
+        System.assertEquals(results.get(39).name, 'last 1');
+        System.assertEquals(results.get(40).name, 'last 10');
         System.assertEquals(results.get(51).name, 'last 9');
     
 
         Test.stopTest();
+    }
+
+    //Approves all pending PTOs for use in testing. This method is called at the beginning of each
+    //      test method that requires PTOs for this purpose.
+    public static void approvePTOs(){
+        List<PTO__c> allPTOs = [SELECT id FROM PTO__c];
+        List<ID> PTOids = new List<ID>();
+
+        for (PTO__c p : allPTOs){
+            PTOids.add(p.id);
+        }
+
+        Map</*ProcessInstance*/ Id, /*ProcessInstanceWorkItem*/ Id> m = new Map<Id, Id>();
+        for (ProcessInstanceWorkItem p : [SELECT Id, ProcessInstanceId FROM ProcessInstanceWorkItem]) {
+            m.put(p.ProcessInstanceId, p.Id);
+        }
+
+        List<Approval.ProcessWorkItemRequest> reqs = new List<Approval.ProcessWorkitemRequest>();
+        for (ProcessInstance p : [SELECT Id, TargetObjectID FROM ProcessInstance WHERE TargetObjectID IN :PtoIds]) {
+            Approval.ProcessWorkitemRequest req = new Approval.ProcessWorkitemRequest();
+            req.setComments('Approved');
+            req.setAction('Approve');
+            req.setNextApproverIds(new Id[] {UserInfo.getUserId()});
+            req.setWorkItemId(m.get(p.Id));
+            reqs.add(req);
+        }
+
+        // Process all approvals at once to avoid DML limits
+        Approval.process(reqs);
     }
 }

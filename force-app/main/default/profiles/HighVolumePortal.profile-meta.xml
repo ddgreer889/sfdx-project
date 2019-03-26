@@ -17,18 +17,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>UtilityMethods</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>afApprovalButtonExtensionTests</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>afApproveButtonExtension</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>afAvailListContainerApexController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -362,10 +350,6 @@
         <field>User.hasSkill__c</field>
         <readable>false</readable>
     </fieldPermissions>
-    <pageAccesses>
-        <apexPage>afApproveButtonPage</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
     <pageAccesses>
         <apexPage>afApproveButtonPage</apexPage>
         <enabled>false</enabled>

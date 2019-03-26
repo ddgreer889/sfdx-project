@@ -151,9 +151,11 @@ public class afTimelineController {
             // Find the trainer in the list
             Boolean found = false;
             for(j = 0; j < trainerNames.size(); j++) {
-                tdw.y = j;
-                found = true;
-                break;
+                if(trainerNames.get(j) == pto.Trainer__r.Name) {
+                    tdw.y = j;
+                    found = true;
+                    break;
+                }
             }
 
             if (!found) {
