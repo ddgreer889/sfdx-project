@@ -2,16 +2,15 @@
     <ltng:require styles="{!$Resource.RevatureStyles}"/>
     
     <!--Passed by Master Controller Attributes-->
-    <aura:attribute name="allSkills" 				type="List"/>
-    <aura:attribute name="allRooms" 				type="List"/>    
-    <aura:attribute name="allTrainers"              type="List"/>
-    
+    <aura:attribute name="allSkills" 				type="Skill__c[]"/>
+    <aura:attribute name="allRooms" 				type="List"/>
+    <aura:attribute name="allTrainers"              type="User[]"/>
     
     <!-- User Selection: Attributes
         All areas of the component that is updated- shows to the right of newBatchForm
     -->
     <aura:attribute name="trainers" 				type="User[]"/>
-    <!--<aura:attribute name="rooms" 					type="Training_Rooms__c[]"/>-->
+    <aura:attribute name="rooms" 					type="List"/>
     <aura:attribute name="tab1Shown" 				type="Boolean" 			default='true'/>
     <aura:attribute name="location" 				type="Id"/>
     
@@ -19,22 +18,16 @@
     <aura:handler     event="c:afNewBatchFormEvent" 	action="{!c.userInputRecieved}"/>
     
     <!-- Initialize Sort -->
-    <aura:handler name="init" 		value="{!this}" 	action="{!c.doInit}"/>
-    <!--<aura:handler name="change" value="{!v.allRooms}" action="{!c.initRooms}"/>
-    <aura:handler name="change" value="{!v.allTrainers}" action="{!c.initTrainers}"/>
-    -->
-    
-    <!--
-    <aura:handler event="c:afNewBatchFormTrackEvent" 	action="{!c.skillHasChanged}"/>
-    <aura:handler event="c:afNewBatchFormDateEvent" 	action="{!c.dateHasChanged}"/>
-    <aura:handler event="c:afNewBatchFormLocationEvent"	action="{!c.handleLoc}"/>
-    -->
+    <aura:handler name="init" 		value="{!this}" 	    action="{!c.doInit}"/>
+    <aura:handler name="change"     value="{!v.allRooms}"   action="{!c.initRooms}"/>
+    <!--<aura:handler name="change" value="{!v.allTrainers}" action="{!c.initTrainers}"/>-->
 
     <!--Visual Components-->
     <div class="slds-card">
         <div class="slds-card__body slds-card__body_inner">
             <div class="slds-tabs_default">
-                <!-- tab to show a list of available trainers
+                <!-- 
+                    tab to show a list of available trainers
                     top bar initialized to this tab
                 -->
                 <ul class="slds-tabs_default__nav">
@@ -50,7 +43,8 @@
                         </span>
                     </li>
                 </ul>
-                <!-- in the trainer tab, displays Name, Availability, Assigned Location, and if they are experienced.
+                <!--
+                    In the trainer tab, displays Name, Availability, Assigned Location, and if they are experienced.
                     This defines columns for every trainer that matches batch criteria.    
                 -->
                 <div id="trainers" class="{!v.tab1Shown ? 'slds-tabs_default__content slds-show' : 'slds-tabs_default__content slds-hide'}">
@@ -61,14 +55,14 @@
                         <div class="slds-col slds-size_1-of-5 slds-align_absolute-center"><h1>Assigned Location</h1></div>
                         <div class="slds-col slds-size_1-of-5 slds-align_absolute-center"><h1>Experienced</h1></div>
                     </div>
-                    <!-- iteration to grab said columns stated earlier for each trainer-->
+                    <!-- iteration to grab said columns stated earlier for each trainer -->
                     <div class="slds-scrollable" style="height: 300px">
                         <aura:iteration  items="{!v.trainers}" var="trainerVar">
                             <c:afTrainerAvailabilityListItem trainerId="{!trainerVar.Id}" hasSkill="{!trainerVar.hasSkill__c}" availability="{!trainerVar.Available__c}"/>
                         </aura:iteration>
                     </div>
                 </div>
-                <!-- Ink the Available Rooms tab, defines columns to use-->
+                <!-- Ink the Available Rooms tab, defines columns to use -->
                 <div id="rooms" class="{!v.tab1Shown ? 'slds-tabs_default__content slds-hide' : 'slds-tabs_default__content slds-show'}">
                     <div class="slds-grid">
                         <div class="slds-col slds-size_1-of-5 slds-align_absolute-center"></div>
@@ -79,7 +73,7 @@
                     </div>
                     <!-- Iterate over available rooms in accordance to criteria set-->
                     <div class="slds-scrollable" style="height: 300px">
-                        <aura:iteration items="{!v.allRooms}" var="room">
+                        <aura:iteration items="{!v.rooms}" var="room">
                             <c:afRoomAvailabilityListItem room="{!room}"/>   
                         </aura:iteration>
                     </div>

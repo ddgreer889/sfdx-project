@@ -62,8 +62,17 @@
         <name>WebLink</name>
     </types>
     <types>
-        <members>PTO__c</members>
+        <members>*</members>
         <name>CustomObject</name>
+    </types>
+        <types>
+        <members>User.hasSkill__c</members>
+        <members>User.Available__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>AssignForce</members>
+        <name>CustomApplication</name>
     </types>
     <version>45.0</version>
 </Package>

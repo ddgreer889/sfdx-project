@@ -28,6 +28,7 @@
             EndDate__c              : component.get("v.endDate"),
             Trainer__c              : component.get("v.trainer"),
             CoTrainer__c            : component.get("v.cotrainer"),
+            External_Trainer__c     : component.get("v.ExternalTrainer"),
             TrainingLocation__c     : component.get("v.location"),
             TrainingRoom__c         : component.get("v.hiddenRoom"),
             Status__c               : 'Planned'
@@ -53,8 +54,10 @@
         newBatchEvent.setParams({
             "newBatch" : newBatch
         });
+        
         //FOR TESTING:
         //console.log('newBatch JSON ' + JSON.stringify(newBatchEvent.getParam("newBatch")));
+
         newBatchEvent.fire();
     },
 
@@ -70,7 +73,6 @@
         if( trackChosen == ""){
             trackChosen = null;
         }
-        console.log(trackChosen + "   SFNKGJDFDSNKFNS");
         /*-------------------------------------------
                DETECT USER INPUT: DATE CHANGED
         -------------------------------------------*/
@@ -113,39 +115,7 @@
             selectedLocation : locationChosen
         });
         filterEvent.fire();
-
-        /*
-        var filterEvent = component.getEvent("updateFiltersEvent");
-        var trackChosen = component.get(v.track);
-        var startBatch = component.get(v.startDate);
-        var endBatch = component.get(v.endDate);
-        var locationChosen = component.get(v.location);
-        console.log("Please work." + trackChosen + " ; " + startBatch + " ; " + endBatch + " ; " + locationChosen + " ;");
-        filterEvent.setParams({
-            chosenTrack : null,
-            startOfBatch : null,
-            endOfBatch : null,
-            selectedLocation : null
-        });
-        filterEvent.fire();
-        */
     },
-    
-    /*----------------------------------------------------------
-    				Training Track Section 
-    ----------------------------------------------------------*/
-/*    trackChanged : function(component, event, helper) {
-        var track = component.get("v.track");
-        // console.log('track: ' + track);
-        // pass selected training track to application event
-        var trackEvent = $A.get("e.c:afNewBatchFormTrackEvent");
-        trackEvent.setParams({
-            "track" : track
-        });
-        // console.log('trackChanged');
-        trackEvent.fire();  
-    },
-*/    
     
     /*----------------------------------------------------------
     					Trainer Section 
@@ -179,29 +149,34 @@
     /*----------------------------------------------------------
     					Location Section
     ----------------------------------------------------------*/
-/*    setRoomField : function(component, event, helper){
-        var room = event.getParam("room");
-        var allRooms = component.get("v.roomList");
-        var roomsForLoc = [];
+    setRoomField : function(component, event, helper){
         
+        /*Updated implementation of previous itreation - basically the same
+        implementation as before but works with server side logic
+        This logic can most likely be updated. */
+
+        var room = event.getParam("room");
+        var location = event.getParam("location");
+        var rooms   = component.get("v.allRooms");       
+        var roomsForLoc = [];
+        roomsForLoc.push("");
+
         component.set("v.locUncleared", false);
         component.set("v.locUncleared", true);
-        
-        for (var i = 0; i < allRooms.length; i++) {
-            if (allRooms[i].TrainingLocation__c == room.TrainingLocation__c) {
-                roomsForLoc.push(allRooms[i]);
+
+        for (var i = 0; i < rooms.length; i++) {
+            if(rooms[i].TrainingLocation__c == location){
+                roomsForLoc.push(rooms[i]);
             }
         }
-        
-        console.log(room.TrainingLocation__c);
-        component.set("v.location", room.TrainingLocation__c);
+
+        component.set('v.roomsForLocation', roomsForLoc);
+        component.set("v.location", room.TrainingLocationName__c);
         component.set("v.hiddenRoom", room.Id);
-        component.set("v.roomsForLocation", roomsForLoc);
         component.set("v.room", room.Id);
-        
     },
-*/    
-/*    selectRoom : function(component, event, helper) {
+    
+    selectRoom : function(component) {
         var room    = component.get("v.room");
         var rooms   = component.get("v.roomsForLocation");
         
@@ -213,14 +188,21 @@
         // set to hidden inputField for form submission
         component.set("v.hiddenRoom", room.Id);
     },
-*/    
+    
     locationChanged : function(component, event, helper) {
+        
         component.set("v.locUncleared", false);
         component.set("v.locUncleared", true);
         
         var loc 	= component.get("v.location");
         var roomsList = component.get("v.allRooms");
-		
+
+        console.log(loc);
+        
+        if(loc == '' || loc == null){
+            component.set('v.room', null);
+        }
+
 		var filteredRooms = component.get("c.filterRoomByLocation");        
         filteredRooms.setParams({
 			location : loc,
@@ -243,15 +225,5 @@
             }
         });
         $A.enqueueAction(filteredRooms);
-        
-        
-        // pass new location and all rooms to application event <--NEEDS TO BE COMPONENT EVENT NOT APPLICATION EVENT
-        var locEvent = $A.get("e.c:afNewBatchFormLocationEvent");
-        locEvent.setParams({
-            "location" : loc,
-        });
-        locEvent.fire();
     },
-   
-    
 })

@@ -18,7 +18,9 @@
     selectedRoom : function(component, event, helper){
         var roomSelected = $A.get("e.c:roomSelected");
         var room = component.get("v.room");
+        var loc = room.TrainingLocation__c;
         roomSelected.setParams({
+            'location' : loc,
             'room': room
         });
         roomSelected.fire();
