@@ -1,7 +1,9 @@
-//Author: oscar
-//Last updated: 3/19/19
-//Created on: 3/19/19
-//Description: Testing class for AfTrainerInfoController.apxc
+/****************************************************
+* afTrainerInfoController Test Class
+* Author: Oscar Su
+* 
+* Testing class for AfTrainerInfoController.apxc
+****************************************************/
 @isTest
 public class afTrainerInfoControllerTest {
     

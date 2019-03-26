@@ -1,11 +1,21 @@
 ({
     doInit : function(component, event, helper) {
-        var availability = component.get('v.availability');
+
+        //why did they put this here. Why do we even need the trainer id to do this init.
         var trainerId = component.get('v.trainerId');
+
+        var availability = component.get('v.availability');
         if(availability==="Available"){
             component.set('v.isAvailable', true);
         } else{
             component.set('v.isAvailable', false);
+        }
+        var skill = component.get('v.hasSkill');
+        console.log(skill + "AHHHHHH");
+        if(skill === true){
+            component.set("v.isSkill", true);
+        } else {
+            component.set("v.isSkill", false);
         }
         
     },

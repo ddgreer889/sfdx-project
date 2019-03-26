@@ -1,6 +1,11 @@
-//Testing af PTO Tabs Apex Controller
-//author: sergey sambros
-// 4/4 lines covered
+/****************************************************
+* afPTOTabsApexController Test Class
+* Author: sergey sambros
+*
+* Test the Apex Controller for the afPTOTabs
+*   component
+* 4/4 lines covered
+*****************************************************/
 
 @isTest
 public class afPTOTabsApexControllerTest {

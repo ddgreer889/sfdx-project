@@ -1,7 +1,10 @@
-//test afTrainingBatchesApexControllerTest
-//sergey sambros
-// 27/27 lines covered 
-//  TODO: Add comments and assertions. 
+/*****************************************************
+* afTrainingBatchesApexController Test Class
+* Author: Sergey Sambros
+*
+* Tests the Apex Controller for the afTrainingBatches
+*   component. 27/27 lines covered
+*****************************************************/
 
 @isTest
 public class afTrainingBatchesApexControllerTest {

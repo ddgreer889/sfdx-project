@@ -1,3 +1,11 @@
+/**********************************************
+* afTrainingTriggerHelper Test Class
+* Author: Ian Blanchard
+*
+* Tests the methods of the Helper Class for the
+*   Training Trigger
+**********************************************/
+
 @isTest
 public class afTrainingTriggerHelperTest {
 
