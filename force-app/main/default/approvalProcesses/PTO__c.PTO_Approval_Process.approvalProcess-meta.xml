@@ -23,7 +23,7 @@
         </approvalActions>
         <assignedApprover>
             <approver>
-                <name>Approval_Queue</name>
+                <name>PTORequests</name>
                 <type>queue</type>
             </approver>
             <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>

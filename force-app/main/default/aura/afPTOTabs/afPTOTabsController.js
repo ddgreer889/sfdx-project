@@ -23,6 +23,12 @@
                 }
                 component.set('v.approvedPTOs', approvedPTOs);
                 component.set('v.pendingPTOs', pendingPTOs);
+                if(approvedPTOs.length > 0) {
+                    component.set('v.hasApproved', true);
+                }
+                if(pendingPTOs.length > 0) {
+                    component.set('v.hasPending', true);
+                }
                 component.set('v.newApprovedPTOs', approvedPTOs);
                 component.set('v.oldApprovedPTOs', oldApprovedPTOs);
             } else if(state==='ERROR'){

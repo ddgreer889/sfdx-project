@@ -16,6 +16,7 @@ public class afAvailListContainerApexControllerTest {
     private static List<Training__c> trainings;
     private static List<Date> sDates;
     private static List<PTO__c> ptos;
+    private static List<Training_Room__c> rooms;
     
     @testSetup
     public static void doSetup(){
@@ -88,8 +89,13 @@ public class afAvailListContainerApexControllerTest {
                             Reason__c = 'Because',
                             Status__c = 'Pending Approval'));
 
-        //Insert Trainings and Skills
+        //Create 100 rooms at each location
+        rooms = UtilityMethods.createRoomData(100,locations.get(0));
+        rooms.addall(UtilityMethods.createRoomData(100,locations.get(1)));
+
+        //Insert Rooms, PTOs, Trainings and Skills
         System.runAs(trainers.get(0)){
+            insert rooms;
             insert ptos;
             insert skills;
             insert trainings;
@@ -412,6 +418,43 @@ public class afAvailListContainerApexControllerTest {
         System.assertEquals(results.get(40).name, 'last 10');
         System.assertEquals(results.get(51).name, 'last 9');
     
+
+        Test.stopTest();
+    }
+
+    @isTest
+    public static void roomSortTest(){
+
+        //The room sorting method does not currently use the start and end dates in its logic, so
+        //      the values for them are currently irrelevant. This will be updated in a future sprint
+        Date startDate = Date.today();
+        Date endDate = Date.today().addDays(10);
+
+        //Query for the locations and rooms made in testSetup
+        locations = [SELECT id, OfficeName__c FROM Training_Location__c];
+        rooms = [SELECT id, TrainingLocationName__c FROM Training_Room__c];
+
+        //Create a list to hold method results
+        List<Training_Room__c> results = new List<Training_Room__c>();
+
+        //This will be our chosen room for the tests
+        String loc = locations.get(0).OfficeName__c;
+
+        Test.startTest();
+
+        //Run method with a selected location
+        results = afAvailListContainerApexController.sortRoomsBySelectedCategories(rooms,startDate,endDate,loc);
+
+        //Check that the location of all rooms returned are at the selected location
+        for (Training_Room__c r : results){
+            System.assertEquals(r.TrainingLocationName__c, loc);
+        }
+
+        //Run method with no selected location
+        results = afAvailListContainerApexController.sortRoomsBySelectedCategories(rooms,startDate,endDate,null);
+
+        //check that all rooms were returned
+        System.assertEquals(results.size(),rooms.size());
 
         Test.stopTest();
     }

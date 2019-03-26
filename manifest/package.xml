@@ -25,7 +25,8 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Admin</members>
+        <members>Trainer</members>
         <name>Profile</name>
     </types>
     <types>
