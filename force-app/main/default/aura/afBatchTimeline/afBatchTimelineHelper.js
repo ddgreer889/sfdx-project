@@ -1,4 +1,6 @@
+/*Last updated by Oscar and Nate 3/25/19 */
 ({
+    //gets the trainers for data from apex controller
     getNames : function(component, event)
     {
         var action = component.get("c.getTrainers");
@@ -51,6 +53,7 @@
         var seriesData = [];
         var freeTimeData = [];
         var trainersInData = [];
+        //Create the variables for sizing the bars in the graph
         for(var i = 0; i < dataObj.length; i++)
         {
             var year = dataObj[i].x.substring(0,4);
@@ -67,12 +70,14 @@
                  trainersInData.push(dataObj[i].trainerName);
 			}
             delete dataObj[i].trainerName;
+            //The creation of the bars for the training tracks
             if(seriesNames.includes(seriesName))
             {
                 for(var c = 0; c < seriesObj.length; c++)
                 {
                     if(seriesObj[c].name == seriesName)
                     {
+                        
                         seriesObj[c].data.push ({'x' : dataObj[i].x, 'x2' : dataObj[i].x2, 'y' : dataObj[i].y, 'color' : dataObj[i].color});
                     }
                 }
@@ -88,19 +93,24 @@
                         fontSize : '17px',
                         fontFamily : 'Futura-Std-Bold',
                         textAlign : 'center',
-                        color : 'white',
+                        color : 'white', 
                         textOutline : false,
                         
                     },
+                    //Displays the number of weeks for how long the training tracks are
                     formatter: function(){
-                        return Math.ceil((this.x2 - this.x) / (7 * 24 * 60 * 60 * 1000)) + " Weeks";
+                        if (Math.ceil((this.x2 - this.x) / (7 * 24 * 60 * 60 * 1000)) > 1) {
+                            return Math.ceil((this.x2 - this.x) / (7 * 24 * 60 * 60 * 1000)) + " Wks";
+                        }
+                        return Math.ceil((this.x2 - this.x) / (7 * 24 * 60 * 60 * 1000)) + " Wk";
+                        
                     }
                 }
                                });
-            }//end of Else 
-            
+            }//end of the Else 
             
         }
+        //Creating the bars, but for the free time(time inbetween batches)
         var freeTimeData = [];
         var trainersDone = [];
         for(var i = 0; i < dataObj.length; i++)
@@ -109,7 +119,6 @@
                 var currentTrainer = dataObj[i].y;
                 trainersDone.push(currentTrainer);
                 var currentTrainerBatches = [];
-                //var currentTrainerFreeTime = [];
                 for(var j = i; j < dataObj.length; j++)
                 {
                     if(currentTrainer == dataObj[j].y && !currentTrainerBatches.includes(dataObj[j])){
@@ -123,7 +132,8 @@
                     } else {
                         
                         if(currentTrainerBatches[k].x2 < currentTrainerBatches[k+1].x){
-                            freeTimeData.push({'x' : currentTrainerBatches[k].x2, 'x2' : currentTrainerBatches[k+1].x, 'y' : currentTrainer, 'color' : '#FFFFFF'});
+                            
+                                freeTimeData.push({'x' : currentTrainerBatches[k].x2, 'x2' : currentTrainerBatches[k+1].x, 'y' : currentTrainer, 'color' : '#FFFFFF'});
                         }
                         if(k == currentTrainerBatches.length - 2){
                             break;
@@ -137,19 +147,21 @@
             enabled : true,
             style:
             {
-                fontSize : '17px',
+                fontSize : '14px',
                 fontFamily : 'Futura-Std-Bold',
-                textAlign : 'bottom',
+                textAlign : 'center',
                 color : 'black',
                 textOutline : false,
             },
             formatter: function(){
-                return Math.ceil((this.x2 - this.x) / (7 * 24 * 60 * 60 * 1000))  + " Weeks";
+                if (Math.ceil((this.x2 - this.x) / (7 * 24 * 60 * 60 * 1000)) > 1) {
+                    return Math.ceil((this.x2 - this.x) / (7 * 24 * 60 * 60 * 1000)) + " Wks";
+                }
+                return Math.ceil((this.x2 - this.x) / (7 * 24 * 60 * 60 * 1000))  + " Wk";
             }
         }
                        });
-        //var colorTheme = new Highcharts.setOptions({colors : ['#F26925', '#474C55', '#72A4C2', '#FCB414', '#B9B9BA']});
-        
+        //The formatting for the chart
         var charts = new Highcharts.chart({
             chart: {
                 renderTo: component.find("container").getElement(),
@@ -188,13 +200,14 @@
             },
             plotOptions: {
                 series: {
-                 //      stacking: 'disabled'
-                 //     stacking: 'normal' //(If this is enabled, the bars will be in one straight line in the middle, however if 
-                 //  						two trainers have batches starting the same week, it will move one of them down)
+                    minPointLength: 40
                 },
+                //Pls don't delete this, took us 1.5 weeks to figure this out :)
+                xrange: {
+                    groupPadding: .5
+                }
             },
-            series: //[ dataObj ]
-            seriesObj            
+            series: seriesObj     
         });
     },
 })
