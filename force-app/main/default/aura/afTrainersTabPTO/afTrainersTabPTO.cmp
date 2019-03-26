@@ -21,7 +21,6 @@
        <div class="slds-grid slds-wrapper" >
            <lightning:card title="Current PTO">
                <lightning:dataTable
-
                                     data="{!v.empCurrentPTODataset}"
                                     columns="{!v.empPTORecordset}"
                                     keyField="id"
@@ -34,12 +33,11 @@
        <div class="slds-grid slds-wrapper">
            <lightning:card title="Upcoming PTO">
                <lightning:dataTable
-
                                     data="{!v.empFuturePTODataset}"
                                     columns="{!v.empPTORecordset}"
                                     keyField="id"
                                     aura:id="empDataTables"
-                                    hideCheckboxColumn="false"
+                                    onrowaction="{! c.handleRowAction }"
                                     description="data table to reflect batches associated with a specific trainer"
                                     />
            </lightning:card>
