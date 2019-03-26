@@ -38,6 +38,10 @@
     </types>
     <types>
         <members>*</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>CustomTab</name>
     </types>
     <types>
@@ -67,6 +71,7 @@
     </types>
     <types>
         <members>User.hasSkill__c</members>
+        <members>User.Available__c</members>
         <name>CustomField</name>
     </types>
     <version>45.0</version>

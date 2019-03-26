@@ -43,13 +43,22 @@ public class afTimelineControllerTest {
 
         ptos = UtilityMethods.createPTOData(100,trainers.get(0));
 
-        trainings = UtilityMethods.createTrainingsData(100,locations,trainers,sDates,tracks);
+        trainings = UtilityMethods.createTrainingsData(200,locations,trainers,sDates,tracks);
+
+
+        User trainerWithoutTraining = UtilityMethods.createUserData(1).get(0);
+        trainers.add(trainerWithoutTraining);
+        insert trainerWithoutTraining;
+
+        PTO__c pto = UtilityMethods.createPTOData(1,trainerWithoutTraining).get(0);
+        ptos.add(pto);
 
         System.runAs(trainers.get(0)){
             insert ptos;
             insert trainings;
         }
 
+        //Set Trainer locations
         setTrainerLocations();
 
         Test.stopTest();
@@ -91,6 +100,7 @@ public class afTimelineControllerTest {
             for (Training__c t : trainings){
                 if (u.name == t.Trainer__r.Name){
                     results.add(u.name);
+                    break;
                 }
             }
         }
@@ -98,9 +108,9 @@ public class afTimelineControllerTest {
         //Call the controller method that finds all names of trainers who have trainings
         List<String> methodResults = afTimelineController.getTrainers();
 
-        //Check that the two result lists have 100 trainer names in them, and that they are the same
-        System.assertEquals(methodResults.size(),100);
-        System.assertEquals(results.size(),100);
+        //Check that the two result lists have 101 trainer names in them, and that they are the same
+        System.assertEquals(methodResults.size(),101);
+        System.assertEquals(results.size(),101);
         System.assertEquals(methodResults,results);
 
 
@@ -114,6 +124,9 @@ public class afTimelineControllerTest {
 
         Test.startTest();
 
+        //Approve all PTOs
+        approvePTOs();
+
         //Create a list containing the ShortNames of all Training Tracks (Strings, not sObjects)
         List<Training_Track__c> tracks = [SELECT id, ShortName__c FROM Training_Track__c];
         List<String> trackNames = new List<String>();
@@ -121,9 +134,6 @@ public class afTimelineControllerTest {
             trackNames.add(t.ShortName__c);
         }
 
-        
-        //Approve all the PTOs that are still pending
-        approvePTOs();
 
         //Call the Controller method, which returns a JSON as a String
         String jsonResults = afTimelineController.wrapTrainingToJSON();
@@ -160,8 +170,9 @@ public class afTimelineControllerTest {
 
         Test.startTest();
 
-        //Approve all pending PTOs
+        //Approve all PTOs
         approvePTOs();
+
 
         //Based on the quarter code being inserted, these are the only valid months
         List<Integer> validMonths = new List<Integer>{4,5,6};
@@ -239,8 +250,9 @@ public class afTimelineControllerTest {
 
         Test.startTest();
 
-        //Approve all pending PTOs
+        //Approve all PTOs
         approvePTOs();
+
 
         //Get all Office Names for all Training Locations after filtering
         List<String> officeNames = afTimelineController.getTrainingLocations();
@@ -313,9 +325,9 @@ public class afTimelineControllerTest {
 
         Test.startTest();
 
-
-        //Approve all pending PTOs
+        //Approve all PTOs
         approvePTOs();
+
         
         /**********************
         * YearCode = 2 Case
@@ -379,7 +391,7 @@ public class afTimelineControllerTest {
 
         Test.startTest();
 
-        //Approve all pending PTOs
+        //Approve all PTOs
         approvePTOs();
 
         //Based on the quarter code being inserted, these are the only valid months
@@ -464,7 +476,6 @@ public class afTimelineControllerTest {
         System.assertEquals(afTimelineController.convertQuarter(4),new List<Integer>{7,8,9});
         System.assertEquals(afTimelineController.convertQuarter(5),new List<Integer>{10,11,12});
         System.assertEquals(afTimelineController.convertQuarter(7),null);
-
     }
 
     //Approves all pending PTOs for use in testing. This method is called at the beginning of each

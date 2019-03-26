@@ -13,14 +13,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>UtilityMethods</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>afApprovalButtonExtensionTests</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>afApproveButtonExtension</apexClass>
         <enabled>false</enabled>
     </classAccesses>
