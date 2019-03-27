@@ -31,6 +31,11 @@
                 <default>false</default>
                 <label>Training</label>
             </value>
+            <value>
+                <fullName>Not Available</fullName>
+                <default>false</default>
+                <label>Not Available</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

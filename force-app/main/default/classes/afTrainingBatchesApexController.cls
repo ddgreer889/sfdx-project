@@ -52,14 +52,24 @@ public class afTrainingBatchesApexController{
     @AuraEnabled
     public static void deleteBatchesServer(String[] batchIds)
     {
-        List<Training__c> batchesToDelete = new List<Training__c>();
+
+        List<Training__c> batches = new List<Training__c>();
         
         for(integer s = 0; s < batchIds.size(); s++){
-                batchesToDelete.add(new Training__c(Id = batchIds[s]));
+            batches.add(new Training__c(Id = batchIds[s]));
+        }      
+
+        for(Training__c t : batches) {
+            for (Integer i = 0; i < AllTrainings.size(); i++){
+                if (t.id == AllTrainings.get(i).id){
+                    AllTrainings.remove(i);
+                    break;
+                }
             }
+        }
         
        
-        delete batchesToDelete; 
+        delete batches; 
     }
     
     @AuraEnabled

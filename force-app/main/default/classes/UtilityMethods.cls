@@ -30,6 +30,22 @@ public class UtilityMethods {
     
         return result;
     }
+
+    public static List<External_Trainer__c> createExternalTrainerData(Integer amount){
+        
+        List<External_Trainer__c> result = new List<External_Trainer__c>();
+
+        for (Integer i = 0; i < amount; i++){
+            External_Trainer__c x = new External_Trainer__c(First_Name__c = 'first',
+                                                            Last_Name__c = 'last ' + i,
+                                                            Available__c = 'Available',
+                                                            Training_Skills__c = 'Other;Pega;Salesforce',
+                                                            Current_Location__c = 'Fairfax');
+            result.add(x);
+        }
+
+        return result;
+    }
     
     // Create dummy Training_Location__c's and return them in a List.
     public static List<Training_Location__c> createLocationData(Integer amount){
@@ -97,6 +113,23 @@ public class UtilityMethods {
         for(integer i = 0; i < amount; i++) {
             Training__c training = new Training__c(TrainingLocation__c = tLocList[Math.mod(i,tLocList.size())].id,
                                                    Trainer__c = tTrainerList[Math.mod(i,tTrainerList.size())].id,
+                                                   StartDate__c = tsDateList[Math.mod(i,tsDateList.size())],
+                                                   EndDate__c = tsDateList[Math.mod(i,tsDateList.size())].toStartOfWeek().addDays(5),
+                                                   TrainingTrack__c = tTrackList[Math.mod(i,tTrackList.size())].id);            
+            result.add(training);
+        }
+        return result;
+    }
+    
+    // Create dummy Training__c's and return them in a List.
+    public static List<Training__c> createExternalTrainingsData( Integer amount, List<Training_Location__c> tLocList, List<External_Trainer__c> tTrainerList,
+                                                                 List<Date> tsDateList, List<Training_Track__c> tTrackList) {
+    
+        List<Training__c> result = new List<Training__c>();
+
+        for(integer i = 0; i < amount; i++) {
+            Training__c training = new Training__c(TrainingLocation__c = tLocList[Math.mod(i,tLocList.size())].id,
+                                                   External_Trainer__c = tTrainerList[Math.mod(i,tTrainerList.size())].id,
                                                    StartDate__c = tsDateList[Math.mod(i,tsDateList.size())],
                                                    EndDate__c = tsDateList[Math.mod(i,tsDateList.size())].toStartOfWeek().addDays(5),
                                                    TrainingTrack__c = tTrackList[Math.mod(i,tTrackList.size())].id);            

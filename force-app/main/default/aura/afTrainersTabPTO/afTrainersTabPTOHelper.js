@@ -109,6 +109,7 @@
             endDate : endDateString = new Date(endYear, endMonth,endDay + 1) ,
             status : tempObj.Status__c,
             reason : tempObj.Reason__c,
+            Id : tempObj.Id
         };
         return tempArray;
     },

@@ -11,7 +11,6 @@
             component.set('v.isAvailable', false);
         }
         var skill = component.get('v.hasSkill');
-        console.log(skill + "AHHHHHH");
         if(skill === true){
             component.set("v.isSkill", true);
         } else {

@@ -50,10 +50,12 @@
         component.set("v.endDate", null);
         component.set("v.trainer", ""); 
         component.set("v.cotrainer", "");
+        component.set("v.ExternalTrainer", "");
         component.set("v.location", "");
         component.set("v.room", "");
         
         component.set("v.roomsForLocation", []);
+        //Hidden location and hidden room are used for batch creation -> Iteration 1 Implementation
         component.set("v.hiddenLoc", "");
         component.set("v.hiddenRoom", "");
     },

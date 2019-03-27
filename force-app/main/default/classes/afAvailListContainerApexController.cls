@@ -1,7 +1,7 @@
 public class afAvailListContainerApexController {
 
     /*------------------------------------------
-      Main Sort Method: Calls subsort methods
+      Main Sort Methods: Calls subsort methods
     ------------------------------------------*/
 
     @AuraEnabled
@@ -52,6 +52,27 @@ public class afAvailListContainerApexController {
 		}
     	return sortedList;
     }
+
+    @AuraEnabled
+    public static List<Training_Room__c> sortRoomsBySelectedCategories(List<Training_Room__c> allRooms, 
+																Date startOfBatch, Date endOfBatch, String selectedLocation){
+		//TO-DO Add Filtering for availability
+		//TO-DO Add Filtering for room size based on training target size - new parameter passed in
+		List<Training_Room__c> sortedRooms = new List<Training_Room__c>();
+		List<Training_Room__c> roomsAtLocation = new List<Training_Room__c>();
+
+		if(selectedLocation != null && selectedLocation != ''){
+			for(Training_Room__c roomAtLoc : allRooms){
+				if(selectedLocation == roomAtLoc.TrainingLocationName__c){
+					roomsAtLocation.add(roomAtLoc);
+				}
+			}
+
+			return roomsAtLocation;
+		} else {
+			return allRooms;
+		}
+	}
 	
 	/*------------------------------------------
 				  Subsort methods
