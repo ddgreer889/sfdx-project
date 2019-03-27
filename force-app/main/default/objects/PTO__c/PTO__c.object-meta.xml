@@ -56,13 +56,13 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>PTO</label>
+    <label>PTO Request</label>
     <nameField>
         <displayFormat>PTO-{0000}</displayFormat>
         <label>PTO Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>PTOs</pluralLabel>
+    <pluralLabel>PTO Requests</pluralLabel>
     <searchLayouts>
         <excludedStandardButtons>New</excludedStandardButtons>
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>

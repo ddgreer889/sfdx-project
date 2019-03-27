@@ -1,15 +1,13 @@
 public class afExternalTrainerBatchesApexController {
 
     @AuraEnabled
-    public static List<Training__c> AllExternalTrainings
-    {
+    public static List<Training__c> AllExternalTrainings {
        get{
            if(AllExternalTrainings == null)
            {
                AllExternalTrainings = [SELECT Id, Name, TrainingTrack__r.ShortName__c,
                                Status__c, TrainingClass__c, StartDate__c, EndDate__c, External_Trainer__r.First_Name__c, External_Trainer__r.Last_Name__c
                                FROM Training__c
-                               WHERE External_Trainer__r.First_Name__c != NULL
                                ORDER BY StartDate__c];
            }
 			
@@ -19,8 +17,7 @@ public class afExternalTrainerBatchesApexController {
     }
 
     @AuraEnabled
-    public static List<Training__c> currentExternalTrainings
-    {
+    public static List<Training__c> currentExternalTrainings {
        get{
            if(currentExternalTrainings == null)
            {
@@ -30,6 +27,7 @@ public class afExternalTrainerBatchesApexController {
        }
        set;
     }
+
     @AuraEnabled
     public static List<Training__c> getExtTrainingBatches() {
        return AllExternalTrainings;
@@ -37,7 +35,7 @@ public class afExternalTrainerBatchesApexController {
     
     //Used by afExternalTrainerTabBatches to get batches by external trainer id to populate data tables
     @AuraEnabled
-    public static List<Training__c> getExtTrainingBatchesById(Id externalTrainerId){
+    public static List<Training__c> getExtTrainingBatchesById(Id externalTrainerId) {
         List<Training__c> ExternalTrainings = 
             [SELECT Id, Name, TrainingClass__c, StartDate__c, EndDate__c, Status__c, TrainingTrack__r.ShortName__c, External_Trainer__r.Id
              FROM Training__c 
@@ -47,16 +45,25 @@ public class afExternalTrainerBatchesApexController {
     }
 
     @AuraEnabled
-    public static void deleteExtBatchesServer(String[] batchIds)
-    {
-        List<Training__c> batchesToDelete = new List<Training__c>();
+    public static void deleteExtBatchesServer(String[] batchIds) { 
+
+        List<Training__c> batches = new List<Training__c>();
         
         for(integer s = 0; s < batchIds.size(); s++){
-                batchesToDelete.add(new Training__c(Id = batchIds[s]));
+            batches.add(new Training__c(Id = batchIds[s]));
+        }      
+
+        for(Training__c t : batches) {
+            for (Integer i = 0; i < AllExternalTrainings.size(); i++){
+                if (t.id == AllExternalTrainings.get(i).id){
+                    AllExternalTrainings.remove(i);
+                    break;
+                }
             }
-        
+        }
        
-        delete batchesToDelete; 
+        delete batches;
+
     }
 
     @AuraEnabled

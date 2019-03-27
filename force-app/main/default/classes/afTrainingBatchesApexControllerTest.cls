@@ -58,11 +58,7 @@ public class afTrainingBatchesApexControllerTest {
         afTrainingBatchesApexController.deleteBatchesServer(batchIds);
          
         //confirm that 2 batches were deleted 
-        system.assertEquals([SELECT Id, Name, TrainingLocation__r.OfficeName__c, TrainingTrack__r.ShortName__c,
-                                           Status__c, TrainingClass__c, StartDate__c, EndDate__c, Trainer__r.Name, CoTrainer__r.Name
-                             FROM Training__c
-                             ORDER BY StartDate__c].size(), 
-                             afTrainingBatchesApexController.AllTrainings.size() - 2);
+        system.assertEquals([SELECT Id FROM Training__c].size(), afTrainingBatchesApexController.AllTrainings.size());
 
         //set a training start date to enter condition loop for null start date
        	//reset property
