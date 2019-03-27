@@ -30,6 +30,22 @@ public class UtilityMethods {
     
         return result;
     }
+
+    public static List<External_Trainer__c> createExternalTrainerData(Integer amount){
+        
+        List<External_Trainer__c> result = new List<External_Trainer__c>();
+
+        for (Integer i = 0; i < amount; i++){
+            External_Trainer__c x = new External_Trainer__c(First_Name__c = 'first',
+                                                            Last_Name__c = 'last ' + i,
+                                                            Available__c = 'Available',
+                                                            Training_Skills__c = 'Other;Pega;Salesforce',
+                                                            Current_Location__c = 'Fairfax');
+            result.add(x);
+        }
+
+        return result;
+    }
     
     // Create dummy Training_Location__c's and return them in a List.
     public static List<Training_Location__c> createLocationData(Integer amount){

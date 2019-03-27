@@ -22,7 +22,53 @@
     </types>
     <types>
         <members>*</members>
+        <name>ApprovalProcess</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>AssignForce</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>User.hasSkill__c</members>
+        <members>User.Training_Skills__c</members>
+        <members>User.CurrentLocation__c</members>
+        <members>User.Available__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>GlobalValueSet</name>
+    </types>
+    <types>
+        <members>PTO__c-PTO Layout</members>
+        <members>Skill__c-Skill Layout</members>
+        <members>Training__c-Training Layout</members>
+        <members>Training_Assignment__c-Training Assignment Layout</members>
+        <members>Training_Location__c-Training Location Layout</members>
+        <members>Training_Room__c-Training Room Layout</members>
+        <members>Training_Track__c-Training Track Layout</members>
+        <members>User-User Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>PermissionSet</name>
     </types>
     <types>
         <members>Admin</members>
@@ -31,27 +77,7 @@
     </types>
     <types>
         <members>*</members>
-        <name>ApprovalProcess</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>Workflow</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>StaticResource</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>CustomTab</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>PermissionSet</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>FlexiPage</name>
+        <name>Queue</name>
     </types>
     <types>
         <members>*</members>
@@ -59,7 +85,7 @@
     </types>
     <types>
         <members>*</members>
-        <name>Queue</name>
+        <name>StaticResource</name>
     </types>
     <types>
         <members>PTO__c.Approve</members>
@@ -68,21 +94,7 @@
     </types>
     <types>
         <members>*</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-        <members>User.hasSkill__c</members>
-        <members>User.CurrentLocation__c</members>
-        <members>User.Available__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>AssignForce</members>
-        <name>CustomApplication</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>GlobalValueSet</name>
+        <name>Workflow</name>
     </types>
     <version>45.0</version>
 </Package>

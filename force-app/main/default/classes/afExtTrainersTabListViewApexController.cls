@@ -14,21 +14,16 @@ public class afExtTrainersTabListViewApexController {
 
    @AuraEnabled
    public static String getTrainerSkills(Id ExternalTrainerId) {
-       String returnSkills;
 
-       List<External_Trainer__c> ExternaltrainerSkills = [SELECT Id, Training_Skills__c
-                                       FROM External_Trainer__c
-                                       WHERE Id = :ExternalTrainerId];
+        String returnSkills;
 
-       if(ExternaltrainerSkills.size() > 0) {
-           for(Integer i = 0; i < ExternaltrainerSkills.size(); i++) {
-               if(returnSkills == null) {
-                   returnSkills = ExternaltrainerSkills[i].Training_Skills__c;
-               } else {
-                   returnSkills += (', ' + ExternaltrainerSkills[i].Training_Skills__c);
-               }
-           }
-       }
-       return returnSkills;
+        String ExternaltrainerSkills = [SELECT Id, Training_Skills__c
+                                        FROM External_Trainer__c
+                                        WHERE Id = :ExternalTrainerId
+                                        LIMIT 1].Training_Skills__c;
+
+        returnSkills = ExternaltrainerSkills.replace(';',', ');
+
+        return returnSkills;
    }
 }

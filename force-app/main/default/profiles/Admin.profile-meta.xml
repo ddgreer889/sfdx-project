@@ -410,9 +410,38 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>User.Training_Skills__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>User.hasSkill__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <layoutAssignments>
+        <layout>PTO__c-PTO Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Skill__c-Skill Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Training_Assignment__c-Training Assignment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Training_Location__c-Training Location Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Training_Room__c-Training Room Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Training_Track__c-Training Track Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Training__c-Training Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>User-User Layout</layout>
+    </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
