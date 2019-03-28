@@ -31,7 +31,7 @@
             External_Trainer__c     : component.get("v.ExternalTrainer"),
             TrainingLocation__c     : component.get("v.location"),
             TrainingRoom__c         : component.get("v.hiddenRoom"),
-            Status__c               : 'Planned'
+            Status__c               : component.get("v.status"),
         }];
         
         // records have been submitted, clear form

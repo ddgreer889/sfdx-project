@@ -40,6 +40,10 @@
                 <behavior>Edit</behavior>
                 <field>Trainer__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>External_Trainer__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

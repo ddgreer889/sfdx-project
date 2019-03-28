@@ -90,7 +90,7 @@
                     enabled: true,
                     style:
                     {
-                        fontSize : '17px',
+                        fontSize : '14px',
                         fontFamily : 'Futura-Std-Bold',
                         textAlign : 'center',
                         color : 'white', 
@@ -200,7 +200,7 @@
             },
             plotOptions: {
                 series: {
-                    minPointLength: 40
+                    minPointLength: 50
                 },
                 //Pls don't delete this, took us 1.5 weeks to figure this out :)
                 xrange: {

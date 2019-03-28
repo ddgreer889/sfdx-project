@@ -28,7 +28,7 @@ public class afTrainerInfoControllerTest {
         * document createdbyid to the tempuserSingle id;.
         * If matches, then it's successful.
         ***************************************/
-        User tempUserSingle = [SELECT id, name FROM User Limit 1];
+        User tempUserSingle = [SELECT id, name FROM User WHERE LastName = 'last 0' Limit 1];
         System.runAs(tempUserSingle){
             Content();
             ContentDocument doc = [SELECT Id, Title FROM ContentDocument WHERE CreatedbyId = :tempUserSingle.Id ORDER BY CreatedDate DESC LIMIT 1];
@@ -40,7 +40,7 @@ public class afTrainerInfoControllerTest {
 
         //Bulk input Testing
         //Obtain all users.
-        LIST<User> tempUserBulk = [SELECT id FROM User];
+        LIST<User> tempUserBulk = [SELECT id FROM User WHERE LastName LIKE 'last%'];
         
         for(integer i=0; i<20; i++){
             System.runAs(tempUserBulk[i]){

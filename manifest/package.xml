@@ -35,6 +35,7 @@
     <types>
         <members>User.hasSkill__c</members>
         <members>User.Training_Skills__c</members>
+        <members>User.Preferred_Location__c</members>
         <members>User.CurrentLocation__c</members>
         <members>User.Available__c</members>
         <name>CustomField</name>
@@ -63,6 +64,7 @@
         <members>Training_Location__c-Training Location Layout</members>
         <members>Training_Room__c-Training Room Layout</members>
         <members>Training_Track__c-Training Track Layout</members>
+        <members>External_Trainer__c-External Trainer Layout</members>
         <members>User-User Layout</members>
         <name>Layout</name>
     </types>
@@ -76,11 +78,13 @@
         <name>Profile</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Approval_Queue</members>
+        <members>PTORequests</members>
         <name>Queue</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Trainer</members>
+        <members>Manager</members>
         <name>Role</name>
     </types>
     <types>

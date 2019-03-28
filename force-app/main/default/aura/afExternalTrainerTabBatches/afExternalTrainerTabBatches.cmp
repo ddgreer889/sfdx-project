@@ -9,7 +9,7 @@
     <aura:attribute name="keyField"                 type="String"     default="id"     description="Primary key for list of records" />
     <aura:attribute name="empExtCurrentBatchDataset"     type="Object[]"                 description="Data for lightning dataTable that involves current batches"/>
     <aura:attribute name="empExtFutureBatchDataset"     type="Object[]"                 description ="Data for lightning dataTable that involves future batches "/>
-    <aura:attribute name="ExternalTrainerId"                     type="Id"                         description="Used to store a value for the current users id"/>
+    <aura:attribute name="ExternalTrainerId"                     type="String"                         description="Used to store a value for the current users name"/>
     <!--Odd functionality cloned that determines when some windows displays over another window.
         These values are changed in afExternalTrainerTabBatchesController.-->
     <aura:attribute name="hasExtBatches"                 type="Boolean"     default="false" description="A boolean used to represent whether an external trainer has any batches scheduled" />
